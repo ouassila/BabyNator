@@ -14,7 +14,52 @@
     tools:showIn="@layout/activity_main">
 
     <TextView
+        android:text="Identifiant :"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="168dp"
+        android:id="@+id/login" />
+
+    <Button
+        android:text="Valider"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="72dp"
+        android:id="@+id/validate"
+        android:layout_below="@+id/pwd"
+        android:layout_alignLeft="@+id/login"
+        android:layout_alignStart="@+id/login" />
+
+    <TextView
+        android:text="Mot de passe :"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="76dp"
+        android:id="@+id/pwd"
+        android:layout_below="@+id/login"
+        android:layout_alignLeft="@+id/validate"
+        android:layout_alignStart="@+id/validate" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:layout_below="@+id/login"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:id="@+id/txt_login" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:ems="10"
+        android:id="@+id/txt_pwd"
+        android:layout_below="@+id/pwd"
+        android:layout_alignLeft="@+id/txt_login"
+        android:layout_alignStart="@+id/txt_login"
+        android:layout_marginTop="18dp" />
 </RelativeLayout>
