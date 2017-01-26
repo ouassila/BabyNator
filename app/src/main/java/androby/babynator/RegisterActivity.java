@@ -3,26 +3,23 @@ package androby.babynator;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.app.LoaderManager.LoaderCallbacks;
-import android.content.CursorLoader;
-import android.content.Intent;
-import android.content.Loader;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
-import android.net.Uri;
-import android.os.AsyncTask;
-import android.os.Build;
-import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.app.LoaderManager.LoaderCallbacks;
+
+import android.content.CursorLoader;
+import android.content.Loader;
+import android.database.Cursor;
+import android.net.Uri;
+import android.os.AsyncTask;
+
+import android.os.Build;
+import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
@@ -31,18 +28,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,7 +37,7 @@ import static android.Manifest.permission.READ_CONTACTS;
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
+public class RegisterActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
 
     /**
      * Id to identity READ_CONTACTS permission request.
@@ -76,13 +62,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private View mProgressView;
     private View mLoginFormView;
 
-    public static String IP_SERVER = "172.16.14.83:8080";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-
+        setContentView(R.layout.activity_register);
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
@@ -99,8 +82,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
 
-
-
         Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
@@ -109,39 +90,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
 
-        Button mEmailRegister = (Button) findViewById(R.id.email_register_button);
-        mEmailRegister.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent myIntent = new Intent(LoginActivity.this, RegisterActivity.class);
-                startActivity(myIntent);
-            }
-        });
-
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
-    }
-    //Méthode qui se déclenchera lorsque vous appuierez sur le bouton menu du téléphone
-    public boolean onCreateOptionsMenu(Menu menu) {
-
-        //Création d'un MenuInflater qui va permettre d'instancier un Menu XML en un objet Menu
-        MenuInflater inflater = getMenuInflater();
-        //Instanciation du menu XML spécifier en un objet Menu
-        inflater.inflate(R.menu.menu_main, menu);
-
-        return true;
-    }
-
-    //Méthode qui se déclenchera au clic sur un item
-    public boolean onOptionsItemSelected(MenuItem item) {
-        //On regarde quel item a été cliqué grâce à son id et on déclenche une action
-        switch (item.getItemId()) {
-            case R.id.action_settings:
-                Intent myIntent = new Intent(LoginActivity.this, MapsActivity.class);
-                startActivity(myIntent);
-                return true;
-        }
-        return false;
     }
 
     private void populateAutoComplete() {
@@ -323,7 +273,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private void addEmailsToAutoComplete(List<String> emailAddressCollection) {
         //Create adapter to tell the AutoCompleteTextView what to show in its dropdown list.
         ArrayAdapter<String> adapter =
-                new ArrayAdapter<>(LoginActivity.this,
+                new ArrayAdapter<>(RegisterActivity.this,
                         android.R.layout.simple_dropdown_item_1line, emailAddressCollection);
 
         mEmailView.setAdapter(adapter);
@@ -373,61 +323,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 }
             }
 
-            // connexion au serveur pour test le user
-            try {
-                URL url = new URL("http://"+IP_SERVER+"/RestServer/api/users/connect");
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                connection.setRequestMethod("POST");
-                connection.setRequestProperty("Content-Type",
-                        "application/x-www-form-urlencoded");
-                connection.setRequestProperty("Content-Language", "en-US");
-                connection.setRequestProperty("Content-Type","application/json");
-                connection.setUseCaches (false);
-                connection.setDoInput(true);
-                connection.setDoOutput(true);
-
-                //Send request
-                DataOutputStream wr = new DataOutputStream (
-                        connection.getOutputStream ());
-                JSONObject userToConnect = new JSONObject();
-                try {
-                    userToConnect.put("id", 0);
-                    userToConnect.put("email", mEmail);
-                    userToConnect.put("password", mPassword);
-                } catch (Exception e){
-                    return false;
-                }
-                wr.writeBytes (userToConnect.toString());
-                wr.flush ();
-                wr.close ();
-
-                //Get Response
-                InputStream is = connection.getInputStream();
-                BufferedReader rd = new BufferedReader(new InputStreamReader(is));
-                String line;
-                StringBuffer response = new StringBuffer();
-                while((line = rd.readLine()) != null) {
-                    response.append(line);
-                    response.append('\r');
-                }
-                rd.close();
-                try {
-                    JSONObject userConnected = new JSONObject(response.toString());
-                    Log.e("User_Connect",userConnected.toString());
-                }
-                catch(Exception e){
-                    return false;
-                }
-
-            }
-            catch (MalformedURLException ex) {
-                Log.e("httptest",Log.getStackTraceString(ex));
-                return false;
-            }
-            catch (IOException ex) {
-                Log.e("httptest",Log.getStackTraceString(ex));
-                return false;
-            }
+            // TODO: register the new account here.
             return true;
         }
 
@@ -437,12 +333,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(false);
 
             if (success) {
-                Toast.makeText(getApplicationContext(), "Connexion validée", Toast.LENGTH_LONG).show();
-                Intent myIntent = new Intent(LoginActivity.this, ListActivity.class);
-                startActivity(myIntent);
+                finish();
             } else {
-                mEmailView.setError(getString(R.string.error_incorrect_email_password));
-                mPasswordView.setError(getString(R.string.error_incorrect_email_password));
+                mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();
             }
         }
