@@ -426,7 +426,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             if (success) {
                 Toast.makeText(getApplicationContext(), "Connexion validée", Toast.LENGTH_LONG).show();
-                //finish();
+                Intent myIntent = new Intent(LoginActivity.this, ListActivity.class);
+                LoginActivity.this.startActivity(myIntent);
+                finish();
             } else {
                 mEmailView.setError(getString(R.string.error_incorrect_email_password));
                 mPasswordView.setError(getString(R.string.error_incorrect_email_password));
