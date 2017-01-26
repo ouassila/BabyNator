@@ -18,6 +18,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -30,7 +31,18 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,6 +75,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
+
+    public static String IP_SERVER = "172.16.14.83:8080";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -347,7 +361,61 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 }
             }
 
-            // TODO: register the new account here.
+            // connexion au serveur pour test le user
+            try {
+                URL url = new URL("http://"+IP_SERVER+"/RestServer/api/users/connect");
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setRequestMethod("POST");
+                connection.setRequestProperty("Content-Type",
+                        "application/x-www-form-urlencoded");
+                connection.setRequestProperty("Content-Language", "en-US");
+                connection.setRequestProperty("Content-Type","application/json");
+                connection.setUseCaches (false);
+                connection.setDoInput(true);
+                connection.setDoOutput(true);
+
+                //Send request
+                DataOutputStream wr = new DataOutputStream (
+                        connection.getOutputStream ());
+                JSONObject userToConnect = new JSONObject();
+                try {
+                    userToConnect.put("id", 0);
+                    userToConnect.put("email", mEmail);
+                    userToConnect.put("password", mPassword);
+                } catch (Exception e){
+                    return false;
+                }
+                wr.writeBytes (userToConnect.toString());
+                wr.flush ();
+                wr.close ();
+
+                //Get Response
+                InputStream is = connection.getInputStream();
+                BufferedReader rd = new BufferedReader(new InputStreamReader(is));
+                String line;
+                StringBuffer response = new StringBuffer();
+                while((line = rd.readLine()) != null) {
+                    response.append(line);
+                    response.append('\r');
+                }
+                rd.close();
+                try {
+                    JSONObject userConnected = new JSONObject(response.toString());
+                    Log.e("User_Connect",userConnected.toString());
+                }
+                catch(Exception e){
+                    return false;
+                }
+
+            }
+            catch (MalformedURLException ex) {
+                Log.e("httptest",Log.getStackTraceString(ex));
+                return false;
+            }
+            catch (IOException ex) {
+                Log.e("httptest",Log.getStackTraceString(ex));
+                return false;
+            }
             return true;
         }
 
@@ -357,9 +425,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(false);
 
             if (success) {
-                finish();
+                Toast.makeText(getApplicationContext(), "Connexion validée", Toast.LENGTH_LONG).show();
+                //finish();
             } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
+                mEmailView.setError(getString(R.string.error_incorrect_email_password));
+                mPasswordView.setError(getString(R.string.error_incorrect_email_password));
                 mPasswordView.requestFocus();
             }
         }
