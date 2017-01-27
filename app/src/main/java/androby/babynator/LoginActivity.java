@@ -99,8 +99,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
 
-
-
         Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
@@ -137,7 +135,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         //On regarde quel item a été cliqué grâce à son id et on déclenche une action
         switch (item.getItemId()) {
             case R.id.action_settings:
-                Intent myIntent = new Intent(LoginActivity.this, MapsActivity.class);
+                Intent myIntent = new Intent(LoginActivity.this, ChooseMapActivity.class);
                 startActivity(myIntent);
                 return true;
         }

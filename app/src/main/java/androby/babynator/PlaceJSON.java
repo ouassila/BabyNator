@@ -1,5 +1,7 @@
 package androby.babynator;
 
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -22,6 +24,7 @@ public class PlaceJSON {
         try {
             /** Retrieves all the elements in the 'places' array */
             jPlaces = jObject.getJSONArray("results");
+            Log.d("JPlaces", jPlaces.toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -57,6 +60,7 @@ public class PlaceJSON {
         HashMap<String, String> place = new HashMap<String, String>();
         String placeName = "-NA-";
         String vicinity = "-NA-";
+        String types = "";
         String latitude = "";
         String longitude = "";
         String reference = "";
@@ -75,12 +79,14 @@ public class PlaceJSON {
             latitude = jPlace.getJSONObject("geometry").getJSONObject("location").getString("lat");
             longitude = jPlace.getJSONObject("geometry").getJSONObject("location").getString("lng");
             reference = jPlace.getString("reference");
+            types = jPlace.getString("types");
 
             place.put("place_name", placeName);
             place.put("vicinity", vicinity);
             place.put("lat", latitude);
             place.put("lng", longitude);
             place.put("reference", reference);
+            place.put("types", types);
 
         } catch (JSONException e) {
             e.printStackTrace();

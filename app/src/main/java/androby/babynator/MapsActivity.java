@@ -2,7 +2,6 @@ package androby.babynator;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
-import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -46,10 +45,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     GoogleMap mMap;
     private GoogleApiClient mGoogleApiClient;
     private LocationManager lm;
-
-    String[] mPlaceType=null;
-    String[] mPlaceTypeName=null;
-
+    private Double radius;
+    private String choice, open, type_choice;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +64,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .build();
+        radius = Double.parseDouble(getIntent().getStringExtra("RADIUS"));
+        choice = getIntent().getStringExtra("CHOICE");
+        open = getIntent().getStringExtra("OPEN");
     }
 
     /**
@@ -81,8 +81,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
-
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         mMap.getUiSettings().setZoomControlsEnabled(true);
 
@@ -97,7 +95,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             mMap.setMyLocationEnabled(true);
             Toast.makeText(this, "Problème de version de l'API Google", Toast.LENGTH_SHORT).show();
         }
-
         //center la carte
       /*  LocationManager service = (LocationManager)getSystemService(LOCATION_SERVICE);
         Criteria criteria = new Criteria();
@@ -108,24 +105,35 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         LatLng userLocation = new LatLng(location.getLatitude(),location.getLongitude());
 */
         //trouver les hotpitaux autour
-        StringBuilder sbValue = new StringBuilder(sbMethod(location));
+        //à remplacer par ca
+        //StringBuilder sbValue = new StringBuilder(sbMethod(location));
+
+        StringBuilder sbValue = new StringBuilder(creatUrlSearch(type_choice));
         PlacesTask placesTask = new PlacesTask();
         placesTask.execute(sbValue.toString());
     }
 
-    public StringBuilder sbMethod(Location location) {
+    public StringBuilder creatUrlSearch(String type) {
+
+        double mLatitude = 37.77657;
+        double mLongitude = -122.417506;
 
         StringBuilder sb = new StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?");
-        sb.append("location=" + location.getLatitude() + "," + location.getLongitude());
-        sb.append("&radius=5000");
-        sb.append("&types=" + "hospital");
+        sb.append("location=" + mLatitude + "," + mLongitude);
+        sb.append("&radius="+radius);
+        //sb.append("&types="+type);
+        sb.append("&types=hospital");
         sb.append("&sensor=true");
+
+        if(open == "true")
+            sb.append("&opennow="+open);
+
         sb.append("&key=AIzaSyAJMQnUVO7WPqS96NqQUObz4RtxuQzADTY");
 
-        Log.d("Map", "api: " + sb.toString());
-
+        Log.d("URL", sb.toString());
         return sb;
     }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -236,13 +244,11 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             mMap.clear();
 
             for (int i = 0; i < list.size(); i++) {
-
                 // Creating a marker
                 MarkerOptions markerOptions = new MarkerOptions();
 
                 // Getting a place from the places list
                 HashMap<String, String> hmPlace = list.get(i);
-
 
                 // Getting latitude of the place
                 double lat = Double.parseDouble(hmPlace.get("lat"));
@@ -252,8 +258,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                 // Getting name
                 String name = hmPlace.get("place_name");
-
-                Log.d("Map", "place: " + name);
 
                 // Getting vicinity
                 String vicinity = hmPlace.get("vicinity");
@@ -265,7 +269,13 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                 markerOptions.title(name + " : " + vicinity);
 
-                markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
+                Log.d("TYPE", hmPlace.get("types"));
+                if(hmPlace.get("types").contains("hospital"))
+                    markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
+                if(hmPlace.get("types").contains("pharmacy"))
+                    markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
+                if(hmPlace.get("types").contains("doctor"))
+                    markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
 
                 // Placing a marker on the touched position
                 Marker m = mMap.addMarker(markerOptions);
