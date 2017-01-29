@@ -3,22 +3,21 @@ package androby.babynator;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.content.pm.PackageManager;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
-
 import android.content.CursorLoader;
 import android.content.Loader;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
-
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -28,7 +27,18 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -185,7 +195,7 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new UserLoginTask(email, password);
+            mAuthTask = new UserLoginTask(email, password, 0);
             mAuthTask.execute((Void) null);
         }
     }
@@ -298,10 +308,12 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
 
         private final String mEmail;
         private final String mPassword;
+        private int responseCode;
 
-        UserLoginTask(String email, String password) {
+        UserLoginTask(String email, String password, int responseCode) {
             mEmail = email;
             mPassword = password;
+            this.responseCode = responseCode;
         }
 
         @Override
@@ -322,8 +334,67 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
                     return pieces[1].equals(mPassword);
                 }
             }
+            try {
+                URL url = new URL("http://" + LoginActivity.IP_SERVER + "/RestServer/api/users/register");
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setRequestMethod("POST");
+                connection.setRequestProperty("Content-Type",
+                        "application/x-www-form-urlencoded");
+                connection.setRequestProperty("Content-Language", "en-US");
+                connection.setRequestProperty("Content-Type", "application/json");
+                connection.setUseCaches(false);
+                connection.setDoInput(true);
+                connection.setDoOutput(true);
 
-            // TODO: register the new account here.
+                //Send request
+                DataOutputStream wr = new DataOutputStream(
+                        connection.getOutputStream());
+                JSONObject userToRegister = new JSONObject();
+                responseCode = 1;
+                try {
+                    userToRegister.put("id", 0);
+                    userToRegister.put("email", mEmail);
+                    userToRegister.put("password", mPassword);
+                } catch (Exception e) {
+                    return false;
+                }
+                wr.writeBytes(userToRegister.toString());
+                wr.flush();
+                wr.close();
+
+                //Get Response
+                if (connection.getResponseCode() == 409) {
+                    responseCode = 409;
+                    Log.e("User_Register", "problème email deja existant");
+                    return false;
+                } else {
+                    InputStream is = connection.getInputStream();
+                    BufferedReader rd = new BufferedReader(new InputStreamReader(is));
+                    String line;
+                    StringBuffer response = new StringBuffer();
+                    while ((line = rd.readLine()) != null) {
+                        response.append(line);
+                        response.append('\r');
+                    }
+                    rd.close();
+           /* try {
+                JSONObject userRegistered = new JSONObject(response.toString());
+                Log.e("User_Connect",userRegistered.toString());
+            }
+            catch(Exception e){
+                return false;
+            }*/
+                    Log.e("User_Connect", response.toString());
+                }
+            }
+        catch (MalformedURLException ex) {
+            Log.e("httptest",Log.getStackTraceString(ex));
+            return false;
+        }
+        catch (IOException ex) {
+            Log.e("httptest",Log.getStackTraceString(ex));
+            return false;
+        }
             return true;
         }
 
@@ -335,8 +406,17 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
             if (success) {
                 finish();
             } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
+                if(responseCode == 409){
+                    mEmailView.setError(getString(R.string.error_invalid_email_exist));
+                    mEmailView.requestFocus();
+                }
+                else if(responseCode == 0) {
+                    Toast.makeText(getApplicationContext(), "Connexion impossible, veuillez vérifier votre connexion", Toast.LENGTH_LONG).show();
+                }
+                else {
+                    //mPasswordView.setError(getString(R.string.error_incorrect_password));
+                    mPasswordView.requestFocus();
+                }
             }
         }
 

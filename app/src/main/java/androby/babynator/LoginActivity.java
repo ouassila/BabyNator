@@ -40,6 +40,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.ConnectException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -238,7 +239,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new UserLoginTask(email, password);
+            mAuthTask = new UserLoginTask(email, password, false);
             mAuthTask.execute((Void) null);
         }
     }
@@ -351,10 +352,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         private final String mEmail;
         private final String mPassword;
+        private boolean mConnection;
 
-        UserLoginTask(String email, String password) {
+        UserLoginTask(String email, String password, boolean connection) {
             mEmail = email;
             mPassword = password;
+            mConnection = connection;
         }
 
         @Override
@@ -389,10 +392,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 connection.setDoInput(true);
                 connection.setDoOutput(true);
 
+
                 //Send request
                 DataOutputStream wr = new DataOutputStream (
                         connection.getOutputStream ());
                 JSONObject userToConnect = new JSONObject();
+                mConnection = true;
                 try {
                     userToConnect.put("id", 0);
                     userToConnect.put("email", mEmail);
@@ -427,8 +432,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 Log.e("httptest",Log.getStackTraceString(ex));
                 return false;
             }
+            catch (ConnectException ce){
+                Log.e("httptest2",Log.getStackTraceString(ce));
+                return false;
+            }
             catch (IOException ex) {
-                Log.e("httptest",Log.getStackTraceString(ex));
+                Log.e("httptest2",Log.getStackTraceString(ex));
                 return false;
             }
             return true;
@@ -444,9 +453,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 Intent myIntent = new Intent(LoginActivity.this, ListActivity.class);
                 startActivity(myIntent);
             } else {
-                mEmailView.setError(getString(R.string.error_incorrect_email_password));
-                mPasswordView.setError(getString(R.string.error_incorrect_email_password));
-                mPasswordView.requestFocus();
+                if (mConnection) {
+                    mEmailView.setError(getString(R.string.error_incorrect_email_password));
+                    mPasswordView.setError(getString(R.string.error_incorrect_email_password));
+                    mPasswordView.requestFocus();
+                }
+                else {
+                    Toast.makeText(getApplicationContext(), "Connexion impossible, veuillez vérifier votre connexion", Toast.LENGTH_LONG).show();
+                }
             }
         }
 
