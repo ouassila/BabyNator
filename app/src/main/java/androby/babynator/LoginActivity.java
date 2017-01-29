@@ -133,9 +133,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     //Méthode qui se déclenchera au clic sur un item
     public boolean onOptionsItemSelected(MenuItem item) {
         //On regarde quel item a été cliqué grâce à son id et on déclenche une action
+        Intent myIntent;
         switch (item.getItemId()) {
             case R.id.action_settings:
-                Intent myIntent = new Intent(LoginActivity.this, ChooseMapActivity.class);
+                 myIntent = new Intent(LoginActivity.this, ChooseMapActivity.class);
+                startActivity(myIntent);
+                return true;
+            case R.id.action_calendar:
+                myIntent = new Intent(LoginActivity.this, CalendarActivity.class);
                 startActivity(myIntent);
                 return true;
         }

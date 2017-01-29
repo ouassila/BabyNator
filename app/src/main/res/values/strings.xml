@@ -115,4 +115,5 @@
     </string>
     <string name="title_activity_register">S\'enregistrer</string>
     <string name="title_activity_test">TestActivity</string>
+    <string name="title_activity_calendar">CalendarActivity</string>
 </resources>
