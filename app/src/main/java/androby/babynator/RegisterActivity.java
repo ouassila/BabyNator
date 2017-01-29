@@ -27,6 +27,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONObject;
 
@@ -194,7 +195,7 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new UserLoginTask(email, password);
+            mAuthTask = new UserLoginTask(email, password, 0);
             mAuthTask.execute((Void) null);
         }
     }
@@ -307,10 +308,12 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
 
         private final String mEmail;
         private final String mPassword;
+        private int responseCode;
 
-        UserLoginTask(String email, String password) {
+        UserLoginTask(String email, String password, int responseCode) {
             mEmail = email;
             mPassword = password;
+            this.responseCode = responseCode;
         }
 
         @Override
@@ -347,6 +350,7 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
                 DataOutputStream wr = new DataOutputStream(
                         connection.getOutputStream());
                 JSONObject userToRegister = new JSONObject();
+                responseCode = 1;
                 try {
                     userToRegister.put("id", 0);
                     userToRegister.put("email", mEmail);
@@ -360,6 +364,7 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
 
                 //Get Response
                 if (connection.getResponseCode() == 409) {
+                    responseCode = 409;
                     Log.e("User_Register", "problème email deja existant");
                     return false;
                 } else {
@@ -380,7 +385,6 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
                 return false;
             }*/
                     Log.e("User_Connect", response.toString());
-
                 }
             }
         catch (MalformedURLException ex) {
@@ -402,8 +406,17 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
             if (success) {
                 finish();
             } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
+                if(responseCode == 409){
+                    mEmailView.setError(getString(R.string.error_invalid_email_exist));
+                    mEmailView.requestFocus();
+                }
+                else if(responseCode == 0) {
+                    Toast.makeText(getApplicationContext(), "Connexion impossible, veuillez vérifier votre connexion", Toast.LENGTH_LONG).show();
+                }
+                else {
+                    //mPasswordView.setError(getString(R.string.error_incorrect_password));
+                    mPasswordView.requestFocus();
+                }
             }
         }
 
