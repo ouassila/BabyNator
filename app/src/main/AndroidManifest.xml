@@ -91,6 +91,9 @@
             android:label="Planning" />
         <activity android:name=".AddEventActivity"
             android:label="Ajouter un rendez-vous"></activity>
+        <activity
+            android:name=".VideoActivity"
+            android:label="BabyPhone" />
     </application>
 
 </manifest>

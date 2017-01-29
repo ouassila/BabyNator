@@ -144,6 +144,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 myIntent = new Intent(LoginActivity.this, CalendarActivity.class);
                 startActivity(myIntent);
                 return true;
+            case R.id.action_video:
+                myIntent = new Intent(LoginActivity.this, VideoActivity.class);
+                startActivity(myIntent);
+                return true;
         }
         return false;
     }
