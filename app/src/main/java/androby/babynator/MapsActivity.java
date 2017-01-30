@@ -145,6 +145,16 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         else {
             Toast.makeText(this, "is null", Toast.LENGTH_LONG).show();
         }
+        //add marker current location
+        LatLng latLng = new LatLng(mLatitude, mLongitude);
+        MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.position(latLng);
+
+        markerOptions.title("Je suis ici");
+        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+
+        // Placing a marker on the touched position
+        Marker m = mMap.addMarker(markerOptions);
         StringBuilder sb = new StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?");
         sb.append("location=" + mLatitude + "," + mLongitude);
         sb.append("&radius="+radius);
@@ -267,7 +277,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
             Log.d("Map", "list size: " + list.size());
             // Clears all the existing markers;
-            mMap.clear();
+            //mMap.clear();
 
             for (int i = 0; i < list.size(); i++) {
                 // Creating a marker
@@ -294,14 +304,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 markerOptions.position(latLng);
 
                 markerOptions.title(name + " : " + vicinity);
-
-                Log.d("TYPE", hmPlace.get("types"));
-                if(hmPlace.get("types").contains("hospital"))
-                    markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
-                if(hmPlace.get("types").contains("pharmacy"))
-                    markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
-                if(hmPlace.get("types").contains("doctor"))
-                    markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+                markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
 
                 // Placing a marker on the touched position
                 Marker m = mMap.addMarker(markerOptions);
