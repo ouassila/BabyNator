@@ -2,8 +2,10 @@ package androby.babynator;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -25,6 +27,9 @@ public class ChooseMapActivity extends AppCompatActivity/*, OnItemSelectedListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_map);
+
+        //bouton retour arriere
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         ArrayList<String> choices = new ArrayList<String>();
         choices.add("Hôpital");
@@ -80,5 +85,17 @@ public class ChooseMapActivity extends AppCompatActivity/*, OnItemSelectedListen
         } else {
             return true;
         }
+    }
+
+    //Méthode qui se déclenchera au clic sur un item
+    public boolean onOptionsItemSelected(MenuItem item) {
+        //On regarde quel item a été cliqué grâce à son id et on déclenche une action
+        Intent myIntent;
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+        }
+        return false;
     }
 }

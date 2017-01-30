@@ -1,8 +1,11 @@
 package androby.babynator;
 
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
@@ -21,6 +24,9 @@ public class AddEventActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_event);
+
+        //bouton retour arriere
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         date = getIntent().getStringExtra("DATE");
         lbl_date = (TextView) findViewById(R.id.lbl_date);
@@ -46,5 +52,16 @@ public class AddEventActivity extends AppCompatActivity {
             }
         });
 
+    }
+    //Méthode qui se déclenchera au clic sur un item
+    public boolean onOptionsItemSelected(MenuItem item) {
+        //On regarde quel item a été cliqué grâce à son id et on déclenche une action
+        Intent myIntent;
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+        }
+        return false;
     }
 }

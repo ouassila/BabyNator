@@ -1,6 +1,7 @@
 package androby.babynator;
 
 import android.Manifest;
+import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -8,9 +9,11 @@ import android.location.LocationProvider;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.NavUtils;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -67,8 +70,22 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         radius = Double.parseDouble(getIntent().getStringExtra("RADIUS"));
         choice = getIntent().getStringExtra("CHOICE");
         open = getIntent().getStringExtra("OPEN");
+
+        //bouton retour arriere
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
+    //Méthode qui se déclenchera au clic sur un item
+    public boolean onOptionsItemSelected(MenuItem item) {
+        //On regarde quel item a été cliqué grâce à son id et on déclenche une action
+        Intent myIntent;
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+        }
+        return false;
+    }
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.

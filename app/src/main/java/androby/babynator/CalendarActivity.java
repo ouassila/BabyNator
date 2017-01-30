@@ -3,7 +3,9 @@ package androby.babynator;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.widget.DatePicker;
 
 import java.text.SimpleDateFormat;
@@ -18,6 +20,9 @@ public class CalendarActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //bouton retour arriere
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //mettre en francais
         String languageToLoad  = "fr";
@@ -52,5 +57,17 @@ public class CalendarActivity extends AppCompatActivity {
         SimpleDateFormat month_date = new SimpleDateFormat("MMMM");
         cal.set(Calendar.MONTH, (number));
         return month_date.format(cal.getTime()).toUpperCase();
+    }
+
+    //Méthode qui se déclenchera au clic sur un item
+    public boolean onOptionsItemSelected(MenuItem item) {
+        //On regarde quel item a été cliqué grâce à son id et on déclenche une action
+        Intent myIntent;
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+        }
+        return false;
     }
 }

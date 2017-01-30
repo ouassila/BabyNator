@@ -69,7 +69,13 @@
 
         <activity
             android:name=".MapsActivity"
-            android:label="Autour de moi" />
+            android:label="Autour de moi"
+            android:parentActivityName=".ChooseMapActivity" >
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value=".ChooseMapActivity" />
+        </activity>
+
         <activity
             android:name=".LoginActivity"
             android:label="S&apos;identifier">
@@ -79,18 +85,37 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".ListActivity"
             android:label="Liste de mes bébés" />
         <activity
             android:name=".RegisterActivity"
             android:label="@string/title_activity_register" />
-        <activity android:name=".ChooseMapActivity" />
+
+        <activity android:name=".ChooseMapActivity"
+            android:label="Urgence ?"
+            android:parentActivityName=".LoginActivity" />
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value=".LoginActivity" />/>
+
         <activity
             android:name=".CalendarActivity"
-            android:label="Planning" />
+            android:label="Planning"
+            android:parentActivityName=".LoginActivity" >
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value=".LoginActivity" />
+        </activity>
+
         <activity android:name=".AddEventActivity"
-            android:label="Ajouter un rendez-vous"></activity>
+            android:label="Ajouter un rendez-vous"
+            android:parentActivityName=".CalendarActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".CalendarActivity" />
+        </activity>
         <activity
             android:name=".VideoActivity"
             android:label="BabyPhone" />
