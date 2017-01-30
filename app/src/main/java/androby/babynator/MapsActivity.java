@@ -49,7 +49,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private GoogleApiClient mGoogleApiClient;
     private LocationManager lm;
     private Double radius;
-    private String choice, open, type_choice;
+    private String choice;
+    private boolean open;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,10 +70,25 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 .build();
         radius = Double.parseDouble(getIntent().getStringExtra("RADIUS"));
         choice = getIntent().getStringExtra("CHOICE");
-        open = getIntent().getStringExtra("OPEN");
+        open = getIntent().getBooleanExtra("OPEN", false);
 
         //bouton retour arriere
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    public boolean getOpenChoice(){
+        return this.open;
+    }
+
+    public String getChoiceEnglish(String name_french){
+        if(name_french.equals("Hôpital"))
+            return "hospital";
+        if(name_french.equals("Pharmacie"))
+            return "pharmacy";
+        if(name_french.equals("Docteur"))
+            return "doctor";
+        else
+            return name_french;
     }
 
     //Méthode qui se déclenchera au clic sur un item
@@ -101,27 +117,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         mMap.getUiSettings().setZoomControlsEnabled(true);
 
-     /*   if (android.os.Build.VERSION.SDK_INT >= M) {
-            //User has previously accepted this permission
-            if (ActivityCompat.checkSelfPermission(this,
-                    Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                mMap.setMyLocationEnabled(true);
-            }
-        } else {
-            //Not in api-23, no need to prompt
-            mMap.setMyLocationEnabled(true);
-            Toast.makeText(this, "Problème de version de l'API Google", Toast.LENGTH_SHORT).show();
-        }*/
-        //center la carte
-      /*  LocationManager service = (LocationManager)getSystemService(LOCATION_SERVICE);
-        Criteria criteria = new Criteria();
-        Log.e("ERRORRRRRR", criteria.toString());
-        String provider = service.getBestProvider(criteria, false);
-
-        Location location = service.getLastKnownLocation(provider);
-        LatLng userLocation = new LatLng(location.getLatitude(),location.getLongitude());
-*/
-        //trouver les hotpitaux autour
         //à remplacer par ca
         //StringBuilder sbValue = new StringBuilder(sbMethod(location));
         GPSTracker gps = new GPSTracker(this);
@@ -131,15 +126,15 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
         // Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        StringBuilder sbValue = new StringBuilder(creatUrlSearch(type_choice, gps.getLocation()));
+        StringBuilder sbValue = new StringBuilder(creatUrlSearch(getChoiceEnglish(choice), gps.getLocation()));
         PlacesTask placesTask = new PlacesTask();
         placesTask.execute(sbValue.toString());
     }
 
     public StringBuilder creatUrlSearch(String type, Location location) {
 
-        double mLatitude = 37.77657;
-        double mLongitude = -122.417506;
+        double mLatitude = 48.8464111;
+        double mLongitude = 2.3548468;
 
         if (location!=null){
             mLongitude = location.getLongitude();
@@ -153,11 +148,10 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         StringBuilder sb = new StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?");
         sb.append("location=" + mLatitude + "," + mLongitude);
         sb.append("&radius="+radius);
-        //sb.append("&types="+type);
-        sb.append("&types=hospital");
+        sb.append("&types="+type);
         sb.append("&sensor=true");
 
-        if(open == "true")
+        if(getOpenChoice())
             sb.append("&opennow="+open);
 
         sb.append("&key=AIzaSyAJMQnUVO7WPqS96NqQUObz4RtxuQzADTY");

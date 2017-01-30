@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -52,16 +51,8 @@ public class ChooseMapActivity extends AppCompatActivity/*, OnItemSelectedListen
                 if(attemptChoice()) {
                     Intent myIntent = new Intent(ChooseMapActivity.this, MapsActivity.class);
                     myIntent.putExtra("RADIUS", mRadius.getText().toString());
-
-                    Log.d("choix", mChoice.getSelectedItem().toString());
-                    if(mChoice.getSelectedItem().toString().equals("Hôpital"))
-                        myIntent.putExtra("CHOICE", "hospital");
-                    if(mChoice.getSelectedItem().toString().equals("Pharmacie"))
-                        myIntent.putExtra("CHOICE", "pharmacy");
-                    if(mChoice.getSelectedItem().toString().equals("Docteur"))
-                        myIntent.putExtra("CHOICE", "doctor");
-
-                    myIntent.putExtra("OPEN", ""+mOpen.isChecked());
+                    myIntent.putExtra("CHOICE", mChoice.getSelectedItem().toString());
+                    myIntent.putExtra("OPEN", mOpen.isChecked());
                     startActivity(myIntent);
                 }
             }
