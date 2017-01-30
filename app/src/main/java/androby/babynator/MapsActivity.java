@@ -1,7 +1,6 @@
 package androby.babynator;
 
 import android.Manifest;
-import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -17,10 +16,12 @@ import android.widget.Toast;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.places.Places;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -37,7 +38,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import static androby.babynator.R.id.map;
-import static android.os.Build.VERSION_CODES.M;
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, LocationListener,
         ActivityCompat.OnRequestPermissionsResultCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
@@ -84,7 +84,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         mMap.getUiSettings().setZoomControlsEnabled(true);
 
-        if (android.os.Build.VERSION.SDK_INT >= M) {
+     /*   if (android.os.Build.VERSION.SDK_INT >= M) {
             //User has previously accepted this permission
             if (ActivityCompat.checkSelfPermission(this,
                     Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
@@ -94,7 +94,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             //Not in api-23, no need to prompt
             mMap.setMyLocationEnabled(true);
             Toast.makeText(this, "Problème de version de l'API Google", Toast.LENGTH_SHORT).show();
-        }
+        }*/
         //center la carte
       /*  LocationManager service = (LocationManager)getSystemService(LOCATION_SERVICE);
         Criteria criteria = new Criteria();
@@ -107,17 +107,32 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         //trouver les hotpitaux autour
         //à remplacer par ca
         //StringBuilder sbValue = new StringBuilder(sbMethod(location));
+        GPSTracker gps = new GPSTracker(this);
+        Toast.makeText(this, gps.getLocation()+""+"", Toast.LENGTH_LONG).show();
+        CameraPosition cameraPosition = new CameraPosition.Builder().target(
+                new LatLng(gps.getLatitude(), gps.getLongitude())).zoom(15).build();
 
-        StringBuilder sbValue = new StringBuilder(creatUrlSearch(type_choice));
+        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+        // Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        StringBuilder sbValue = new StringBuilder(creatUrlSearch(type_choice, gps.getLocation()));
         PlacesTask placesTask = new PlacesTask();
         placesTask.execute(sbValue.toString());
     }
 
-    public StringBuilder creatUrlSearch(String type) {
+    public StringBuilder creatUrlSearch(String type, Location location) {
 
         double mLatitude = 37.77657;
         double mLongitude = -122.417506;
 
+        if (location!=null){
+            mLongitude = location.getLongitude();
+            mLatitude = location.getLatitude();
+            String locLat = String.valueOf(mLatitude)+","+String.valueOf(mLongitude);
+            Toast.makeText(this, locLat, Toast.LENGTH_LONG).show();
+        }
+        else {
+            Toast.makeText(this, "is null", Toast.LENGTH_LONG).show();
+        }
         StringBuilder sb = new StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?");
         sb.append("location=" + mLatitude + "," + mLongitude);
         sb.append("&radius="+radius);

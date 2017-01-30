@@ -13,9 +13,11 @@
 
     <VideoView
     android:id="@+id/video_view"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center"/>
+        android:layout_gravity="center"
+        android:layout_width="300dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_height="200dp" />
 
 
 </RelativeLayout>
