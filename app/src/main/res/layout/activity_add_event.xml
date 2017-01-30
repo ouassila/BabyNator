@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_add_event"
     android:layout_width="match_parent"
@@ -16,41 +17,61 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:id="@+id/lbl_date"
-        android:text="Title" />
+        android:text="Title"
+        android:textAppearance="@android:style/TextAppearance.Material.DialogWindowTitle"
+        android:gravity="center_horizontal" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        app:srcCompat="@android:drawable/ic_input_add"
+        android:layout_marginRight="50dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginBottom="30dp"
+        android:id="@+id/floatingActionButton"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        app:backgroundTint="@color/wallet_bright_foreground_holo_dark"
+        app:rippleColor="?android:attr/textColorSecondary"
+        app:elevation="12dp"
+        app:fabSize="normal" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="time"
+        android:ems="10"
+        android:layout_below="@+id/lbl_date"
+        android:layout_toStartOf="@+id/floatingActionButton"
+        android:id="@+id/hour"
+        android:hint="Heure"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="text"
         android:ems="10"
-        android:layout_below="@+id/lbl_date"
+        android:id="@+id/title"
+        android:hint="Titre"
+        android:layout_below="@+id/hour"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="29dp"
-        android:id="@+id/title"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:hint="Titre" />
+        android:layout_marginTop="45dp" />
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:inputType="textLongMessage"
         android:ems="10"
+        android:id="@+id/editText2"
+        android:hint="Description"
         android:layout_below="@+id/title"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="29dp"
-        android:id="@+id/editText2"
-        android:hint="Description"
-        android:layout_above="@+id/bnt_valid" />
+        android:layout_marginTop="30dp" />
 
-    <Button
-        android:text="ajouter"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="45dp"
-        android:id="@+id/bnt_valid"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
 </RelativeLayout>
