@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_choose_map"
     android:layout_width="match_parent"
@@ -10,52 +11,73 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="androby.babynator.ChooseMapActivity">
 
-    <LinearLayout
-        android:orientation="vertical"
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="m"
+        android:textColor="@color/common_google_signin_btn_text_dark_focused"
+        android:layout_marginLeft="254dp"
+        android:layout_marginStart="254dp"
+        android:layout_alignBaseline="@+id/radius"
+        android:layout_alignBottom="@+id/radius"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:text="Afficher la carte"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_valid"
+        android:layout_weight="0.03"
+        android:layout_marginBottom="109dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <CheckBox
+        android:text="Ouvert"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/open"
+        android:layout_weight="0.03"
+        android:layout_above="@+id/btn_valid"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="57dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
+        android:ems="10"
+        android:id="@+id/radius"
+        android:hint="Distance en Mètre"
+        android:minEms="50"
+        android:maxEms="50000"
+        android:layout_above="@+id/open"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="42dp" />
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/choice"
+        android:hint="Type de lieu"
+        android:layout_weight="0.03"
+        android:layout_marginBottom="23dp"
+        android:layout_above="@+id/radius"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@mipmap/ic_logo_babynator"
+        android:id="@+id/imageView2"
         android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:weightSum="1">
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="35dp" />
 
-        <Spinner
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/choice"
-            android:layout_marginBottom="20dp"
-            android:layout_marginTop="20dp"
-            android:hint="Type de lieu"
-            android:layout_weight="0.03"/>
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="numberDecimal"
-            android:ems="10"
-            android:id="@+id/radius"
-            android:layout_marginBottom="20dp"
-            android:layout_marginTop="20dp"
-            android:hint="Périmètre"
-            android:minEms="50"
-            android:maxEms="50000"
-            android:layout_weight="0.03" />
-
-        <CheckBox
-            android:text="Ouvert"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/open"
-            android:layout_marginBottom="20dp"
-            android:layout_marginTop="20dp"
-            android:layout_weight="0.03" />
-
-        <Button
-            android:text="Afficher la carte"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/btn_valid"
-            android:layout_marginTop="20dp"
-            android:layout_weight="0.03" />
-    </LinearLayout>
 </RelativeLayout>

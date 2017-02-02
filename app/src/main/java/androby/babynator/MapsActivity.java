@@ -122,7 +122,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         GPSTracker gps = new GPSTracker(this);
         Toast.makeText(this, gps.getLocation()+""+"", Toast.LENGTH_LONG).show();
         CameraPosition cameraPosition = new CameraPosition.Builder().target(
-                new LatLng(gps.getLatitude(), gps.getLongitude())).zoom(15).build();
+                new LatLng(gps.getLatitude(), gps.getLongitude())).zoom(12).build();
 
         mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
         // Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);

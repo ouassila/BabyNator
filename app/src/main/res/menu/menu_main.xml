@@ -17,4 +17,9 @@
         android:orderInCategory="100"
         android:title="BabyPhone"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/action_add_baby"
+        android:orderInCategory="100"
+        android:title="Ajout bébé"
+        app:showAsAction="never" />
 </menu>
