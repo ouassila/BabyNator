@@ -335,7 +335,7 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
                 }
             }
             try {
-                URL url = new URL("http://" + LoginActivity.IP_SERVER + "/RestServer/api/users/register");
+                URL url = new URL("http://" + LoginActivity.IP_SERVER + "/RestServer/babyNator/users/register");
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestMethod("POST");
                 connection.setRequestProperty("Content-Type",

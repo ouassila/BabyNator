@@ -67,7 +67,7 @@
         android:layout_height="100dp"
         android:inputType="textLongMessage"
         android:ems="10"
-        android:id="@+id/editText2"
+        android:id="@+id/description"
         android:hint="Description"
         android:layout_below="@+id/title"
         android:layout_alignParentLeft="true"

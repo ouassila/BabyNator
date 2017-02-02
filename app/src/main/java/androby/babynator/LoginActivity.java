@@ -20,9 +20,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
@@ -60,13 +57,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private static final int REQUEST_READ_CONTACTS = 0;
 
     /**
-     * A dummy authentication store containing known user names and passwords.
-     * TODO: remove after connecting to a real authentication system.
-     */
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "foo@example.com:hello", "bar@example.com:world"
-    };
-    /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
     private UserLoginTask mAuthTask = null;
@@ -77,7 +67,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private View mProgressView;
     private View mLoginFormView;
 
-    public static String IP_SERVER = "172.16.14.83:8080";
+    public static String IP_SERVER = "192.168.8.100:8080";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,37 +109,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
-    }
-    //Méthode qui se déclenchera lorsque vous appuierez sur le bouton menu du téléphone
-    public boolean onCreateOptionsMenu(Menu menu) {
-
-        //Création d'un MenuInflater qui va permettre d'instancier un Menu XML en un objet Menu
-        MenuInflater inflater = getMenuInflater();
-        //Instanciation du menu XML spécifier en un objet Menu
-        inflater.inflate(R.menu.menu_main, menu);
-
-        return true;
-    }
-
-    //Méthode qui se déclenchera au clic sur un item
-    public boolean onOptionsItemSelected(MenuItem item) {
-        //On regarde quel item a été cliqué grâce à son id et on déclenche une action
-        Intent myIntent;
-        switch (item.getItemId()) {
-            case R.id.action_settings:
-                 myIntent = new Intent(LoginActivity.this, ChooseMapActivity.class);
-                startActivity(myIntent);
-                return true;
-            case R.id.action_calendar:
-                myIntent = new Intent(LoginActivity.this, CalendarActivity.class);
-                startActivity(myIntent);
-                return true;
-            case R.id.action_video:
-                myIntent = new Intent(LoginActivity.this, VideoActivity.class);
-                startActivity(myIntent);
-                return true;
-        }
-        return false;
     }
 
     private void populateAutoComplete() {
@@ -357,11 +316,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         private final String mEmail;
         private final String mPassword;
         private boolean mConnection;
+        private Intent myIntent;
 
         UserLoginTask(String email, String password, boolean connection) {
             mEmail = email;
             mPassword = password;
             mConnection = connection;
+            myIntent = new Intent(LoginActivity.this, ListActivity.class);
         }
 
         @Override
@@ -374,18 +335,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             } catch (InterruptedException e) {
                 return false;
             }
-
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
-                }
-            }
-
             // connexion au serveur pour test le user
             try {
-                URL url = new URL("http://"+IP_SERVER+"/RestServer/api/users/connect");
+                URL url = new URL("http://"+IP_SERVER+"/RestServer/babyNator/users/connect");
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestMethod("POST");
                 connection.setRequestProperty("Content-Type",
@@ -424,7 +376,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 }
                 rd.close();
                 try {
+
                     JSONObject userConnected = new JSONObject(response.toString());
+                    myIntent.putExtra("ID_USER", userConnected.getInt("id"));
                     Log.e("User_Connect",userConnected.toString());
                 }
                 catch(Exception e){
@@ -454,7 +408,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             if (success) {
                 Toast.makeText(getApplicationContext(), "Connexion validée", Toast.LENGTH_LONG).show();
-                Intent myIntent = new Intent(LoginActivity.this, ListActivity.class);
                 startActivity(myIntent);
             } else {
                 if (mConnection) {

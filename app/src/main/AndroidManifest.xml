@@ -88,25 +88,26 @@
 
         <activity
             android:name=".ListActivity"
-            android:label="Liste de mes bébés" />
+            android:label="Liste de mes bébés"/>
         <activity
             android:name=".RegisterActivity"
             android:label="@string/title_activity_register" />
 
         <activity android:name=".ChooseMapActivity"
             android:label="Urgence ?"
-            android:parentActivityName=".LoginActivity" />
+            android:parentActivityName=".ListActivity" >
         <meta-data
             android:name="android.support.PARENT_ACTIVITY"
-            android:value=".LoginActivity" />/>
+            android:value=".ListActivity" />
+        </activity>
 
         <activity
             android:name=".CalendarActivity"
             android:label="Planning"
-            android:parentActivityName=".LoginActivity" >
+            android:parentActivityName=".ListActivity" >
         <meta-data
             android:name="android.support.PARENT_ACTIVITY"
-            android:value=".LoginActivity" />
+            android:value=".ListActivity" />
         </activity>
 
         <activity android:name=".AddEventActivity"
@@ -118,7 +119,11 @@
         </activity>
         <activity
             android:name=".VideoActivity"
-            android:label="BabyPhone" />
+            android:label="BabyPhone" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ListActivity" />
+        </activity>
     </application>
 
 </manifest>
