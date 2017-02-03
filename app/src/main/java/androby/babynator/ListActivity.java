@@ -43,6 +43,7 @@ public class ListActivity extends AppCompatActivity {
                 return true;
             case R.id.action_add_baby:
                 myIntent = new Intent(ListActivity.this, AddBabyActivity.class);
+                myIntent.putExtra("ID_USER", this.id_user);
                 startActivity(myIntent);
                 return true;
         }

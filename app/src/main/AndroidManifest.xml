@@ -70,12 +70,11 @@
         <activity
             android:name=".MapsActivity"
             android:label="Autour de moi"
-            android:parentActivityName=".ChooseMapActivity" >
-        <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value=".ChooseMapActivity" />
+            android:parentActivityName=".ChooseMapActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ChooseMapActivity" />
         </activity>
-
         <activity
             android:name=".LoginActivity"
             android:label="S&apos;identifier">
@@ -85,32 +84,30 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".ListActivity"
-            android:label="Liste de mes bébés"/>
+            android:label="Liste de mes bébés" />
         <activity
             android:name=".RegisterActivity"
             android:label="@string/title_activity_register" />
-
-        <activity android:name=".ChooseMapActivity"
+        <activity
+            android:name=".ChooseMapActivity"
             android:label="Urgence ?"
-            android:parentActivityName=".ListActivity" >
-        <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value=".ListActivity" />
+            android:parentActivityName=".ListActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ListActivity" />
         </activity>
-
         <activity
             android:name=".CalendarActivity"
             android:label="Planning"
-            android:parentActivityName=".ListActivity" >
-        <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value=".ListActivity" />
+            android:parentActivityName=".ListActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ListActivity" />
         </activity>
-
-        <activity android:name=".AddEventActivity"
+        <activity
+            android:name=".AddEventActivity"
             android:label="Ajouter un rendez-vous"
             android:parentActivityName=".CalendarActivity">
             <meta-data
@@ -119,14 +116,14 @@
         </activity>
         <activity
             android:name=".VideoActivity"
-            android:label="BabyPhone" >
+            android:label="BabyPhone">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ListActivity" />
-            <activity
-                android:name=".AddBabyActivity"
-                android:label="@string/title_activity_add_baby"></activity>
         </activity>
+        <activity
+            android:name=".AddBabyActivity"
+            android:label="@string/title_activity_add_baby" />
     </application>
 
 </manifest>

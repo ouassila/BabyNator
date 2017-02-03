@@ -57,7 +57,7 @@
             android:paddingBottom="30dp" />
 
         <Switch
-            android:text="Sexe"
+            android:text="Fille"
             android:layout_width="147dp"
             android:layout_height="wrap_content"
             android:id="@+id/sexe"
