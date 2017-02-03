@@ -57,6 +57,11 @@ public class CalendarActivity extends AppCompatActivity {
 
         mDatePicker = (DatePicker) findViewById(R.id.datePicker);
         calendar = Calendar.getInstance();
+
+
+
+        //addCalendarEvent(calendar);
+
         calendar.setTimeInMillis(System.currentTimeMillis());
         //define min max
         mDatePicker.setMinDate(calendar.getTimeInMillis());
@@ -71,7 +76,7 @@ public class CalendarActivity extends AppCompatActivity {
             calendar.set(Calendar.MONTH, month);
             calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
             Date date = calendar.getTime();
-
+/*
             try{
                 for(int i=0; i < listEvents.length(); i++){
                     JSONObject row = listEvents.getJSONObject(i);
@@ -81,6 +86,7 @@ public class CalendarActivity extends AppCompatActivity {
             catch(JSONException e){
 
             }
+            */
             if(eventOnDate(date) != null){
                 addCalendarEvent(calendar);
             }

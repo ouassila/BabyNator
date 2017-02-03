@@ -32,7 +32,7 @@ public class ListActivity extends AppCompatActivity {
                 startActivity(myIntent);
                 return true;
             case R.id.action_calendar:
-                myIntent = new Intent(ListActivity.this, CalendarActivity.class);
+                myIntent = new Intent(ListActivity.this, TestCalendarActivity.class);
                 myIntent.putExtra("ID_USER", this.id_user);
                 startActivity(myIntent);
                 return true;
