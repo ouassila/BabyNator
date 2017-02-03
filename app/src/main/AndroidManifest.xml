@@ -122,6 +122,9 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ListActivity" />
+            <activity
+                android:name=".AddBabyActivity"
+                android:label="@string/title_activity_add_baby"></activity>
         </activity>
         <activity android:name=".TestCalendarActivity"></activity>
     </application>

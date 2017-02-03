@@ -7,7 +7,7 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="title_activity_login">Sign in</string>
-
+    <string name="action_camera_ip">Se connecter à la camera</string>
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password (optional)</string>
@@ -23,6 +23,7 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="action_ip_camera">Adresse IP Camera</string>
     <string name="action_map">Carte</string>
     <string name="title_activity_list">ListActivity</string>
     <string name="large_text">
@@ -117,4 +118,5 @@
     <string name="title_activity_register">S\'enregistrer</string>
     <string name="title_activity_test">TestActivity</string>
     <string name="title_activity_calendar">CalendarActivity</string>
+    <string name="title_activity_add_baby">Ajout bébé</string>
 </resources>
