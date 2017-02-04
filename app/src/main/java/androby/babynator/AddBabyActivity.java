@@ -4,11 +4,13 @@ import android.annotation.TargetApi;
 import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.LoaderManager.LoaderCallbacks;
+import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Rect;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -20,8 +22,10 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AutoCompleteTextView;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
@@ -449,7 +453,7 @@ String age, String sexe, String birthday, String nickname
                     babyToAdd.put("birthday", birthday.toString());
                     babyToAdd.put("name", nickname);
                     babyToAdd.put("gender", sexe);
-                    babyToAdd.put("id_user", 1);
+                    babyToAdd.put("id_user", getIntent().getIntExtra("ID_USER", 0));
                 } catch (Exception e){
                     return false;
                 }
@@ -580,6 +584,24 @@ String age, String sexe, String birthday, String nickname
             mAddBabyTask = null;
            // showProgress(false);
         }
+    }
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
+            View view = getCurrentFocus();
+            if (view != null && view instanceof EditText) {
+                Rect r = new Rect();
+                view.getGlobalVisibleRect(r);
+                int rawX = (int)ev.getRawX();
+                int rawY = (int)ev.getRawY();
+                if (!r.contains(rawX, rawY)) {
+                    view.clearFocus();
+                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                }
+            }
+        }
+        return super.dispatchTouchEvent(ev);
     }
 }
 
