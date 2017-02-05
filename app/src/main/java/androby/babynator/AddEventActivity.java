@@ -47,6 +47,12 @@ public class AddEventActivity extends AppCompatActivity {
 
         id_user = getIntent().getIntExtra("ID_USER", 0);
         id_event = getIntent().getIntExtra("ID_EVENT", 0);
+        Log.d("TMP", id_event+"");
+
+        mTitle = (EditText) findViewById(R.id.title);
+        mDescription = (EditText) findViewById(R.id.description);
+        hour = (EditText) findViewById(R.id.hour);
+        lbl_date = (TextView) findViewById(R.id.lbl_date);
 
         if(id_event > 0)
             getCurrentEventById(id_event);
@@ -57,11 +63,6 @@ public class AddEventActivity extends AppCompatActivity {
             hours = 0;
             minutes = 0;
         }
-
-        mTitle = (EditText) findViewById(R.id.title);
-        mDescription = (EditText) findViewById(R.id.description);
-        hour = (EditText) findViewById(R.id.hour);
-        lbl_date = (TextView) findViewById(R.id.lbl_date);
 
         hour.setOnClickListener(new OnClickListener() {
 

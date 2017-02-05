@@ -100,8 +100,8 @@ public class CalendarActivity extends AppCompatActivity implements AdapterView.O
 
                     if(cal.get(Calendar.DAY_OF_MONTH) == cal2.get(Calendar.DAY_OF_MONTH) && cal.get(Calendar.MONTH) == cal2.get(Calendar.MONTH) && cal.get(Calendar.YEAR) == cal2.get(Calendar.YEAR)) {
                         titles.add(sdf_output.format(cal.getTime()) + " : "+row.getString("title"));
+                        list_id_events.add(Integer.parseInt(row.getString("id")));
                     }
-                    list_id_events.add(Integer.parseInt(row.getString("id")));
                 }
             }
             catch(Exception e){
@@ -109,6 +109,7 @@ public class CalendarActivity extends AppCompatActivity implements AdapterView.O
             }
 
             if(titles.size() > 0){
+                Log.d("TMP", list_id_events.toString());
                 ArrayAdapter listAdapter = new ArrayAdapter<String>(CalendarActivity.this, R.layout.simplerow, titles);
                 scroller.setAdapter(listAdapter);
             }
@@ -137,8 +138,8 @@ public class CalendarActivity extends AppCompatActivity implements AdapterView.O
 
                     if((cal.get(Calendar.MONTH)+1) == month && cal.get(Calendar.YEAR) == year) {
                         titles.add(sdf_output.format(cal.getTime()) + " : "+row.getString("title"));
+                        list_id_events.add(Integer.parseInt(row.getString("id")));
                     }
-                    list_id_events.add(Integer.parseInt(row.getString("id")));
                 }
             }
             catch(Exception e){

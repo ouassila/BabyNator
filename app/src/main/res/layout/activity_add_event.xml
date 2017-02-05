@@ -9,7 +9,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="androby.babynator.AddEventActivity">
+    tools:context="androby.babynator.AddEventActivity"
+    android:background="@color/wallet_bright_foreground_holo_dark">
 
     <TextView
         android:layout_width="match_parent"
@@ -19,59 +20,79 @@
         android:id="@+id/lbl_date"
         android:text="Title"
         android:textAppearance="@android:style/TextAppearance.Material.DialogWindowTitle"
-        android:gravity="center_horizontal" />
+        android:gravity="center_vertical|center_horizontal"
+        android:textAllCaps="true"
+        android:background="@color/caldroid_white" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:inputType="text"
+        android:ems="10"
+        android:id="@+id/title"
+        android:hint="Titre"
+        android:layout_marginTop="36dp"
+        android:layout_below="@+id/hour"
+        android:layout_alignLeft="@+id/hour"
+        android:layout_alignStart="@+id/hour" />
 
     <android.support.design.widget.FloatingActionButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="true"
         app:srcCompat="@android:drawable/ic_input_add"
-        android:layout_marginRight="50dp"
-        android:layout_marginEnd="50dp"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="19dp"
         android:id="@+id/floatingActionButton"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
         app:backgroundTint="@color/wallet_bright_foreground_holo_dark"
         app:rippleColor="?android:attr/textColorSecondary"
         app:elevation="12dp"
-        app:fabSize="normal" />
+        app:fabSize="normal"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@+id/title"
+        android:layout_toEndOf="@+id/title" />
 
     <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="time"
-        android:ems="10"
-        android:layout_below="@+id/lbl_date"
-        android:layout_toStartOf="@+id/floatingActionButton"
-        android:id="@+id/hour"
-        android:hint="Heure"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="text"
-        android:ems="10"
-        android:id="@+id/title"
-        android:hint="Titre"
-        android:layout_below="@+id/hour"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="45dp" />
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:inputType="textLongMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="120dp"
+        android:inputType="textMultiLine"
         android:ems="10"
         android:id="@+id/description"
         android:hint="Description"
+        android:scrollbars="vertical"
+        android:textAlignment="viewStart"
+        android:clickable="false"
+        android:fadeScrollbars="true"
+        android:gravity="start"
+        android:textSize="20sp"
         android:layout_below="@+id/title"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="30dp" />
+        android:layout_alignLeft="@+id/title"
+        android:layout_alignStart="@+id/title"
+        android:layout_marginTop="23dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:inputType="time"
+        android:ems="10"
+        android:id="@+id/hour"
+        android:hint="Heure"
+        android:textSize="20sp"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/lbl_date"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="23dp"
+        android:layout_marginEnd="23dp" />
+
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        app:srcCompat="@android:drawable/ic_lock_idle_alarm"
+        android:id="@+id/img_time"
+        android:layout_marginRight="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_alignTop="@+id/hour"
+        android:layout_toLeftOf="@+id/title"
+        android:layout_toStartOf="@+id/title" />
 
 </RelativeLayout>
