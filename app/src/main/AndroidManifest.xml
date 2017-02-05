@@ -86,26 +86,23 @@
         </activity>
         <activity
             android:name=".ListActivity"
-            android:label="Liste de mes bébés" />
+            android:label="Liste de mes bébés"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".RegisterActivity"
             android:label="@string/title_activity_register" />
         <activity
             android:name=".ChooseMapActivity"
-            android:label="Urgence ?">
-        </activity>
+            android:label="Urgence ?" />
         <activity
             android:name=".CalendarActivity"
-            android:label="Planning"/>
-
+            android:label="Planning" />
         <activity
             android:name=".AddEventActivity"
-            android:label="Ajouter un rendez-vous">
-        </activity>
+            android:label="Ajouter un rendez-vous" />
         <activity
             android:name=".VideoActivity"
-            android:label="BabyPhone">
-        </activity>
+            android:label="BabyPhone" />
         <activity
             android:name=".AddBabyActivity"
             android:label="@string/title_activity_add_baby" />

@@ -28,7 +28,7 @@ public class ChooseMapActivity extends AppCompatActivity/*, OnItemSelectedListen
         setContentView(R.layout.activity_choose_map);
 
         //bouton retour arriere
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+       // getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         ArrayList<String> choices = new ArrayList<String>();
         choices.add("Hôpital");

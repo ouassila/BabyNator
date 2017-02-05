@@ -73,7 +73,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         open = getIntent().getBooleanExtra("OPEN", false);
 
         //bouton retour arriere
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+      //  getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     public boolean getOpenChoice(){

@@ -524,7 +524,7 @@ String age, String sexe, String birthday, String nickname
                     dataToAdd.put("length", Integer.parseInt(length));
                     dataToAdd.put("weight", Integer.parseInt(weight));
                     dataToAdd.put("id_baby", id_baby);
-                    dataToAdd.put("current_date", "");
+                    dataToAdd.put("current_date", birthday.toString());
 
 
                 } catch (Exception e){

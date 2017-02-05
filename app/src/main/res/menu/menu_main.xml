@@ -22,4 +22,9 @@
         android:orderInCategory="100"
         android:title="Ajout bébé"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/test"
+        android:orderInCategory="100"
+        android:title="Ajout test"
+        app:showAsAction="never" />
 </menu>
