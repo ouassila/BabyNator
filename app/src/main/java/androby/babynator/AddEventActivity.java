@@ -125,11 +125,13 @@ public class AddEventActivity extends AppCompatActivity {
     private void sendSetRequest(){
         try {
             String strDate = lbl_date.getText().toString()+ " "+hours+":"+minutes;
-            SimpleDateFormat sdf = new SimpleDateFormat("dd MMMM yyyy HH:mm");
-            String new_date = sdf.format(strDate);
+            SimpleDateFormat format = new SimpleDateFormat("dd MMMM yyyy HH:mm");
+            SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+            Date date = format.parse(strDate);
 
             mSetEventTask = new AddEventActivity.SetEventTask(mTitle.getText().toString(),
-                    mDescription.getText().toString(), false, new_date, id_event, id_user);
+                    mDescription.getText().toString(), false, format2.format(date), id_event, id_user);
             mSetEventTask.execute((Void) null);
         } catch (Exception e) {
             e.printStackTrace();
@@ -245,6 +247,9 @@ public class AddEventActivity extends AppCompatActivity {
                     sdf_out = new SimpleDateFormat("HH:mm");
                     new_date = sdf_out.format(date);
                     hour.setText(new_date);
+                    String[] datas = new_date.split(":");
+                    hours = Integer.parseInt(datas[0]);
+                    minutes = Integer.parseInt(datas[1]);
 
                 } catch (Exception e) {
                     e.printStackTrace();

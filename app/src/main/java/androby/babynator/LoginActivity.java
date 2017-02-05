@@ -71,7 +71,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private View mProgressView;
     private View mLoginFormView;
 
-    public static String IP_SERVER = "192.168.0.43:8080";
+    public static String IP_SERVER = "192.168.1.30:8080";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,17 +132,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
         View current = getCurrentFocus();
-
-      /*  view.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                // some code
-
-
-            }
-        });*/
-
     }
 
     private void populateAutoComplete() {
@@ -212,18 +201,18 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         // Check for a valid password, if the user entered one.
         if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
-            mPasswordView.setError(getString(R.string.error_invalid_password));
+            mPasswordView.setError("Le mot de passe est trop court");
             focusView = mPasswordView;
             cancel = true;
         }
 
         // Check for a valid email address.
         if (TextUtils.isEmpty(email)) {
-            mEmailView.setError(getString(R.string.error_field_required));
+            mEmailView.setError("Ce champ est obligatoire");
             focusView = mEmailView;
             cancel = true;
         } else if (!isEmailValid(email)) {
-            mEmailView.setError(getString(R.string.error_invalid_email));
+            mEmailView.setError("L'adresse mail est invalide");
             focusView = mEmailView;
             cancel = true;
         }
