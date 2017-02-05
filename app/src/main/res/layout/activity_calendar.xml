@@ -9,10 +9,45 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="androby.babynator.CalendarActivity">
+    tools:context="androby.babynator.CalendarActivity"
+    android:background="@color/wallet_bright_foreground_holo_dark">
 
     <CalendarView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/calendarView" />
+        android:id="@+id/calendarView"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:text="Mes rendez-vous"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/lbl_events"
+        android:textSize="20sp"
+        android:textAlignment="center"
+        android:textStyle="normal|bold"
+        android:lineSpacingExtra="8sp"
+        android:paddingBottom="5dp"
+        android:background="@color/caldroid_white"
+        android:paddingTop="5dp"
+        android:elevation="2dp"
+        android:layout_below="@+id/calendarView"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="15dp"
+        android:layout_alignLeft="@+id/calendarView"
+        android:layout_alignStart="@+id/calendarView" />
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="11dp"
+        android:background="@color/caldroid_white"
+        android:layout_below="@+id/lbl_events"
+        android:layout_alignLeft="@+id/lbl_events"
+        android:layout_alignStart="@+id/lbl_events"
+        android:id="@+id/list_events" />
+
 </RelativeLayout>

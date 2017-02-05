@@ -71,7 +71,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private View mProgressView;
     private View mLoginFormView;
 
-    public static String IP_SERVER = "192.168.43.54:8080";
+    public static String IP_SERVER = "192.168.1.30:8080";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,16 +132,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
         View current = getCurrentFocus();
-
-      /*  view.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                // some code
-
-
-            }
-        });*/
 
     }
 
@@ -441,7 +431,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(false);
 
             if (success) {
-                Toast.makeText(getApplicationContext(), "Connexion validée", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Bienvenu", Toast.LENGTH_LONG).show();
                 startActivity(myIntent);
             } else {
                 if (mConnection) {

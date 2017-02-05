@@ -92,34 +92,19 @@
             android:label="@string/title_activity_register" />
         <activity
             android:name=".ChooseMapActivity"
-            android:label="Urgence ?"
-            android:parentActivityName=".ListActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ListActivity" />
+            android:label="Urgence ?">
         </activity>
         <activity
             android:name=".CalendarActivity"
-            android:label="Planning"
-            android:parentActivityName=".ListActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ListActivity" />
-        </activity>
+            android:label="Planning"/>
+
         <activity
             android:name=".AddEventActivity"
-            android:label="Ajouter un rendez-vous"
-            android:parentActivityName=".CalendarActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".CalendarActivity" />
+            android:label="Ajouter un rendez-vous">
         </activity>
         <activity
             android:name=".VideoActivity"
             android:label="BabyPhone">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ListActivity" />
         </activity>
         <activity
             android:name=".AddBabyActivity"
