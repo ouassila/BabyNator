@@ -93,7 +93,7 @@ public class AddEventActivity extends AppCompatActivity {
         myFab.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(attemptEvent() && current_event.length() > 0){
+                if(attemptEvent() && current_event != null && current_event.length() > 0){
                     sendSetRequest();
                 }
                 else{
