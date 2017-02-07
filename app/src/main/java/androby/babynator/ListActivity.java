@@ -2,12 +2,15 @@ package androby.babynator;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.LoaderManager;
+import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -22,14 +25,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.RadioGroup;
 import android.widget.Switch;
 import android.widget.Toast;
@@ -82,7 +89,7 @@ public class ListActivity extends AppCompatActivity implements LoaderManager.Loa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
         mProgressView = findViewById(R.id.list_babies_progress);
-        showProgress(true);
+       // showProgress(true);
         id_user = getIntent().getIntExtra("ID_USER", 0);
         ListBabiesTask mAuthTask = new ListBabiesTask(id_user);
         mAuthTask.execute((Void) null);
@@ -214,6 +221,7 @@ public class ListActivity extends AppCompatActivity implements LoaderManager.Loa
         private ModifyBabyTask mModifyBabyTask;
         private static final String ARG_SECTION_NUMBER = "section_number";
         private static final String ARG_SECTION_NAME = "section_name";
+        private static final String ARG_SECTION_ID_BABY = "section_id_baby";
         private static final String ARG_SECTION_SEXE = "section_sexe";
         private static final String ARG_SECTION_WEIGHT = "section_weight";
         private static final String ARG_SECTION_LENGTH = "section_length";
@@ -234,6 +242,7 @@ public class ListActivity extends AppCompatActivity implements LoaderManager.Loa
             String birthday = "";
             String length = "";
             String weight = "";
+            int id_baby = 0;
             try {
                 Log.e("baby class", baby.toString());
                  name = baby.getString("name");
@@ -241,12 +250,14 @@ public class ListActivity extends AppCompatActivity implements LoaderManager.Loa
                 birthday = baby.getString("birthday");
                 length = baby.getString("length");
                 weight = baby.getString("weight");
+                id_baby=baby.getInt("id");
 
             }
             catch (Exception e){
             }
             Bundle args = new Bundle();
             args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+            args.putInt(ARG_SECTION_ID_BABY, id_baby);
             args.putString(ARG_SECTION_NAME, name);
             args.putString(ARG_SECTION_BIRTHDAY, birthday);
             args.putString(ARG_SECTION_SEXE, sexe);
@@ -291,16 +302,83 @@ public class ListActivity extends AppCompatActivity implements LoaderManager.Loa
             });
             birthday.setInputType(InputType.TYPE_NULL);
             birthday.requestFocus();
-          /*  FloatingActionButton mModifyBabyButton = (FloatingActionButton) rootView.findViewById(R.id.modify_baby_button);
-            mModifyBabyButton.setOnClickListener(new View.OnClickListener() {
+            Button addDataButton = (Button) rootView.findViewById(R.id.add_data);
+            addDataButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    mModifyBabyTask = new ModifyBabyTask(getArguments().getString(ARG_SECTION_LENGTH), getArguments().getString(ARG_SECTION_WEIGHT), getArguments().getString(ARG_SECTION_SEXE), getArguments().getString(ARG_SECTION_BIRTHDAY), getArguments().getString(ARG_SECTION_NAME));
-                    mModifyBabyTask.execute((Void) null);
+                    LayoutInflater inflater = (LayoutInflater) getActivity()
+                            .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+                    View popupView = inflater.inflate(R.layout.pop_up_add_data,(ViewGroup)view.findViewById(R.id.popup));
+
+                    PopupWindow  popupWindow = new PopupWindow(inflater.inflate(
+                            R.layout.pop_up_add_data, null, false), 200, 265, true);
+
+                    popupWindow.showAtLocation(view.findViewById(R.id.popup),
+                            Gravity.CENTER, 0, 0);
+
                 }
-            });*/
+            });
+            Button showGraphButton = (Button) rootView.findViewById(R.id.view_graph);
+            showGraphButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent myIntent = new Intent(getContext(), GraphActivity.class);
+                    myIntent.putExtra("baby", getArguments().getInt(ARG_SECTION_ID_BABY));
+                    startActivity(myIntent);
+                   /* LayoutInflater inflater = (LayoutInflater) getActivity()
+                            .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+                    View popupView = inflater.inflate(R.layout.pop_up_add_data,(ViewGroup)view.findViewById(R.id.popup));
+
+                    PopupWindow  popupWindow = new PopupWindow(inflater.inflate(
+                            R.layout.pop_up_add_data, null, false), 200, 265, true);
+
+                    popupWindow.showAtLocation(view.findViewById(R.id.popup),
+                            Gravity.CENTER, 0, 0);*/
+
+                }
+            });
            // setDateTimeField();
             return rootView;
+        }
+
+        private void showPopup(final Activity context) {
+            int popupWidth = 200;
+            int popupHeight = 150;
+
+            // Inflate the popup_layout.xml
+            LinearLayout viewGroup = (LinearLayout) context.findViewById(R.id.popup);
+            LayoutInflater layoutInflater = (LayoutInflater) context
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View layout = layoutInflater.inflate(R.layout.pop_up_add_data, viewGroup);
+
+            // Creating the PopupWindow
+            final PopupWindow popup = new PopupWindow(context);
+            popup.setContentView(layout);
+            popup.setWidth(popupWidth);
+            popup.setHeight(popupHeight);
+            popup.setFocusable(true);
+
+            // Some offset to align the popup a bit to the right, and a bit down, relative to button's position.
+            int OFFSET_X = 30;
+            int OFFSET_Y = 30;
+
+            // Clear the default translucent background
+            popup.setBackgroundDrawable(new BitmapDrawable());
+
+            // Displaying the popup at the specified location, + offsets.
+            popup.showAtLocation(layout, Gravity.NO_GRAVITY, 0+ OFFSET_X, 0 + OFFSET_Y);
+
+            // Getting a reference to Close button, and close the popup when clicked.
+           /* Button close = (Button) layout.findViewById(R.id.close);
+            close.setOnClickListener(new OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    popup.dismiss();
+                }
+            });*/
         }
 
 
