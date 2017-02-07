@@ -66,6 +66,7 @@ public class AddBabyActivity extends AppCompatActivity implements LoaderCallback
      */
     private static final int REQUEST_READ_CONTACTS = 0;
 
+
     /**
      * A dummy authentication store containing known user names and passwords.
      * TODO: remove after connecting to a real authentication system.
@@ -501,7 +502,7 @@ String age, String sexe, String birthday, String nickname
 
         private boolean addData(){
             try {
-                URL url = new URL("http://"+LoginActivity.IP_SERVER+"/RestServer/babyNator/datas/add");
+                URL url = new URL("http://"+LoginActivity.IP_SERVER+"/RestServer/babyNator/datas/addBirthday");
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestMethod("POST");
                 connection.setRequestProperty("Content-Type",

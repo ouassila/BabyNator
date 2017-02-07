@@ -2,20 +2,19 @@ package androby.babynator;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
-import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.app.LoaderManager;
-import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -25,7 +24,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -35,8 +33,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.RadioGroup;
 import android.widget.Switch;
 import android.widget.Toast;
@@ -57,6 +53,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -214,6 +211,8 @@ public class ListActivity extends AppCompatActivity implements LoaderManager.Loa
         private EditText birthday;
         private EditText length;
         private EditText weight;
+        private EditText pLength;
+        private EditText pWeight;
         private Switch sexe;
         private DatePickerDialog datePickerDialog;
         private SimpleDateFormat dateFormatter;
@@ -305,18 +304,33 @@ public class ListActivity extends AppCompatActivity implements LoaderManager.Loa
             Button addDataButton = (Button) rootView.findViewById(R.id.add_data);
             addDataButton.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View view) {
-                    LayoutInflater inflater = (LayoutInflater) getActivity()
-                            .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                public void onClick(View arg0) {
 
-                    View popupView = inflater.inflate(R.layout.pop_up_add_data,(ViewGroup)view.findViewById(R.id.popup));
+                    // custom dialog
+                    final Dialog dialog = new Dialog(getContext());
+                    dialog.setContentView(R.layout.pop_up_add_data);
+                    dialog.setTitle("Title...");
 
-                    PopupWindow  popupWindow = new PopupWindow(inflater.inflate(
-                            R.layout.pop_up_add_data, null, false), 200, 265, true);
+                    // set the custom dialog components - text, image and button
+                    pWeight = (EditText) dialog.findViewById(R.id.weight);
+                    pLength = (EditText) dialog.findViewById(R.id.length);
+                  /*  ImageView image = (ImageView) dialog.findViewById(R.id.image);
+                    image.setImageResource(R.drawable.ic_launcher);*/
 
-                    popupWindow.showAtLocation(view.findViewById(R.id.popup),
-                            Gravity.CENTER, 0, 0);
+                    FloatingActionButton dialogButton = (FloatingActionButton) dialog.findViewById(R.id.addData);
+                    // if button is clicked, close the custom dialog
+                    dialogButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            ModifyBabyTask addDataTask = new ModifyBabyTask( pLength.getText().toString(), pWeight.getText().toString(), getArguments().getInt(ARG_SECTION_ID_BABY));
+                            addDataTask.execute((Void) null);
+                            dialog.dismiss();
+                            getActivity().finish();
+                            startActivity(getActivity().getIntent());
+                        }
+                    });
 
+                    dialog.show();
                 }
             });
             Button showGraphButton = (Button) rootView.findViewById(R.id.view_graph);
@@ -343,63 +357,20 @@ public class ListActivity extends AppCompatActivity implements LoaderManager.Loa
             return rootView;
         }
 
-        private void showPopup(final Activity context) {
-            int popupWidth = 200;
-            int popupHeight = 150;
-
-            // Inflate the popup_layout.xml
-            LinearLayout viewGroup = (LinearLayout) context.findViewById(R.id.popup);
-            LayoutInflater layoutInflater = (LayoutInflater) context
-                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View layout = layoutInflater.inflate(R.layout.pop_up_add_data, viewGroup);
-
-            // Creating the PopupWindow
-            final PopupWindow popup = new PopupWindow(context);
-            popup.setContentView(layout);
-            popup.setWidth(popupWidth);
-            popup.setHeight(popupHeight);
-            popup.setFocusable(true);
-
-            // Some offset to align the popup a bit to the right, and a bit down, relative to button's position.
-            int OFFSET_X = 30;
-            int OFFSET_Y = 30;
-
-            // Clear the default translucent background
-            popup.setBackgroundDrawable(new BitmapDrawable());
-
-            // Displaying the popup at the specified location, + offsets.
-            popup.showAtLocation(layout, Gravity.NO_GRAVITY, 0+ OFFSET_X, 0 + OFFSET_Y);
-
-            // Getting a reference to Close button, and close the popup when clicked.
-           /* Button close = (Button) layout.findViewById(R.id.close);
-            close.setOnClickListener(new OnClickListener() {
-
-                @Override
-                public void onClick(View v) {
-                    popup.dismiss();
-                }
-            });*/
-        }
-
 
 
         public class ModifyBabyTask extends AsyncTask<Void, Void, Boolean> {
 
-            private final String sexe;
-            private final String birthday;
-            private final String nickname;
             private final String length;
             private final String weight;
             private int id_baby;
             private int responseCode;
 
-            ModifyBabyTask(String length, String weight, String sexe, String birthday, String nickname) {
-                this.sexe=sexe;
-                this.birthday=birthday;
-                this.nickname=nickname;
+            ModifyBabyTask(String length, String weight, int id_baby) {
+
                 this.length = length;
                 this.weight = weight;
-                id_baby = 0;
+                this.id_baby=id_baby;
             }
 
             @Override
@@ -422,14 +393,14 @@ public class ListActivity extends AppCompatActivity implements LoaderManager.Loa
             }
 String age, String sexe, String birthday, String nickname
             // TODO: register the new account here.*/
-                if (addBaby()){
+             //   if (addBaby()){
                     return addData();
-                }
+              /*  }
                 else
-                    return false;
+                    return false;*/
             }
 
-            private boolean addBaby(){
+          /*  private boolean addBaby(){
                 try {
                     URL url = new URL("http://"+LoginActivity.IP_SERVER+"/RestServer/babyNator/babies/modify");
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -499,7 +470,7 @@ String age, String sexe, String birthday, String nickname
 
                 Log.e("**donnéed add baby ***",sexe+" " +birthday+" " + nickname + " " + length + " " + weight);
                 return true;
-            }
+            }*/
 
             private boolean addData(){
                 try {
@@ -523,10 +494,11 @@ String age, String sexe, String birthday, String nickname
                     JSONObject dataToAdd = new JSONObject();
                     //  mConnection = true;
                     try {
+                        Date d = new Date();
                         dataToAdd.put("length", Integer.parseInt(length));
                         dataToAdd.put("weight", Integer.parseInt(weight));
                         dataToAdd.put("id_baby", id_baby);
-                        dataToAdd.put("current_date", birthday.toString());
+                        dataToAdd.put("current_date", d.toString());
 
 
                     } catch (Exception e){

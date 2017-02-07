@@ -29,5 +29,5 @@
         android:clickable="true"
         app:fabSize="mini"
         app:srcCompat="@android:drawable/ic_input_add"
-        android:id="@+id/floatingActionButton2" />
+        android:id="@+id/addData" />
 </LinearLayout>
