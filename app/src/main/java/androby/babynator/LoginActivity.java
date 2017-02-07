@@ -71,7 +71,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private View mProgressView;
     private View mLoginFormView;
 
-    public static String IP_SERVER = "192.168.1.30:8080";
+    public static String IP_SERVER = "192.168.43.10:8080";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
