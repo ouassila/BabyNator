@@ -454,6 +454,7 @@ public class AddEventActivity extends AppCompatActivity {
             if(success){
                 Intent myIntent = new Intent(AddEventActivity.this, CalendarActivity.class);
                 myIntent.putExtra("ID_USER", id_user);
+                finish();
                 startActivity(myIntent);
             }
         }
