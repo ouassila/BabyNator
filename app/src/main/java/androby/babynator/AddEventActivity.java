@@ -96,11 +96,20 @@ public class AddEventActivity extends AppCompatActivity {
                 if(attemptEvent() && current_event != null && current_event.length() > 0){
                     sendSetRequest();
                 }
-                else{
+                else if(attemptEvent()){
                     sendAddRequest();
                 }
             }
         });
+       FloatingActionButton myFab_Cancel = (FloatingActionButton) findViewById(R.id.floatingActionButton_Cancel);
+       myFab_Cancel.setOnClickListener(new OnClickListener() {
+           @Override
+           public void onClick(View view) {
+           Intent myIntent = new Intent(AddEventActivity.this, CalendarActivity.class);
+           myIntent.putExtra("ID_USER", id_user);
+           startActivity(myIntent);
+           }
+       });
     }
 
     private void getCurrentEventById(int id_event) {
@@ -154,13 +163,13 @@ public class AddEventActivity extends AppCompatActivity {
             focusView = hour;
             cancel = true;
         }
-        else if (TextUtils.isEmpty(mTitle.getText().toString())) {
-            mTitle.setError(getString(R.string.error_field_required));
+        if (TextUtils.isEmpty(mTitle.getText().toString())) {
+            mTitle.setError("Ce champ est obligatoire");
             focusView = mTitle;
             cancel = true;
         }
-        else if (TextUtils.isEmpty(mDescription.getText().toString())) {
-            mDescription.setError(getString(R.string.error_field_required));
+        if (TextUtils.isEmpty(mDescription.getText().toString())) {
+            mDescription.setError("Ce champ est obligatoire");
             focusView = mDescription;
             cancel = true;
         }

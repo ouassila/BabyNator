@@ -14,20 +14,6 @@
     android:scrollbars="vertical"
     android:fadeScrollbars="true">
 
-    <android.support.design.widget.FloatingActionButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        app:srcCompat="@android:drawable/ic_input_add"
-        android:id="@+id/floatingActionButton"
-        app:backgroundTint="@color/wallet_bright_foreground_holo_dark"
-        app:rippleColor="?android:attr/textColorSecondary"
-        app:elevation="12dp"
-        app:fabSize="normal"
-        android:layout_alignParentRight="false"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true" />
-
     <TextView
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -43,30 +29,29 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_below="@+id/lbl_date"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
         android:layout_height="320dp"
-        android:layout_marginTop="15dp"
-        android:layout_toStartOf="@+id/floatingActionButton"
         android:fadeScrollbars="true"
         android:scrollbars="vertical"
-        android:layout_marginLeft="20dp"
         android:background="@drawable/border"
-        android:weightSum="1">
+        android:weightSum="1"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/lbl_date"
+        android:layout_marginTop="20dp">
 
 
         <EditText
-            android:layout_width="249dp"
+            android:layout_width="match_parent"
             android:layout_height="60dp"
             android:inputType="text"
             android:ems="10"
             android:id="@+id/title"
             android:hint="Titre"
-            android:layout_marginTop="36dp"
+            android:layout_marginTop="20dp"
             android:layout_below="@+id/hour"
             android:layout_alignLeft="@+id/hour"
-            android:layout_alignStart="@+id/hour" />
+            android:layout_alignStart="@+id/hour"
+            android:layout_marginLeft="10dp" />
 
         <EditText
             android:layout_width="match_parent"
@@ -79,13 +64,12 @@
             android:layout_below="@+id/lbl_date"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginRight="23dp"
-            android:layout_marginEnd="23dp"
             android:layout_height="60dp"
-            android:focusableInTouchMode="false" />
+            android:focusableInTouchMode="false"
+            android:layout_marginLeft="10dp" />
 
         <EditText
-            android:layout_width="253dp"
+            android:layout_width="match_parent"
             android:layout_height="120dp"
             android:inputType="textMultiLine"
             android:ems="10"
@@ -95,14 +79,48 @@
             android:textAlignment="viewStart"
             android:clickable="false"
             android:fadeScrollbars="true"
-            android:gravity="start"
+            android:gravity="top"
             android:textSize="20sp"
             android:layout_below="@+id/title"
             android:layout_alignLeft="@+id/title"
             android:layout_alignStart="@+id/title"
-            android:layout_marginTop="23dp" />
+            android:layout_marginTop="23dp"
+            android:layout_marginLeft="10dp" />
 
     </LinearLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        app:srcCompat="@android:drawable/ic_input_add"
+        android:id="@+id/floatingActionButton"
+        app:backgroundTint="@color/wallet_bright_foreground_holo_dark"
+        app:rippleColor="?android:attr/textColorSecondary"
+        app:elevation="5dp"
+        app:fabSize="normal"
+        android:layout_marginRight="13dp"
+        android:layout_marginEnd="13dp"
+        android:layout_marginBottom="20dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        app:srcCompat="@android:drawable/ic_delete"
+        android:id="@+id/floatingActionButton_Cancel"
+        app:backgroundTint="@color/wallet_bright_foreground_holo_dark"
+        app:rippleColor="?android:attr/textColorSecondary"
+        app:elevation="5dp"
+        app:fabSize="normal"
+        android:layout_marginLeft="22dp"
+        android:layout_marginStart="22dp"
+        android:layout_alignTop="@+id/floatingActionButton"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
 
 </RelativeLayout>
