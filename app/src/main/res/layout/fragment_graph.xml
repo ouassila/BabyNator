@@ -14,10 +14,20 @@
         android:layout_height="match_parent">
 
         <TextView
+            android:text=" Graphique :"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView4"
+            android:textSize="30sp"
+            android:textStyle="normal|bold"
+            android:layout_marginBottom="40dp" />
+
+        <TextView
             android:text="Poids(Kg)"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/option" />
+            android:id="@+id/option"
+            android:textStyle="normal|bold" />
 
         <com.jjoe64.graphview.GraphView
             android:layout_width="match_parent"
@@ -29,7 +39,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/textView6"
-            android:gravity="right" />
+            android:gravity="right"
+            android:textStyle="normal|bold" />
 
     </LinearLayout>
 
