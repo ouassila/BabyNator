@@ -82,7 +82,9 @@
             android:layout_weight="0.05"
             android:paddingBottom="30dp"
             android:textSize="24sp"
-            android:layout_marginBottom="20dp" />
+            android:layout_marginBottom="20dp"
+            android:focusable="true"
+            android:focusableInTouchMode="false"/>
 
         <LinearLayout
             android:orientation="horizontal"

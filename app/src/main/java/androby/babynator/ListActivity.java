@@ -22,7 +22,6 @@ import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -31,10 +30,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -205,12 +205,12 @@ public class ListActivity extends AppCompatActivity implements LoaderManager.Loa
          * The fragment argument representing the section number for this
          * fragment.
          */
-        private EditText nickName;
+        private TextView nickName;
         private RadioGroup radioSexGroup;
         private EditText age;
-        private EditText birthday;
-        private EditText length;
-        private EditText weight;
+        private TextView birthday;
+        private TextView length;
+        private TextView weight;
         private EditText pLength;
         private EditText pWeight;
         private Switch sexe;
@@ -218,6 +218,7 @@ public class ListActivity extends AppCompatActivity implements LoaderManager.Loa
         private SimpleDateFormat dateFormatter;
         private JSONObject baby;
         private ModifyBabyTask mModifyBabyTask;
+        private ImageView imageSexe;
         private static final String ARG_SECTION_NUMBER = "section_number";
         private static final String ARG_SECTION_NAME = "section_name";
         private static final String ARG_SECTION_ID_BABY = "section_id_baby";
@@ -271,21 +272,22 @@ public class ListActivity extends AppCompatActivity implements LoaderManager.Loa
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_test_list, container, false);
-            nickName = (EditText) rootView.findViewById(nickname);
-            birthday = (EditText) rootView.findViewById(R.id.birthday);
-            length = (EditText) rootView.findViewById(R.id.length);
-            weight = (EditText) rootView.findViewById(R.id.weight);
+            nickName = (TextView) rootView.findViewById(nickname);
+            birthday = (TextView) rootView.findViewById(R.id.birthday);
+            length = (TextView) rootView.findViewById(R.id.length);
+            weight = (TextView) rootView.findViewById(R.id.weight);
+            imageSexe = (ImageView) rootView.findViewById(R.id.sexe);
             nickName.setText(getArguments().getString(ARG_SECTION_NAME));
             length.setText(getArguments().getString(ARG_SECTION_LENGTH));
             weight.setText(getArguments().getString(ARG_SECTION_WEIGHT));
             birthday.setText(getArguments().getString(ARG_SECTION_BIRTHDAY));
             dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
-            sexe = (Switch)  rootView.findViewById(R.id.sexe);
-            sexe.setText(getArguments().getString(ARG_SECTION_SEXE));
+         /*   sexe = (Switch)  rootView.findViewById(R.id.sexe);
+            sexe.setText(getArguments().getString(ARG_SECTION_SEXE));*/
             if (getArguments().getString(ARG_SECTION_SEXE).equals("Garçon")){
-               // sexe.
+                imageSexe.setImageResource(R.mipmap.ic_garcon);
             }
-            sexe.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+           /* sexe.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -298,9 +300,9 @@ public class ListActivity extends AppCompatActivity implements LoaderManager.Loa
                     }
                 }
 
-            });
-            birthday.setInputType(InputType.TYPE_NULL);
-            birthday.requestFocus();
+            });*/
+          /*  birthday.setInputType(InputType.TYPE_NULL);
+            birthday.requestFocus();*/
             Button addDataButton = (Button) rootView.findViewById(R.id.add_data);
             addDataButton.setOnClickListener(new View.OnClickListener() {
                 @Override

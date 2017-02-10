@@ -1,118 +1,157 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="androby.babynator.ListActivity$PlaceholderFragment">
 
-    <LinearLayout
-        android:orientation="vertical"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:weightSum="1"
-        android:id="@+id/linearLayout"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
-
-        <QuickContactBadge
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:srcCompat="?attr/colorControlHighlight"
-            android:id="@+id/quickContactBadge"
-            android:layout_weight="0.43"
-            android:layout_marginBottom="30dp" />
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:ems="10"
-            android:id="@+id/nickname"
-            android:hint="Prénom"
-            android:paddingTop="@dimen/text_margin"
-            android:textSize="24sp"
-            android:layout_marginBottom="20dp"
-            android:paddingBottom="30dp" />
-
-        <Switch
-            android:text="Fille"
-            android:layout_width="147dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/sexe"
-            android:layout_marginBottom="20dp"
-            android:layout_weight="0.06"
-            android:textOff="F"
-            android:textOn="M"
-            android:paddingBottom="30dp"
-            android:splitTrack="false"
-            android:checked="true"
-            android:textSize="24sp"
-            android:textColorLink="?android:attr/statusBarColor" />
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="date"
-            android:ems="10"
-            android:id="@+id/birthday"
-            android:hint="Date de naissance"
-            android:layout_weight="0.05"
-            android:paddingBottom="30dp"
-            android:textSize="24sp"
-            android:layout_marginBottom="20dp" />
+        android:layout_height="wrap_content">
 
         <LinearLayout
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:weightSum="1">
-
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="numberDecimal"
-                android:ems="10"
-                android:id="@+id/weight"
-                android:hint="Poids (kg)"
-                android:layout_weight="0.79"
-                android:textSize="24sp"
-                android:layout_marginBottom="30dp"
-                android:paddingBottom="20dp" />
-
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="numberDecimal"
-                android:ems="10"
-                android:id="@+id/length"
-                android:hint="Taille (cm)"
-                android:textSize="24sp"
-                android:layout_marginBottom="30dp"
-                android:paddingBottom="20dp" />
-        </LinearLayout>
-
-        <Button
-            android:text="View Graph"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/view_graph"
-            android:layout_weight="0.43" />
-
-        <Button
-            android:text="Add Data"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/linearLayout"
+            android:weightSum="1"
+            android:id="@+id/linearLayout"
+            android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:id="@+id/add_data" />
+            android:layout_alignParentStart="true">
 
-    </LinearLayout>
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:srcCompat="@mipmap/ic_fille"
+                android:id="@+id/sexe"
+                android:layout_weight="0.43"
+                android:adjustViewBounds="false"
+                android:minHeight="164dp" />
+
+            <TableLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="20dp"
+                android:gravity="center_vertical"
+                android:layout_marginLeft="15dp">
+
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="20dp">
+
+                    <TextView
+                        android:text="Prénom :         "
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/textView3"
+                        android:textSize="24sp"
+                        android:textStyle="normal|bold"
+                        android:layout_weight="1" />
+
+                    <TextView
+                        android:text="TextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/nickname"
+                        android:layout_weight="1"
+                        android:gravity="left"
+                        android:textSize="24sp" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="20dp">
+
+                    <TextView
+                        android:text="Né(e) le :"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/textView7"
+                        android:textSize="24sp"
+                        android:textStyle="normal|bold" />
+
+                    <TextView
+                        android:text="TextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/birthday"
+                        android:gravity="left"
+                        android:layout_weight="1"
+                        android:textSize="24sp" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingBottom="20dp">
+
+                    <TextView
+                        android:text="Taille (cm) :"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/textView15"
+                        android:textSize="24sp"
+                        android:textStyle="normal|bold" />
+
+                    <TextView
+                        android:text="TextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/length"
+                        android:textSize="24sp" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingBottom="20dp">
+
+                    <TextView
+                        android:text="Poids (Kg) :"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/textView17"
+                        android:textSize="24sp"
+                        android:textStyle="normal|bold" />
+
+                    <TextView
+                        android:text="TextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/weight"
+                        android:textSize="24sp" />
+                </TableRow>
+            </TableLayout>
+
+            <Button
+                android:text="View Graph"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/view_graph"
+                android:layout_weight="0.43"
+                android:background="@android:color/holo_green_light" />
+
+            <Button
+                android:text="Add Data"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/linearLayout"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:id="@+id/add_data"
+                android:layout_marginBottom="100dp"
+                android:background="@color/colorPrimaryDark"
+                android:layout_marginTop="20dp"
+                android:textStyle="normal|bold"
+                android:textAllCaps="false"
+                android:textColor="@color/caldroid_white" />
+
+        </LinearLayout>
+    </ScrollView>
 
 </RelativeLayout>
 
