@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
@@ -43,6 +44,7 @@ public class AddEventActivity extends AppCompatActivity {
     private AddEventActivity.GetEventTask mGetEventTask = null;
     private AddEventActivity.SetEventTask mSetEventTask = null;
     private JSONObject current_event;
+    private ScrollView scroller;
 
    @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +54,9 @@ public class AddEventActivity extends AppCompatActivity {
         id_user = getIntent().getIntExtra("ID_USER", 0);
         id_event = getIntent().getIntExtra("ID_EVENT", 0);
         Log.d("TMP", id_event+"");
+
+        scroller = (ScrollView) findViewById(R.id.scroller);
+        scroller.setScrollbarFadingEnabled(false);
 
         mTitle = (EditText) findViewById(R.id.title);
         mDescription = (EditText) findViewById(R.id.description);
