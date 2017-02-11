@@ -10,6 +10,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -54,6 +55,7 @@ import java.net.ConnectException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -216,8 +218,9 @@ public class ListActivity extends AppCompatActivity implements LoaderManager.Loa
         private Switch sexe;
         private DatePickerDialog datePickerDialog;
         private SimpleDateFormat dateFormatter;
+        private SimpleDateFormat dateFormatter_out;
         private JSONObject baby;
-        private ModifyBabyTask mModifyBabyTask;
+        private AddDataTask mModifyBabyTask;
         private ImageView imageSexe;
         private static final String ARG_SECTION_NUMBER = "section_number";
         private static final String ARG_SECTION_NAME = "section_name";
@@ -300,16 +303,24 @@ public class ListActivity extends AppCompatActivity implements LoaderManager.Loa
                 nickName.setText(getArguments().getString(ARG_SECTION_NAME));
                 length.setText(getArguments().getString(ARG_SECTION_LENGTH));
                 weight.setText(getArguments().getString(ARG_SECTION_WEIGHT));
-                birthday.setText(getArguments().getString(ARG_SECTION_BIRTHDAY));
-                dateFormatter = new SimpleDateFormat("dd MMMM yyyy", Locale.FRANCE);
-                picture = getArguments().getString(ARG_SECTION_PICTURE);
-                Log.d("PATH", picture);
 
-                if(!picture.equals("vide")){
-                    imageSexe.setImageBitmap(BitmapFactory.decodeFile(picture));
+                dateFormatter = new SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE);
+                dateFormatter_out = new SimpleDateFormat("dd MMMM yyyy", Locale.FRANCE);
+                String birth = getArguments().getString(ARG_SECTION_BIRTHDAY);
+                try {
+                    Date date = dateFormatter.parse(birth);
+                    birthday.setText(dateFormatter_out.format(date));
+                } catch (ParseException e) {
+                   Log.e("Erreur", e.toString());
                 }
-                else if (picture.equals("vide") &&
-                        getArguments().getString(ARG_SECTION_SEXE).equals("Garçon")){
+                picture = getArguments().getString(ARG_SECTION_PICTURE);
+                Bitmap bm = BitmapFactory.decodeFile(picture);
+
+                if(!picture.equals("vide") && bm != null) {
+                    imageSexe.setImageBitmap(bm);
+                }
+                else if ((bm == null) || (picture.equals("vide") &&
+                        getArguments().getString(ARG_SECTION_SEXE).equals("Garçon"))){
                     imageSexe.setImageResource(R.mipmap.ic_garcon);
                 }
 
@@ -348,7 +359,7 @@ public class ListActivity extends AppCompatActivity implements LoaderManager.Loa
                                             @Override
                                             public void onClick(DialogInterface current_dialog, int id) {
                                                 Log.d("RESULT", pLength.getText().toString() + " "+ getArguments().getInt(ARG_SECTION_ID_BABY));
-                                                ModifyBabyTask addDataTask = new ModifyBabyTask( pLength.getText().toString(), pWeight.getText().toString(), getArguments().getInt(ARG_SECTION_ID_BABY));
+                                                AddDataTask addDataTask = new AddDataTask( pLength.getText().toString(), pWeight.getText().toString(), getArguments().getInt(ARG_SECTION_ID_BABY));
                                                 addDataTask.execute((Void) null);
                                                 current_dialog.dismiss();
                                                 getActivity().finish();
@@ -368,6 +379,33 @@ public class ListActivity extends AppCompatActivity implements LoaderManager.Loa
                         dialog.show();
                     }
                 });
+
+                FloatingActionButton btn_remove = (FloatingActionButton) rootView.findViewById(R.id.btn_remove);
+                btn_remove.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                        builder
+                                .setMessage("Voulez vous vraiment supprimer ce bébé ?")
+                                .setPositiveButton("Supprimer",  new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface current_dialog, int id) {
+                                        RemoveBabyTask removeBabyTask = new RemoveBabyTask(ID_BABY);
+                                        removeBabyTask.execute((Void) null);
+                                        current_dialog.dismiss();
+                                        getActivity().finish();
+                                        startActivity(getActivity().getIntent());
+                                    }
+                                })
+                                .setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface current_dialog, int id) {
+                                        current_dialog.cancel();
+                                    }
+                                })
+                                .show();
+                    }
+                });
             }
             else{
                 rootView = inflater.inflate(R.layout.fragment_no_baby, container, false);
@@ -375,23 +413,175 @@ public class ListActivity extends AppCompatActivity implements LoaderManager.Loa
                 addBabyButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View arg0) {
-                        Intent myIntent = new Intent( getActivity(), AddBabyActivity.class);
-                        myIntent.putExtra("ID_USER", ID_USER);
-                        startActivity(myIntent);
+                    Intent myIntent = new Intent( getActivity(), AddBabyActivity.class);
+                    myIntent.putExtra("ID_USER", ID_USER);
+                    startActivity(myIntent);
                     }
                 });
             }
             return rootView;
         }
 
-        public class ModifyBabyTask extends AsyncTask<Void, Void, Boolean> {
+        public class RemoveBabyTask extends AsyncTask<Void, Void, Boolean> {
+
+            private int mId;
+
+            RemoveBabyTask(int id) {
+                mId = id;
+            }
+
+            @Override
+            protected Boolean doInBackground(Void... params) {
+
+                try {
+                    URL url = new URL("http://"+LoginActivity.IP_SERVER+"/RestServer/babyNator/baby/remove");
+                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                    connection.setRequestMethod("POST");
+                    connection.setRequestProperty("Content-Type",
+                            "application/x-www-form-urlencoded");
+                    connection.setRequestProperty("Content-Language", "fr-FR");
+                    connection.setRequestProperty("Content-Type","application/json");
+                    connection.setUseCaches (false);
+                    connection.setDoInput(true);
+                    connection.setDoOutput(true);
+
+                    //Send request
+                    DataOutputStream wr = new DataOutputStream (
+                            connection.getOutputStream ());
+
+                    wr.writeBytes (this.mId+"");
+                    wr.flush ();
+                    wr.close ();
+
+                    //Get Response
+                    InputStream is = connection.getInputStream();
+                    BufferedReader rd = new BufferedReader(new InputStreamReader(is));
+                    String line;
+                    StringBuffer response = new StringBuffer();
+                    while((line = rd.readLine()) != null) {
+                        response.append(line);
+                        response.append('\r');
+                    }
+                    rd.close();
+                    try {
+                        Log.d("RESPONSE", response.toString());
+                    }
+                    catch(Exception e){
+                        return false;
+                    }
+                }
+                catch (MalformedURLException ex) {
+                    Log.e("httptest",Log.getStackTraceString(ex));
+                    return false;
+                }
+                catch (ConnectException ce){
+                    Log.e("httptest2",Log.getStackTraceString(ce));
+                    return false;
+                }
+                catch (IOException ex) {
+                    Log.e("httptest3",Log.getStackTraceString(ex));
+                    return false;
+                }
+                return true;
+            }
+
+            @Override
+            protected void onPostExecute(final Boolean success) {
+                if (success) {
+                    if (success) {
+                        RemoveDataTask removeDataTask = new RemoveDataTask(ID_BABY);
+                        removeDataTask.execute((Void) null);
+                    } else {
+                        Toast.makeText(getActivity().getApplicationContext(), "Un problème a été rencontré lors de la suppression de votre bébé", Toast.LENGTH_LONG).show();
+                    }
+                }
+            }
+        }
+
+        public class RemoveDataTask extends AsyncTask<Void, Void, Boolean> {
+
+            private int mId;
+
+            RemoveDataTask(int idBaby) {
+                mId = idBaby;
+            }
+
+            @Override
+            protected Boolean doInBackground(Void... params) {
+
+                try {
+                    URL url = new URL("http://"+LoginActivity.IP_SERVER+"/RestServer/babyNator/data/remove");
+                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                    connection.setRequestMethod("POST");
+                    connection.setRequestProperty("Content-Type",
+                            "application/x-www-form-urlencoded");
+                    connection.setRequestProperty("Content-Language", "fr-FR");
+                    connection.setRequestProperty("Content-Type","application/json");
+                    connection.setUseCaches (false);
+                    connection.setDoInput(true);
+                    connection.setDoOutput(true);
+
+                    //Send request
+                    DataOutputStream wr = new DataOutputStream (
+                            connection.getOutputStream ());
+
+                    wr.writeBytes (this.mId+"");
+                    wr.flush ();
+                    wr.close ();
+
+                    //Get Response
+                    InputStream is = connection.getInputStream();
+                    BufferedReader rd = new BufferedReader(new InputStreamReader(is));
+                    String line;
+                    StringBuffer response = new StringBuffer();
+                    while((line = rd.readLine()) != null) {
+                        response.append(line);
+                        response.append('\r');
+                    }
+                    rd.close();
+                    try {
+                        Log.d("RESPONSE", response.toString());
+                    }
+                    catch(Exception e){
+                        return false;
+                    }
+                }
+                catch (MalformedURLException ex) {
+                    Log.e("httptest",Log.getStackTraceString(ex));
+                    return false;
+                }
+                catch (ConnectException ce){
+                    Log.e("httptest2",Log.getStackTraceString(ce));
+                    return false;
+                }
+                catch (IOException ex) {
+                    Log.e("httptest3",Log.getStackTraceString(ex));
+                    return false;
+                }
+                return true;
+            }
+
+            @Override
+            protected void onPostExecute(final Boolean success) {
+
+                if (success) {
+                    Toast.makeText(getActivity().getApplicationContext(), "Le bébé a bien été supprimé", Toast.LENGTH_LONG).show();
+                    Intent myIntent = new Intent(getActivity(), ListActivity.class);
+                    startActivity(myIntent);
+                } else {
+                    Toast.makeText(getActivity().getApplicationContext(), "Un problème a été rencontré lors de la suppression de votre bébé", Toast.LENGTH_LONG).show();
+                }
+            }
+        }
+
+        public class AddDataTask extends AsyncTask<Void, Void, Boolean> {
 
             private final String length;
             private final String weight;
             private int id_baby;
             private int responseCode;
 
-            ModifyBabyTask(String length, String weight, int id_baby) {
+            AddDataTask(String length, String weight, int id_baby) {
 
                 this.length = length;
                 this.weight = weight;
@@ -410,12 +600,11 @@ public class ListActivity extends AppCompatActivity implements LoaderManager.Loa
                     connection.setRequestMethod("POST");
                     connection.setRequestProperty("Content-Type",
                             "application/x-www-form-urlencoded");
-                    connection.setRequestProperty("Content-Language", "en-US");
+                    connection.setRequestProperty("Content-Language", "fr-FR");
                     connection.setRequestProperty("Content-Type","application/json");
                     connection.setUseCaches (false);
                     connection.setDoInput(true);
                     connection.setDoOutput(true);
-
 
                     //Send request
                     DataOutputStream wr = new DataOutputStream (
@@ -494,13 +683,10 @@ public class ListActivity extends AppCompatActivity implements LoaderManager.Loa
 
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
-
         }
 
         @Override
         public Fragment getItem(int position) {
-            // getItem is called to instantiate the fragment for the given page.
-            // Return a PlaceholderFragment (defined as a static inner class below).
             JSONObject baby = null;
             try {
                 baby = listBabies.getJSONObject(position);
@@ -597,15 +783,12 @@ public class ListActivity extends AppCompatActivity implements LoaderManager.Loa
             }
             catch (MalformedURLException ex) {
                 Log.e("httptest",Log.getStackTraceString(ex));
-                // return false;
             }
             catch (ConnectException ce){
                 Log.e("httptest2",Log.getStackTraceString(ce));
-                //  return false;
             }
             catch (IOException ex) {
                 Log.e("httptest3",Log.getStackTraceString(ex));
-                // return false;
             }
             return true;
         }

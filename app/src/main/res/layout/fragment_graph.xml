@@ -30,7 +30,7 @@
             android:textStyle="normal|bold" />
 
         <com.jjoe64.graphview.GraphView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:id="@+id/graph"
             android:layout_height="300dp" />
 

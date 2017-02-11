@@ -151,11 +151,6 @@ public class CalendarActivity extends AppCompatActivity implements AdapterView.O
             catch(Exception e){
                 Log.e("Error", e.toString());
             }
-            //if(titles.size() < 0)
-             //   titles.add("Aucun rendez-vous enregistré");
-
-            //ArrayAdapter listAdapter = new ArrayAdapter<String>(CalendarActivity.this, R.layout.simplerow, titles);
-            //scroller.setAdapter(listAdapter);
             EventAdapter adapter = new EventAdapter(CalendarActivity.this, events, CalendarActivity.this, id_user);
             scroller.setAdapter(adapter);
         }
@@ -268,15 +263,10 @@ public class CalendarActivity extends AppCompatActivity implements AdapterView.O
                         caldroidFragment.setBackgroundDrawableForDate(green, date);
 
                         events.add(new Event(Integer.parseInt(row.getString("id")), btn_delete, sdf_output.format(date), row.getString("title")));
-                        //titles.add(sdf_output.format(date) + " : "+row.getString("title"));
 
                         list_id_events.add(Integer.parseInt(row.getString("id")));
                     }
                     caldroidFragment.refreshView();
-
-                    //if(events.size() < 0)
-                    //    events.add(new Event(0, null, "", "Aucun rendez-vous enregistré"));
-                    //titles.add("Aucun rendez-vous enregistré");
 
                     EventAdapter adapter = new EventAdapter(CalendarActivity.this, events, CalendarActivity.this, id_user);
                     scroller.setAdapter(adapter);

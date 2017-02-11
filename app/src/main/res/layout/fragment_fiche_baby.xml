@@ -21,32 +21,53 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true">
 
-            <ImageView
-                app:srcCompat="@mipmap/ic_fille"
-                android:id="@+id/sexe"
-                android:layout_weight="0.43"
-                android:adjustViewBounds="false"
-                android:minHeight="164dp"
+            <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:layout_marginTop="20dp" />
+                android:layout_height="match_parent"
+                android:layout_weight="0.43">
+
+                <ImageView
+                    app:srcCompat="@mipmap/ic_fille"
+                    android:id="@+id/sexe"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="false"
+                    android:minHeight="164dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:layout_marginTop="10dp" />
+
+                <android.support.design.widget.FloatingActionButton
+                    android:layout_width="74dp"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    app:srcCompat="@android:drawable/ic_delete"
+                    android:id="@+id/btn_remove"
+                    app:backgroundTint="@color/caldroid_transparent"
+                    app:rippleColor="@android:color/background_light"
+                    android:layout_gravity="right"
+                    app:fabSize="mini"
+                    app:elevation="0dp"
+                    android:tint="@android:color/holo_red_light" />
+            </LinearLayout>
 
             <TableLayout
-                android:layout_width="wrap_content"
+                android:layout_width="284dp"
                 android:layout_height="wrap_content"
                 android:paddingTop="20dp"
-                android:gravity="center"
-                android:layout_marginLeft="15dp"
+                android:gravity="left"
+                android:layout_marginLeft="8dp"
                 android:layout_gravity="center">
 
-                <TableRow
+
+                <!--<TableRow
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingBottom="20dp">
 
                     <TextView
                         android:text="Prénom :         "
-                        android:layout_width="match_parent"
+                        android:layout_width="20dp"
                         android:layout_height="wrap_content"
                         android:id="@+id/textView3"
                         android:textSize="18sp"
@@ -55,12 +76,35 @@
 
                     <TextView
                         android:text="TextView"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/nickname"
                         android:layout_weight="1"
                         android:gravity="left"
                         android:textSize="18sp" />
+                </TableRow>
+-->
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingBottom="20dp">
+
+                    <TextView
+                        android:text="Je m'appelle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/textView5"
+                        android:textStyle="normal|bold"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:text="TextView"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/nickname"
+                        android:textSize="18sp"
+                        android:layout_marginLeft="15dp"
+                        android:textAlignment="textStart"
+                        android:layout_width="130dp" />
                 </TableRow>
 
                 <TableRow
@@ -69,7 +113,7 @@
                     android:paddingBottom="20dp">
 
                     <TextView
-                        android:text="Né(e) le :"
+                        android:text="Je suis né(e) le "
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/textView7"
@@ -78,12 +122,12 @@
 
                     <TextView
                         android:text="TextView"
-                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/birthday"
-                        android:gravity="left"
-                        android:layout_weight="1"
-                        android:textSize="18sp" />
+                        android:textAlignment="textStart"
+                        android:textSize="18sp"
+                        android:layout_width="130dp" />
+
                 </TableRow>
 
                 <TableRow
@@ -92,7 +136,7 @@
                     android:paddingBottom="20dp">
 
                     <TextView
-                        android:text="Taille (cm) :"
+                        android:text="Je mesure (en cm) "
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/textView15"
@@ -101,10 +145,13 @@
 
                     <TextView
                         android:text="TextView"
-                        android:layout_width="wrap_content"
+                        android:layout_width="130dp"
                         android:layout_height="wrap_content"
                         android:id="@+id/length"
-                        android:textSize="18sp" />
+                        android:textSize="18sp"
+                        android:layout_marginLeft="15dp"
+                        android:textAlignment="textStart" />
+
                 </TableRow>
 
                 <TableRow
@@ -113,7 +160,7 @@
                     android:paddingBottom="20dp">
 
                     <TextView
-                        android:text="Poids (Kg) :"
+                        android:text="Je pèse (en kg) "
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/textView17"
@@ -122,24 +169,26 @@
 
                     <TextView
                         android:text="TextView"
-                        android:layout_width="wrap_content"
+                        android:layout_width="130dp"
                         android:layout_height="wrap_content"
                         android:id="@+id/weight"
-                        android:textSize="18sp" />
+                        android:textSize="18sp"
+                        android:layout_marginLeft="15dp"
+                        android:textAlignment="textStart" />
                 </TableRow>
             </TableLayout>
 
             <Button
-                android:text="Suivre sa croissance"
+                android:text="Suivre ma croissance"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/view_graph"
                 android:layout_weight="0.43"
                 android:background="@android:color/holo_green_light"
-                android:layout_marginTop="20dp" />
+                android:layout_marginTop="30dp" />
 
             <Button
-                android:text="Ajouter l'évolution du bébé"
+                android:text="Ajouter mes données du jour"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/linearLayout"
