@@ -2,8 +2,6 @@ package androby.babynator;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -124,7 +122,7 @@ public class GraphActivity extends AppCompatActivity {
                 option_graph= "Taille (cm)";
             }
             try {
-                SimpleDateFormat formatter = new SimpleDateFormat("MM/yyyy");
+                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM");
                 LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[] {
                 });
                 DataPoint[] ds = new DataPoint[listDatas.length()];
@@ -137,7 +135,7 @@ public class GraphActivity extends AppCompatActivity {
                 }
                 GraphView graph = (GraphView) rootView.findViewById(R.id.graph);
                 graph.addSeries(series);
-                DateFormat dateFormat = new SimpleDateFormat("MM/yyyy");
+                DateFormat dateFormat = new SimpleDateFormat("dd/MM");
 
 // set date label formatter
            graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(getActivity(),dateFormat));
@@ -278,17 +276,6 @@ public class GraphActivity extends AppCompatActivity {
                 // Set up the ViewPager with the sections adapter.
                 mViewPager = (ViewPager) findViewById(R.id.container);
                 mViewPager.setAdapter(mSectionsPagerAdapter);
-
-
-                FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-                fab.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                                .setAction("Action", null).show();
-                    }
-                });
-
             }
         }
 

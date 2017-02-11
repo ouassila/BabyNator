@@ -11,21 +11,39 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:background="@color/wallet_bright_foreground_holo_dark"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="androby.babynator.AddBabyActivity"
-    tools:showIn="@layout/activity_add_baby">
+    tools:context="androby.babynator.AddBabyActivity">
+    <!--tools:showIn="@layout/activity_add_baby"
+    -->
+
     <android.support.design.widget.FloatingActionButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="true"
-        app:fabSize="normal"
         app:srcCompat="@android:drawable/ic_input_add"
-        android:layout_marginRight="9dp"
+        android:layout_marginRight="27dp"
         android:layout_marginEnd="9dp"
         android:id="@+id/add_baby_button"
         app:backgroundTint="@color/wallet_bright_foreground_holo_dark"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
+        android:layout_marginBottom="9dp" />
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        app:srcCompat="@android:drawable/ic_delete"
+        android:id="@+id/floatingActionButton_Cancel"
+        app:backgroundTint="@color/wallet_bright_foreground_holo_dark"
+        app:rippleColor="?android:attr/textColorSecondary"
+        app:elevation="5dp"
+        android:layout_marginLeft="27dp"
+        android:layout_marginStart="27dp"
+        android:layout_weight="1"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="false"
+        android:layout_alignParentBottom="true"
         android:layout_marginBottom="9dp" />
 
     <LinearLayout
@@ -34,16 +52,25 @@
         android:layout_height="match_parent"
         android:weightSum="1"
         android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true">
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
-        <QuickContactBadge
+        <TextView
+            android:text="Je me présente"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:srcCompat="?attr/colorControlHighlight"
-            android:id="@+id/quickContactBadge"
-            android:layout_weight="0.43"
-            android:layout_marginBottom="30dp" />
+            android:layout_alignParentTop="false"
+            android:layout_alignParentLeft="false"
+            android:layout_alignParentStart="false"
+            android:layout_marginTop="10dp"
+            android:id="@+id/lbl_pres"
+            android:textAlignment="center"
+            android:textSize="24sp"
+            android:textStyle="normal|bold"
+            android:textAllCaps="true"
+            android:layout_marginBottom="30dp"
+            android:background="@color/caldroid_white"
+            android:elevation="5dp" />
 
         <EditText
             android:layout_width="match_parent"
@@ -51,26 +78,49 @@
             android:inputType="textPersonName"
             android:ems="10"
             android:id="@+id/nickname"
-            android:hint="Prénom"
+            android:hint="Je m'appelle ..."
             android:paddingTop="@dimen/text_margin"
-            android:textSize="24sp"
-            android:layout_marginBottom="20dp"
-            android:paddingBottom="30dp" />
+            android:textSize="18sp"
+            android:layout_marginBottom="20dp" />
 
-        <Switch
-            android:text="Fille"
-            android:layout_width="147dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/sexe"
-            android:layout_marginBottom="20dp"
-            android:layout_weight="0.06"
-            android:textOff="F"
-            android:textOn="M"
-            android:paddingBottom="30dp"
-            android:splitTrack="false"
-            android:checked="true"
-            android:textSize="24sp"
-            android:textColorLink="?android:attr/statusBarColor" />
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/path_preview"
+                android:layout_weight="0.13"
+                android:visibility="gone"
+                android:text="vide" />
+
+            <TextView
+                android:text="Je suis un(e) :"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/lbl_gender"
+                android:layout_weight="0.13"
+                android:textSize="18sp" />
+
+            <Switch
+                android:text="Fille"
+                android:layout_height="wrap_content"
+                android:id="@+id/sexe"
+                android:layout_marginBottom="20dp"
+                android:textOff="F"
+                android:textOn="M"
+                android:splitTrack="false"
+                android:textSize="18sp"
+                android:textColorLink="@android:color/holo_red_light"
+                android:theme="@style/SwitchTheme"
+                android:checked="true"
+                android:layout_width="104dp"
+                android:gravity="left|center_vertical|start"
+                android:layout_weight="0.01"
+                android:layout_marginRight="30dp" />
+        </LinearLayout>
 
         <EditText
             android:layout_width="match_parent"
@@ -78,13 +128,55 @@
             android:inputType="date"
             android:ems="10"
             android:id="@+id/birthday"
-            android:hint="Date de naissance"
+            android:hint="Je suis né(e) le ..."
             android:layout_weight="0.05"
-            android:paddingBottom="30dp"
-            android:textSize="24sp"
-            android:layout_marginBottom="20dp"
+            android:textSize="18sp"
             android:focusable="true"
             android:focusableInTouchMode="false"/>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:text="Je ressemble à :"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView2"
+                android:layout_weight="0.15"
+                android:textSize="18sp" />
+
+            <ImageView
+                android:layout_height="50dp"
+                app:srcCompat="@mipmap/ic_babynator"
+                android:id="@+id/lbl_img"
+                android:layout_weight="0.36"
+                android:layout_width="60dp" />
+
+            <Button
+                android:layout_width="38dp"
+                android:layout_height="34dp"
+                android:id="@+id/btn_search"
+                android:background="@android:drawable/ic_search_category_default"
+                android:backgroundTint="@color/wallet_hint_foreground_holo_dark" />
+        </LinearLayout>
+
+        <TextView
+            android:text="... et sa croissance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/lbl_datas"
+            android:textAlignment="center"
+            android:textStyle="normal|bold"
+            android:textAllCaps="true"
+            android:textSize="24sp"
+            android:background="@color/caldroid_white"
+            android:layout_marginBottom="20dp"
+            android:elevation="5dp"
+            android:layout_marginTop="30dp" />
 
         <LinearLayout
             android:orientation="horizontal"
@@ -93,27 +185,24 @@
             android:weightSum="1">
 
             <EditText
-                android:layout_width="wrap_content"
+                android:layout_width="167dp"
                 android:layout_height="wrap_content"
                 android:inputType="numberDecimal"
                 android:ems="10"
                 android:id="@+id/weight"
                 android:hint="Poids (kg)"
-                android:layout_weight="0.79"
-                android:textSize="24sp"
-                android:layout_marginBottom="30dp"
-                android:paddingBottom="20dp" />
+                android:textSize="18sp"
+                android:layout_marginTop="10dp" />
 
             <EditText
-                android:layout_width="wrap_content"
+                android:layout_width="178dp"
                 android:layout_height="wrap_content"
                 android:inputType="numberDecimal"
                 android:ems="10"
                 android:id="@+id/length"
                 android:hint="Taille (cm)"
-                android:textSize="24sp"
-                android:layout_marginBottom="30dp"
-                android:paddingBottom="20dp" />
+                android:textSize="18sp"
+                android:layout_marginTop="10dp" />
         </LinearLayout>
 
     </LinearLayout>

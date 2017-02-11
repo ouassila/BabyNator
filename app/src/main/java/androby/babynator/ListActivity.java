@@ -6,9 +6,11 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.LoaderManager;
 import android.content.CursorLoader;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -20,6 +22,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -91,8 +94,6 @@ public class ListActivity extends AppCompatActivity implements LoaderManager.Loa
         ListBabiesTask mAuthTask = new ListBabiesTask(id_user);
         mAuthTask.execute((Void) null);
     }
-
-
 
     public boolean onOptionsItemSelected(MenuItem item) {
         //On regarde quel item a été cliqué grâce à son id et on déclenche une action
@@ -188,8 +189,6 @@ public class ListActivity extends AppCompatActivity implements LoaderManager.Loa
             emails.add(cursor.getString(ProfileQuery.ADDRESS));
             cursor.moveToNext();
         }
-
-      //  addEmailsToAutoComplete(emails);
     }
 
     @Override
@@ -201,6 +200,7 @@ public class ListActivity extends AppCompatActivity implements LoaderManager.Loa
      * A placeholder fragment containing a simple view.
      */
     public static class PlaceholderFragment extends Fragment {
+
         /**
          * The fragment argument representing the section number for this
          * fragment.
@@ -227,6 +227,10 @@ public class ListActivity extends AppCompatActivity implements LoaderManager.Loa
         private static final String ARG_SECTION_LENGTH = "section_length";
         private static final String ARG_SECTION_BIRTHDAY = "section_birthday";
         private static final String ARG_SECTION_ID = "section_birthday";
+        private static final String ARG_SECTION_PICTURE = "section_picture";
+        private static int ID_USER;
+        private static int ID_BABY;
+
         public PlaceholderFragment() {
         }
 
@@ -234,7 +238,7 @@ public class ListActivity extends AppCompatActivity implements LoaderManager.Loa
          * Returns a new instance of this fragment for the given section
          * number.
          */
-        public static PlaceholderFragment newInstance(int sectionNumber, JSONObject baby) {
+        public static PlaceholderFragment newInstance(int sectionNumber, JSONObject baby, int id) {
 
             PlaceholderFragment fragment = new PlaceholderFragment();
             String name = "";
@@ -242,18 +246,28 @@ public class ListActivity extends AppCompatActivity implements LoaderManager.Loa
             String birthday = "";
             String length = "";
             String weight = "";
-            int id_baby = 0;
-            try {
-                Log.e("baby class", baby.toString());
-                 name = baby.getString("name");
-                sexe = baby.getString("gender");
-                birthday = baby.getString("birthday");
-                length = baby.getString("length");
-                weight = baby.getString("weight");
-                id_baby=baby.getInt("id");
+            String picture = "";
 
+            int id_baby = 0;
+            ID_USER = id;
+
+            if(baby != null){
+                try {
+                    Log.e("baby class", baby.toString());
+                    name = baby.getString("name");
+                    sexe = baby.getString("gender");
+                    birthday = baby.getString("birthday");
+                    length = baby.getString("length");
+                    weight = baby.getString("weight");
+                    picture = baby.getString("picture");
+                    id_baby=baby.getInt("id");
+                    ID_BABY = baby.getInt("id");
+                }
+                catch (Exception e){
+                }
             }
-            catch (Exception e){
+            else{
+                ID_BABY = 0;
             }
             Bundle args = new Bundle();
             args.putInt(ARG_SECTION_NUMBER, sectionNumber);
@@ -263,6 +277,7 @@ public class ListActivity extends AppCompatActivity implements LoaderManager.Loa
             args.putString(ARG_SECTION_SEXE, sexe);
             args.putString(ARG_SECTION_LENGTH, length);
             args.putString(ARG_SECTION_WEIGHT, weight);
+            args.putString(ARG_SECTION_PICTURE, picture);
 
             fragment.setArguments(args);
             return fragment;
@@ -271,95 +286,103 @@ public class ListActivity extends AppCompatActivity implements LoaderManager.Loa
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_test_list, container, false);
-            nickName = (TextView) rootView.findViewById(nickname);
-            birthday = (TextView) rootView.findViewById(R.id.birthday);
-            length = (TextView) rootView.findViewById(R.id.length);
-            weight = (TextView) rootView.findViewById(R.id.weight);
-            imageSexe = (ImageView) rootView.findViewById(R.id.sexe);
-            nickName.setText(getArguments().getString(ARG_SECTION_NAME));
-            length.setText(getArguments().getString(ARG_SECTION_LENGTH));
-            weight.setText(getArguments().getString(ARG_SECTION_WEIGHT));
-            birthday.setText(getArguments().getString(ARG_SECTION_BIRTHDAY));
-            dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
-         /*   sexe = (Switch)  rootView.findViewById(R.id.sexe);
-            sexe.setText(getArguments().getString(ARG_SECTION_SEXE));*/
-            if (getArguments().getString(ARG_SECTION_SEXE).equals("Garçon")){
-                imageSexe.setImageResource(R.mipmap.ic_garcon);
+            View rootView;
+
+            String picture = "";
+
+            if(ID_BABY > 0){
+                rootView = inflater.inflate(R.layout.fragment_fiche_baby, container, false);
+                nickName = (TextView) rootView.findViewById(nickname);
+                birthday = (TextView) rootView.findViewById(R.id.birthday);
+                length = (TextView) rootView.findViewById(R.id.length);
+                weight = (TextView) rootView.findViewById(R.id.weight);
+                imageSexe = (ImageView) rootView.findViewById(R.id.sexe);
+                nickName.setText(getArguments().getString(ARG_SECTION_NAME));
+                length.setText(getArguments().getString(ARG_SECTION_LENGTH));
+                weight.setText(getArguments().getString(ARG_SECTION_WEIGHT));
+                birthday.setText(getArguments().getString(ARG_SECTION_BIRTHDAY));
+                dateFormatter = new SimpleDateFormat("dd MMMM yyyy", Locale.FRANCE);
+                picture = getArguments().getString(ARG_SECTION_PICTURE);
+                Log.d("PATH", picture);
+
+                if(!picture.equals("vide")){
+                    imageSexe.setImageBitmap(BitmapFactory.decodeFile(picture));
+                }
+                else if (picture.equals("vide") &&
+                        getArguments().getString(ARG_SECTION_SEXE).equals("Garçon")){
+                    imageSexe.setImageResource(R.mipmap.ic_garcon);
+                }
+
+                Button showGraphButton = (Button) rootView.findViewById(R.id.view_graph);
+                showGraphButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent myIntent = new Intent(getContext(), GraphActivity.class);
+                        myIntent.putExtra("baby", getArguments().getInt(ARG_SECTION_ID_BABY));
+                        startActivity(myIntent);
+                    }
+                });
+                Button addDataButton = (Button) rootView.findViewById(R.id.add_data);
+                addDataButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View arg0) {
+
+                        // custom dialog
+                        final Dialog dialog = new Dialog(getContext());
+                        dialog.setContentView(R.layout.pop_up_add_data);
+
+                        // set the custom dialog components - text, image and button
+                        pWeight = (EditText) dialog.findViewById(R.id.weight);
+                        pLength = (EditText) dialog.findViewById(R.id.length);
+
+                        FloatingActionButton dialogButton = (FloatingActionButton) dialog.findViewById(R.id.addData);
+                        // if button is clicked, close the custom dialog
+                        dialogButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                                dialog.dismiss();
+                                builder
+                                        .setMessage("Voulez vous vraiment ajouter ces données de croissance ?")
+                                        .setPositiveButton("Valider",  new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface current_dialog, int id) {
+                                                Log.d("RESULT", pLength.getText().toString() + " "+ getArguments().getInt(ARG_SECTION_ID_BABY));
+                                                ModifyBabyTask addDataTask = new ModifyBabyTask( pLength.getText().toString(), pWeight.getText().toString(), getArguments().getInt(ARG_SECTION_ID_BABY));
+                                                addDataTask.execute((Void) null);
+                                                current_dialog.dismiss();
+                                                getActivity().finish();
+                                                startActivity(getActivity().getIntent());
+                                            }
+                                        })
+                                        .setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface current_dialog, int id) {
+                                                current_dialog.cancel();
+                                            }
+                                        })
+                                        .show();
+
+                            }
+                        });
+                        dialog.show();
+                    }
+                });
             }
-           /* sexe.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    Log.v("Switch State=", ""+isChecked);
-                    if (isChecked){
-                        sexe.setText("Fille");
+            else{
+                rootView = inflater.inflate(R.layout.fragment_no_baby, container, false);
+                Button addBabyButton = (Button) rootView.findViewById(R.id.add_baby);
+                addBabyButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View arg0) {
+                        Intent myIntent = new Intent( getActivity(), AddBabyActivity.class);
+                        myIntent.putExtra("ID_USER", ID_USER);
+                        startActivity(myIntent);
                     }
-                    else {
-                        sexe.setText("Garçon");
-                    }
-                }
-
-            });*/
-          /*  birthday.setInputType(InputType.TYPE_NULL);
-            birthday.requestFocus();*/
-            Button addDataButton = (Button) rootView.findViewById(R.id.add_data);
-            addDataButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View arg0) {
-
-                    // custom dialog
-                    final Dialog dialog = new Dialog(getContext());
-                    dialog.setContentView(R.layout.pop_up_add_data);
-                    dialog.setTitle("Title...");
-
-                    // set the custom dialog components - text, image and button
-                    pWeight = (EditText) dialog.findViewById(R.id.weight);
-                    pLength = (EditText) dialog.findViewById(R.id.length);
-                  /*  ImageView image = (ImageView) dialog.findViewById(R.id.image);
-                    image.setImageResource(R.drawable.ic_launcher);*/
-
-                    FloatingActionButton dialogButton = (FloatingActionButton) dialog.findViewById(R.id.addData);
-                    // if button is clicked, close the custom dialog
-                    dialogButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            ModifyBabyTask addDataTask = new ModifyBabyTask( pLength.getText().toString(), pWeight.getText().toString(), getArguments().getInt(ARG_SECTION_ID_BABY));
-                            addDataTask.execute((Void) null);
-                            dialog.dismiss();
-                            getActivity().finish();
-                            startActivity(getActivity().getIntent());
-                        }
-                    });
-
-                    dialog.show();
-                }
-            });
-            Button showGraphButton = (Button) rootView.findViewById(R.id.view_graph);
-            showGraphButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent myIntent = new Intent(getContext(), GraphActivity.class);
-                    myIntent.putExtra("baby", getArguments().getInt(ARG_SECTION_ID_BABY));
-                    startActivity(myIntent);
-                   /* LayoutInflater inflater = (LayoutInflater) getActivity()
-                            .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-                    View popupView = inflater.inflate(R.layout.pop_up_add_data,(ViewGroup)view.findViewById(R.id.popup));
-
-                    PopupWindow  popupWindow = new PopupWindow(inflater.inflate(
-                            R.layout.pop_up_add_data, null, false), 200, 265, true);
-
-                    popupWindow.showAtLocation(view.findViewById(R.id.popup),
-                            Gravity.CENTER, 0, 0);*/
-
-                }
-            });
-           // setDateTimeField();
+                });
+            }
             return rootView;
         }
-
-
 
         public class ModifyBabyTask extends AsyncTask<Void, Void, Boolean> {
 
@@ -377,102 +400,8 @@ public class ListActivity extends AppCompatActivity implements LoaderManager.Loa
 
             @Override
             protected Boolean doInBackground(Void... params) {
-                // TODO: attempt authentication against a network service.
-
-         /*   try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                return false;
-            }
-
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
-                }
-            }
-String age, String sexe, String birthday, String nickname
-            // TODO: register the new account here.*/
-             //   if (addBaby()){
                     return addData();
-              /*  }
-                else
-                    return false;*/
             }
-
-          /*  private boolean addBaby(){
-                try {
-                    URL url = new URL("http://"+LoginActivity.IP_SERVER+"/RestServer/babyNator/babies/modify");
-                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                    connection.setRequestMethod("POST");
-                    connection.setRequestProperty("Content-Type",
-                            "application/x-www-form-urlencoded");
-                    connection.setRequestProperty("Content-Language", "en-US");
-                    connection.setRequestProperty("Content-Type","application/json");
-                    connection.setUseCaches (false);
-                    connection.setDoInput(true);
-                    connection.setDoOutput(true);
-
-
-                    //Send request
-                    DataOutputStream wr = new DataOutputStream (
-                            connection.getOutputStream ());
-                    BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(wr, "UTF-8"));
-                    JSONObject babyToAdd = new JSONObject();
-                    JSONObject dataToAdd = new JSONObject();
-                    //  mConnection = true;
-                    try {
-                        babyToAdd.put("id", 0);
-                        babyToAdd.put("birthday", birthday.toString());
-                        babyToAdd.put("name", nickname);
-                        babyToAdd.put("gender", sexe);
-                        //babyToAdd.put("id_user", getIntent().getIntExtra("ID_USER", 0));
-                    } catch (Exception e){
-                        return false;
-                    }
-                    writer.write(babyToAdd.toString());
-                    //   wr.writeBytes (dataToAdd.toString());
-                    writer.flush ();
-                    writer.close ();
-
-                    //Get Response
-                    InputStream is = connection.getInputStream();
-                    BufferedReader rd = new BufferedReader(new InputStreamReader(is));
-                    String line;
-                    StringBuffer response = new StringBuffer();
-                    while((line = rd.readLine()) != null) {
-                        response.append(line);
-                        response.append('\r');
-                    }
-                    rd.close();
-                    try {
-                        JSONObject babyCreated = new JSONObject(response.toString());
-                        Log.e("babyCreated",babyCreated.toString());
-                        id_baby = babyCreated.getInt("id");
-                    }
-                    catch(Exception e){
-                        return false;
-                    }
-
-                }
-                catch (MalformedURLException ex) {
-                    Log.e("httptest",Log.getStackTraceString(ex));
-                    return false;
-                }
-                catch (ConnectException ce){
-                    Log.e("httptest2",Log.getStackTraceString(ce));
-                    return false;
-                }
-                catch (IOException ex) {
-                    Log.e("httptest2",Log.getStackTraceString(ex));
-                    return false;
-                }
-
-                Log.e("**donnéed add baby ***",sexe+" " +birthday+" " + nickname + " " + length + " " + weight);
-                return true;
-            }*/
 
             private boolean addData(){
                 try {
@@ -536,18 +465,14 @@ String age, String sexe, String birthday, String nickname
                     Log.e("httptest2",Log.getStackTraceString(ex));
                     return false;
                 }
-
-                Log.e("**donnéed add baby ***",sexe+" " +birthday+" " + nickname + " " + length + " " + weight);
                 return true;
             }
 
             @Override
             protected void onPostExecute(final Boolean success) {
-               // mAddBabyTask = null;
-                // showProgress(false);
 
                 if (success && responseCode == 202) {
-                    Toast.makeText(getActivity().getApplicationContext(), "Votre bébé a bien été enregitré", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity().getApplicationContext(), "Les données ont bien été enregitrées", Toast.LENGTH_LONG).show();
                     Intent myIntent = new Intent(getActivity(), ListActivity.class);
                     startActivity(myIntent);
                 } else {
@@ -557,12 +482,8 @@ String age, String sexe, String birthday, String nickname
 
             @Override
             protected void onCancelled() {
-            //    mAddBabyTask = null;
-                // showProgress(false);
             }
         }
-
-
     }
 
     /**
@@ -582,22 +503,20 @@ String age, String sexe, String birthday, String nickname
             // Return a PlaceholderFragment (defined as a static inner class below).
             JSONObject baby = null;
             try {
-                Toast.makeText(getApplicationContext(),
-                        position + "position actuelle",
-                        Toast.LENGTH_SHORT).show();
-                baby= listBabies.getJSONObject(position);
+                baby = listBabies.getJSONObject(position);
             }
             catch (Exception e){
-
+                Log.e("Erreur", e.toString());
             }
-            Log.e("baby ****",baby.toString() + position);
-            return PlaceholderFragment.newInstance(position,baby);
+            return PlaceholderFragment.newInstance(position,baby, id_user);
         }
 
         @Override
         public int getCount() {
-            // Show 3 total pages.
-            return listBabies.length();
+            if(listBabies.length() > 0)
+                return listBabies.length();
+            else
+                return 1;
         }
 
         @Override
@@ -670,7 +589,7 @@ String age, String sexe, String birthday, String nickname
                 rd.close();
                 try {
                     listBabies = new JSONArray(response.toString());
-                    Log.e("List baby ****",listBabies.toString());
+                    Log.e("List baby",listBabies.toString());
                 }
                 catch(Exception e){
                     Log.e("baby list error",Log.getStackTraceString(e));
@@ -696,21 +615,14 @@ String age, String sexe, String birthday, String nickname
             showProgress(false);
 
             if (success) {
-                Toast.makeText(getApplicationContext(), "Bienvenu", Toast.LENGTH_LONG).show();
                 mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
-                // Set up the ViewPager with the sections adapter.
                 mViewPager = (ViewPager) findViewById(container);
                 mViewPager.setAdapter(mSectionsPagerAdapter);
                 Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
                 setSupportActionBar(toolbar);
-
-
-          //      startActivity(myIntent);
             } else {
-
-                    Toast.makeText(getApplicationContext(), "Connexion impossible, veuillez vérifier votre connexion", Toast.LENGTH_LONG).show();
-
+                Toast.makeText(getApplicationContext(), "Connexion impossible, veuillez vérifier votre connexion", Toast.LENGTH_LONG).show();
             }
         }
 
@@ -718,7 +630,5 @@ String age, String sexe, String birthday, String nickname
         protected void onCancelled() {
 
         }
-
-
     }
 }

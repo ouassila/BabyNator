@@ -86,17 +86,17 @@
         </activity>
         <activity
             android:name=".ListActivity"
-            android:label="Liste de mes bébés"
+            android:label="Mes bébés"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".RegisterActivity"
             android:label="@string/title_activity_register" />
         <activity
             android:name=".ChooseMapActivity"
-            android:label="Urgence ?" />
+            android:label="Une urgence ?" />
         <activity
             android:name=".CalendarActivity"
-            android:label="Planning" />
+            android:label="Agenda" />
         <activity
             android:name=".AddEventActivity"
             android:label="Ajouter un rendez-vous" />
@@ -108,7 +108,7 @@
             android:label="@string/title_activity_add_baby" />
         <activity
             android:name=".GraphActivity"
-            android:label="@string/title_activity_graph"
+            android:label="Sa croissance"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

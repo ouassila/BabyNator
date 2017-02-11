@@ -6,10 +6,14 @@ import android.app.DatePickerDialog.OnDateSetListener;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.graphics.BitmapFactory;
 import android.graphics.Rect;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -21,11 +25,14 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONObject;
@@ -43,6 +50,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 import static androby.babynator.R.id.nickname;
@@ -59,16 +67,6 @@ public class AddBabyActivity extends AppCompatActivity implements OnClickListene
     private static final int REQUEST_READ_CONTACTS = 0;
 
 
-    /**
-     * A dummy authentication store containing known user names and passwords.
-     * TODO: remove after connecting to a real authentication system.
-     */
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "foo@example.com:hello", "bar@example.com:world"
-    };
-    /**
-     * Keep track of the login task to ensure we can cancel it if requested.
-     */
     private AddBabyTask mAddBabyTask = null;
 
     // UI references.
@@ -82,24 +80,26 @@ public class AddBabyActivity extends AppCompatActivity implements OnClickListene
     private Switch sexe;
     private DatePickerDialog datePickerDialog;
     private SimpleDateFormat dateFormatter;
-   // private View mProgressView;
-    //private View mLoginFormView;
+    private int id_user;
+    private Button btn_search;
+    private static int RESULT_LOAD_IMAGE = 1;
+    private ImageView preview;
+    private TextView path_preview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_baby);
-        // Set up the login form.
-        //age = (EditText) findViewById(R.id.age);
-       // radioSexGroup = (RadioGroup) findViewById(R.id.radioGroupSexe);
         populateAutoComplete();
+
+        id_user = getIntent().getIntExtra("ID_USER", 0);
 
         nickName = (EditText) findViewById(nickname);
         birthday = (EditText) findViewById(R.id.birthday);
         length = (EditText) findViewById(R.id.length);
         weight = (EditText) findViewById(R.id.weight);
 
-        dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
+        dateFormatter = new SimpleDateFormat("dd MMMM yyyy", Locale.FRANCE);
         sexe = (Switch)  findViewById(R.id.sexe);
         sexe.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
@@ -126,14 +126,55 @@ public class AddBabyActivity extends AppCompatActivity implements OnClickListene
             }
         });
 
-        //mLoginFormView = findViewById(R.id.baby_form);
-       // mProgressView = findViewById(R.id.baby_progress);
+        FloatingActionButton myFab_Cancel = (FloatingActionButton) findViewById(R.id.floatingActionButton_Cancel);
+        myFab_Cancel.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent myIntent = new Intent(AddBabyActivity.this, ListActivity.class);
+                myIntent.putExtra("ID_USER", id_user);
+                startActivity(myIntent);
+            }
+        });
+
+        preview = (ImageView) findViewById(R.id.lbl_img);
+        path_preview = (TextView)findViewById(R.id.path_preview);
+
+        btn_search = (Button) findViewById(R.id.btn_search);
+        btn_search.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(
+                        Intent.ACTION_PICK,
+                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+                startActivityForResult(i, RESULT_LOAD_IMAGE);
+            }
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
+            Uri selectedImage = data.getData();
+            String[] filePathColumn = { MediaStore.Images.Media.DATA };
+
+            Cursor cursor = getContentResolver().query(selectedImage,
+                    filePathColumn, null, null, null);
+            cursor.moveToFirst();
+
+            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+            String picturePath = cursor.getString(columnIndex);
+            cursor.close();
+
+            preview.setImageBitmap(BitmapFactory.decodeFile(picturePath));
+            path_preview.setText(picturePath);
+        }
     }
 
     private void setDateTimeField() {
         birthday.setOnClickListener(this);
-      //  toDateEtxt.setOnClickListener(this);
-
         Calendar newCalendar = Calendar.getInstance();
         datePickerDialog = new DatePickerDialog(this, new OnDateSetListener() {
 
@@ -144,16 +185,7 @@ public class AddBabyActivity extends AppCompatActivity implements OnClickListene
             }
 
         },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
-
-        /*toDatePickerDialog = new DatePickerDialog(this, new OnDateSetListener() {
-
-            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                Calendar newDate = Calendar.getInstance();
-                newDate.set(year, monthOfYear, dayOfMonth);
-                toDateEtxt.setText(dateFormatter.format(newDate.getTime()));
-            }
-
-        },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));*/
+        datePickerDialog.getDatePicker().setMaxDate(new Date().getTime());
     }
     @Override
     public void onClick(View view) {
@@ -168,8 +200,6 @@ public class AddBabyActivity extends AppCompatActivity implements OnClickListene
         if (!mayRequestContacts()) {
             return;
         }
-
-        //getLoaderManager().initLoader(0, null, this);
     }
 
     private boolean mayRequestContacts() {
@@ -194,9 +224,6 @@ public class AddBabyActivity extends AppCompatActivity implements OnClickListene
         return false;
     }
 
-    /**
-     * Callback received when a permissions request has been completed.
-     */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
@@ -207,12 +234,6 @@ public class AddBabyActivity extends AppCompatActivity implements OnClickListene
         }
     }
 
-
-    /**
-     * Attempts to sign in or register the account specified by the login form.
-     * If there are form errors (invalid email, missing fields, etc.), the
-     * errors are presented and no actual login attempt is made.
-     */
     private void attemptAddBaby() {
         if (mAddBabyTask != null) {
             return;
@@ -222,6 +243,7 @@ public class AddBabyActivity extends AppCompatActivity implements OnClickListene
         String sSexe = sexe.getText().toString();
         String sLength = length.getText().toString();
         String sWeight = weight.getText().toString();
+        String path_picture = path_preview.getText().toString();
 
         weight.setError(null);
         nickName.setError(null);
@@ -264,12 +286,10 @@ public class AddBabyActivity extends AppCompatActivity implements OnClickListene
         if (cancel) {
             focusView.requestFocus();
         } else {
-            mAddBabyTask = new AddBabyTask(sLength.toString(), sWeight.toString(), sSexe.toString(), sBirthday.toString(), sNickname.toString());
+            mAddBabyTask = new AddBabyTask(sLength.toString(), sWeight.toString(), sSexe.toString(), sBirthday.toString(), sNickname.toString(), path_picture.toString());
             mAddBabyTask.execute((Void) null);
         }
-
     }
-
 
     /**
      * Represents an asynchronous login/registration task used to authenticate
@@ -282,23 +302,23 @@ public class AddBabyActivity extends AppCompatActivity implements OnClickListene
         private final String nickname;
         private final String length;
         private final String weight;
+        private final String picture;
         private int id_baby;
         private int responseCode;
 
-        AddBabyTask(String length, String weight, String sexe, String birthday, String nickname) {
+        AddBabyTask(String length, String weight, String sexe, String birthday, String nickname, String picture) {
             this.sexe=sexe;
             this.birthday=birthday;
             this.nickname=nickname;
             this.length = length;
             this.weight = weight;
+            this.picture = picture;
             id_baby = 0;
         }
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
-          // TODO: register the new account here.*/
-            if (addBaby()){
+             if (addBaby()){
                 return addData();
             }
             else
@@ -331,6 +351,7 @@ public class AddBabyActivity extends AppCompatActivity implements OnClickListene
                     babyToAdd.put("birthday", birthday.toString());
                     babyToAdd.put("name", nickname);
                     babyToAdd.put("gender", sexe);
+                    babyToAdd.put("picture", picture);
                     babyToAdd.put("id_user", getIntent().getIntExtra("ID_USER", 0));
                 } catch (Exception e){
                     return false;
@@ -373,7 +394,7 @@ public class AddBabyActivity extends AppCompatActivity implements OnClickListene
                 return false;
             }
 
-            Log.e("**donnéed add baby ***",sexe+" " +birthday+" " + nickname + " " + length + " " + weight);
+            Log.e("Baby added",sexe+" " +birthday+" " + nickname + " " + length + " " + weight+ " "+ picture);
             return true;
         }
 
@@ -438,8 +459,6 @@ public class AddBabyActivity extends AppCompatActivity implements OnClickListene
                 Log.e("httptest2",Log.getStackTraceString(ex));
                 return false;
             }
-
-            Log.e("**donnéed add baby ***",sexe+" " +birthday+" " + nickname + " " + length + " " + weight);
             return true;
         }
 
@@ -449,8 +468,9 @@ public class AddBabyActivity extends AppCompatActivity implements OnClickListene
            // showProgress(false);
 
             if (success && responseCode == 202) {
-                Toast.makeText(getApplicationContext(), "Votre bébé a bien été enregitré", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Les données de votre bébé ont bien été enregistrées", Toast.LENGTH_LONG).show();
                 Intent myIntent = new Intent(AddBabyActivity.this, ListActivity.class);
+                myIntent.putExtra("ID_USER", id_user);
                 startActivity(myIntent);
             } else {
                 Toast.makeText(getApplicationContext(), "Un problème a été rencontré lors de l'enregistrement de votre bébé", Toast.LENGTH_LONG).show();

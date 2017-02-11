@@ -6,4 +6,8 @@
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
+
+    <style name="SwitchTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:color">#ff1493</item>
+    </style>
 </resources>

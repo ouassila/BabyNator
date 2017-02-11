@@ -9,12 +9,12 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:weightSum="1"
             android:id="@+id/linearLayout"
             android:layout_alignParentTop="true"
@@ -22,20 +22,22 @@
             android:layout_alignParentStart="true">
 
             <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 app:srcCompat="@mipmap/ic_fille"
                 android:id="@+id/sexe"
                 android:layout_weight="0.43"
                 android:adjustViewBounds="false"
-                android:minHeight="164dp" />
+                android:minHeight="164dp"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_marginTop="20dp" />
 
             <TableLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingTop="20dp"
-                android:gravity="center_vertical"
-                android:layout_marginLeft="15dp">
+                android:gravity="center"
+                android:layout_marginLeft="15dp"
+                android:layout_gravity="center">
 
                 <TableRow
                     android:layout_width="wrap_content"
@@ -47,7 +49,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/textView3"
-                        android:textSize="24sp"
+                        android:textSize="18sp"
                         android:textStyle="normal|bold"
                         android:layout_weight="1" />
 
@@ -58,7 +60,7 @@
                         android:id="@+id/nickname"
                         android:layout_weight="1"
                         android:gravity="left"
-                        android:textSize="24sp" />
+                        android:textSize="18sp" />
                 </TableRow>
 
                 <TableRow
@@ -71,7 +73,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/textView7"
-                        android:textSize="24sp"
+                        android:textSize="18sp"
                         android:textStyle="normal|bold" />
 
                     <TextView
@@ -81,11 +83,11 @@
                         android:id="@+id/birthday"
                         android:gravity="left"
                         android:layout_weight="1"
-                        android:textSize="24sp" />
+                        android:textSize="18sp" />
                 </TableRow>
 
                 <TableRow
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:paddingBottom="20dp">
 
@@ -94,7 +96,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/textView15"
-                        android:textSize="24sp"
+                        android:textSize="18sp"
                         android:textStyle="normal|bold" />
 
                     <TextView
@@ -102,7 +104,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/length"
-                        android:textSize="24sp" />
+                        android:textSize="18sp" />
                 </TableRow>
 
                 <TableRow
@@ -115,7 +117,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/textView17"
-                        android:textSize="24sp"
+                        android:textSize="18sp"
                         android:textStyle="normal|bold" />
 
                     <TextView
@@ -123,31 +125,30 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/weight"
-                        android:textSize="24sp" />
+                        android:textSize="18sp" />
                 </TableRow>
             </TableLayout>
 
             <Button
-                android:text="View Graph"
+                android:text="Suivre sa croissance"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/view_graph"
                 android:layout_weight="0.43"
-                android:background="@android:color/holo_green_light" />
+                android:background="@android:color/holo_green_light"
+                android:layout_marginTop="20dp" />
 
             <Button
-                android:text="Add Data"
+                android:text="Ajouter l'évolution du bébé"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/linearLayout"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:id="@+id/add_data"
-                android:layout_marginBottom="100dp"
                 android:background="@color/colorPrimaryDark"
                 android:layout_marginTop="20dp"
                 android:textStyle="normal|bold"
-                android:textAllCaps="false"
                 android:textColor="@color/caldroid_white" />
 
         </LinearLayout>

@@ -1,0 +1,61 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    tools:context="androby.babynator.ListActivity$PlaceholderFragment">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="1">
+
+        <TextView
+            android:text="Aucun bébé enregistré"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/lbl_no_baby"
+            android:textAppearance="@style/TextAppearance.AppCompat"
+            android:textSize="30sp"
+            android:textAlignment="center"
+            android:textStyle="normal|bold|italic"
+            android:textColor="@color/caldroid_darker_gray"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="50dp" />
+
+        <ImageView
+            android:layout_width="256dp"
+            android:layout_height="200dp"
+            app:srcCompat="@android:drawable/ic_menu_close_clear_cancel"
+            android:id="@+id/imageView4"
+            android:background="@mipmap/ic_babynator"
+            android:layout_alignParentTop="false"
+            android:layout_centerHorizontal="false"
+            android:layout_weight="0.26"
+            android:layout_gravity="center"
+            android:layout_marginTop="50dp" />
+
+        <Button
+            android:text="Ajouter un bébé"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/add_baby"
+            android:background="@color/colorPrimaryDark"
+            android:layout_marginTop="88dp"
+            android:textStyle="normal|bold"
+            android:textColor="@color/caldroid_white"
+            android:layout_centerInParent="false"
+            android:layout_alignParentTop="false"
+            android:layout_alignParentLeft="false"
+            android:layout_alignParentStart="false"
+            android:layout_alignParentEnd="false"
+            android:freezesText="false" />
+    </LinearLayout>
+
+</RelativeLayout>
+
+

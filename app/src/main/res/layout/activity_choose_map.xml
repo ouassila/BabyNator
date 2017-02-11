@@ -12,6 +12,15 @@
     tools:context="androby.babynator.ChooseMapActivity">
 
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        app:srcCompat="@mipmap/ic_launcher"
+        android:id="@+id/imageView2"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="10dp"
+        android:layout_above="@+id/choice" />
+
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -22,18 +31,21 @@
         android:layout_alignBaseline="@+id/radius"
         android:layout_alignBottom="@+id/radius"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:textAllCaps="true"
+        android:textStyle="normal|bold" />
 
     <Button
-        android:text="Afficher la carte"
+        android:text="trouver autour de moi"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/btn_valid"
         android:layout_weight="0.03"
-        android:layout_marginBottom="109dp"
+        android:layout_marginBottom="50dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:background="@android:color/holo_green_light" />
 
     <CheckBox
         android:text="Ouvert"
@@ -52,7 +64,7 @@
         android:inputType="numberDecimal"
         android:ems="10"
         android:id="@+id/radius"
-        android:hint="Distance en Mètre"
+        android:hint="Périmètre"
         android:minEms="50"
         android:maxEms="50000"
         android:layout_above="@+id/open"
@@ -70,14 +82,5 @@
         android:layout_above="@+id/radius"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@mipmap/ic_logo_babynator"
-        android:id="@+id/imageView2"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="35dp" />
 
 </RelativeLayout>

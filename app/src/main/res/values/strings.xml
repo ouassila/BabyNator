@@ -118,7 +118,7 @@
     <string name="title_activity_register">S\'enregistrer</string>
     <string name="title_activity_test">TestActivity</string>
     <string name="title_activity_calendar">CalendarActivity</string>
-    <string name="title_activity_add_baby">Ajout bébé</string>
+    <string name="title_activity_add_baby">Mon nouveau bébé</string>
     <string name="title_activity_test_list">testListActivity</string>
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="title_activity_bg">bgActivity</string>
