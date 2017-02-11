@@ -108,7 +108,7 @@
             android:label="@string/title_activity_add_baby" />
         <activity
             android:name=".GraphActivity"
-            android:label="Sa croissance"
+            android:label="Historique de croissance"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

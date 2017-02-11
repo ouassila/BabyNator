@@ -57,23 +57,6 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
 
-        <TextView
-            android:text="Je me présente"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="false"
-            android:layout_alignParentLeft="false"
-            android:layout_alignParentStart="false"
-            android:layout_marginTop="10dp"
-            android:id="@+id/lbl_pres"
-            android:textAlignment="center"
-            android:textSize="24sp"
-            android:textStyle="normal|bold"
-            android:textAllCaps="true"
-            android:layout_marginBottom="30dp"
-            android:background="@color/caldroid_white"
-            android:elevation="5dp" />
-
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -81,14 +64,15 @@
             android:ems="10"
             android:id="@+id/nickname"
             android:hint="Je m'appelle ..."
-            android:paddingTop="@dimen/text_margin"
             android:textSize="18sp"
-            android:layout_marginBottom="20dp" />
+            android:layout_marginBottom="30dp"
+            android:layout_marginTop="20dp" />
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -103,7 +87,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/lbl_gender"
-                android:layout_weight="0.13"
+                android:layout_weight="0.17"
                 android:textSize="18sp" />
 
             <Switch
@@ -134,14 +118,15 @@
             android:layout_weight="0.05"
             android:textSize="18sp"
             android:focusable="true"
-            android:focusableInTouchMode="false"/>
+            android:focusableInTouchMode="false"
+            android:layout_marginBottom="20dp" />
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical"
+            android:layout_marginBottom="20dp">
 
             <TextView
                 android:text="Je ressemble à :"
@@ -170,8 +155,7 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:weightSum="1"
-            android:layout_marginTop="10dp">
+            android:weightSum="1">
 
             <EditText
                 android:layout_width="167dp"

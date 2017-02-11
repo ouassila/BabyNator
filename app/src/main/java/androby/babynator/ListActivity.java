@@ -263,7 +263,7 @@ public class ListActivity extends AppCompatActivity implements LoaderManager.Loa
                     length = baby.getString("length");
                     weight = baby.getString("weight");
                     picture = baby.getString("picture");
-                    id_baby=baby.getInt("id");
+                    id_baby = baby.getInt("id");
                     ID_BABY = baby.getInt("id");
                 }
                 catch (Exception e){
@@ -354,11 +354,10 @@ public class ListActivity extends AppCompatActivity implements LoaderManager.Loa
                                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                                 dialog.dismiss();
                                 builder
-                                        .setMessage("Voulez vous vraiment ajouter ces données de croissance ?")
+                                        .setMessage("Voulez vous vraiment ajouter ces données du jour ?")
                                         .setPositiveButton("Valider",  new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface current_dialog, int id) {
-                                                Log.d("RESULT", pLength.getText().toString() + " "+ getArguments().getInt(ARG_SECTION_ID_BABY));
                                                 AddDataTask addDataTask = new AddDataTask( pLength.getText().toString(), pWeight.getText().toString(), getArguments().getInt(ARG_SECTION_ID_BABY));
                                                 addDataTask.execute((Void) null);
                                                 current_dialog.dismiss();
@@ -390,8 +389,8 @@ public class ListActivity extends AppCompatActivity implements LoaderManager.Loa
                                 .setPositiveButton("Supprimer",  new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface current_dialog, int id) {
-                                        RemoveBabyTask removeBabyTask = new RemoveBabyTask(ID_BABY);
-                                        removeBabyTask.execute((Void) null);
+                                        RemoveDataTask removeDataTask = new RemoveDataTask(getArguments().getInt(ARG_SECTION_ID_BABY));
+                                        removeDataTask.execute((Void) null);
                                         current_dialog.dismiss();
                                         getActivity().finish();
                                         startActivity(getActivity().getIntent());
@@ -434,7 +433,7 @@ public class ListActivity extends AppCompatActivity implements LoaderManager.Loa
             protected Boolean doInBackground(Void... params) {
 
                 try {
-                    URL url = new URL("http://"+LoginActivity.IP_SERVER+"/RestServer/babyNator/baby/remove");
+                    URL url = new URL("http://"+LoginActivity.IP_SERVER+"/RestServer/babyNator/babies/remove");
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                     connection.setRequestMethod("POST");
                     connection.setRequestProperty("Content-Type",
@@ -489,11 +488,13 @@ public class ListActivity extends AppCompatActivity implements LoaderManager.Loa
             protected void onPostExecute(final Boolean success) {
                 if (success) {
                     if (success) {
-                        RemoveDataTask removeDataTask = new RemoveDataTask(ID_BABY);
-                        removeDataTask.execute((Void) null);
+                        Toast.makeText(getActivity().getApplicationContext(), "Le bébé a bien été supprimé", Toast.LENGTH_LONG).show();
+                        Intent myIntent = new Intent(getActivity(), ListActivity.class);
+                        startActivity(myIntent);
                     } else {
                         Toast.makeText(getActivity().getApplicationContext(), "Un problème a été rencontré lors de la suppression de votre bébé", Toast.LENGTH_LONG).show();
                     }
+
                 }
             }
         }
@@ -510,7 +511,7 @@ public class ListActivity extends AppCompatActivity implements LoaderManager.Loa
             protected Boolean doInBackground(Void... params) {
 
                 try {
-                    URL url = new URL("http://"+LoginActivity.IP_SERVER+"/RestServer/babyNator/data/remove");
+                    URL url = new URL("http://"+LoginActivity.IP_SERVER+"/RestServer/babyNator/datas/remove");
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                     connection.setRequestMethod("POST");
                     connection.setRequestProperty("Content-Type",
@@ -563,11 +564,9 @@ public class ListActivity extends AppCompatActivity implements LoaderManager.Loa
 
             @Override
             protected void onPostExecute(final Boolean success) {
-
                 if (success) {
-                    Toast.makeText(getActivity().getApplicationContext(), "Le bébé a bien été supprimé", Toast.LENGTH_LONG).show();
-                    Intent myIntent = new Intent(getActivity(), ListActivity.class);
-                    startActivity(myIntent);
+                    RemoveBabyTask removeBabyTask = new RemoveBabyTask(ID_BABY);
+                    removeBabyTask.execute((Void) null);
                 } else {
                     Toast.makeText(getActivity().getApplicationContext(), "Un problème a été rencontré lors de la suppression de votre bébé", Toast.LENGTH_LONG).show();
                 }
@@ -663,6 +662,7 @@ public class ListActivity extends AppCompatActivity implements LoaderManager.Loa
                 if (success && responseCode == 202) {
                     Toast.makeText(getActivity().getApplicationContext(), "Les données ont bien été enregitrées", Toast.LENGTH_LONG).show();
                     Intent myIntent = new Intent(getActivity(), ListActivity.class);
+                    myIntent.putExtra("ID_USER", ID_USER);
                     startActivity(myIntent);
                 } else {
                     Toast.makeText(getActivity().getApplicationContext(), "Un problème a été rencontré lors de l'enregistrement de votre bébé", Toast.LENGTH_LONG).show();
