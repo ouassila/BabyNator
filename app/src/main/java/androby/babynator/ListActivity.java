@@ -36,10 +36,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RadioGroup;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.jpardogo.android.googleprogressbar.library.FoldingCirclesDrawable;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -82,6 +85,7 @@ public class ListActivity extends AppCompatActivity implements LoaderManager.Loa
      * The {@link ViewPager} that will host the section contents.
      */
     private View mProgressView;
+    private ProgressBar mProgressBar;
     private ViewPager mViewPager;
     private int id_user;
     private JSONArray listBabies;
@@ -91,7 +95,12 @@ public class ListActivity extends AppCompatActivity implements LoaderManager.Loa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
         mProgressView = findViewById(R.id.list_babies_progress);
-       // showProgress(true);
+        mProgressBar = (ProgressBar) findViewById(R.id.list_babies_progress);
+
+        mProgressBar.setIndeterminateDrawable(new FoldingCirclesDrawable.Builder(this)
+                .build());
+
+        showProgress(true);
         id_user = getIntent().getIntExtra("ID_USER", 0);
         ListBabiesTask mAuthTask = new ListBabiesTask(id_user);
         mAuthTask.execute((Void) null);
@@ -143,6 +152,7 @@ public class ListActivity extends AppCompatActivity implements LoaderManager.Loa
         // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
         // for very easy animations. If available, use these APIs to fade-in
         // the progress spinner.
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
             int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
             mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
@@ -488,7 +498,6 @@ public class ListActivity extends AppCompatActivity implements LoaderManager.Loa
             protected void onPostExecute(final Boolean success) {
                 if (success) {
                     if (success) {
-                        Toast.makeText(getActivity().getApplicationContext(), "Le bébé a bien été supprimé", Toast.LENGTH_LONG).show();
                         Intent myIntent = new Intent(getActivity(), ListActivity.class);
                         startActivity(myIntent);
                     } else {

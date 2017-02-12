@@ -1,5 +1,7 @@
 package androby.babynator;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
@@ -30,10 +32,13 @@ import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RadioGroup;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.jpardogo.android.googleprogressbar.library.FoldingCirclesDrawable;
 
 import org.json.JSONObject;
 
@@ -85,6 +90,8 @@ public class AddBabyActivity extends AppCompatActivity implements OnClickListene
     private static int RESULT_LOAD_IMAGE = 1;
     private ImageView preview;
     private TextView path_preview;
+    private View mProgressView;
+    private ProgressBar mProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -150,6 +157,11 @@ public class AddBabyActivity extends AppCompatActivity implements OnClickListene
                 startActivityForResult(i, RESULT_LOAD_IMAGE);
             }
         });
+        mProgressView = findViewById(R.id.list_babies_progress);
+        mProgressBar = (ProgressBar) findViewById(R.id.list_babies_progress);
+
+        mProgressBar.setIndeterminateDrawable(new FoldingCirclesDrawable.Builder(this)
+                .build());
     }
 
     @Override
@@ -465,7 +477,7 @@ public class AddBabyActivity extends AppCompatActivity implements OnClickListene
         @Override
         protected void onPostExecute(final Boolean success) {
             mAddBabyTask = null;
-           // showProgress(false);
+            showProgress(false);
 
             if (success && responseCode == 202) {
                 Toast.makeText(getApplicationContext(), "Les données de votre bébé ont bien été enregistrées", Toast.LENGTH_LONG).show();
@@ -480,7 +492,27 @@ public class AddBabyActivity extends AppCompatActivity implements OnClickListene
         @Override
         protected void onCancelled() {
             mAddBabyTask = null;
-           // showProgress(false);
+            showProgress(false);
+        }
+    }
+
+    private void showProgress(final boolean show) {
+        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
+        // for very easy animations. If available, use these APIs to fade-in
+        // the progress spinner.
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
+            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
+            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+            mProgressView.animate().setDuration(shortAnimTime).alpha(
+                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+                }
+            });
+        } else {
+            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
         }
     }
     @Override

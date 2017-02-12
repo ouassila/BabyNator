@@ -59,31 +59,6 @@
                 android:layout_marginLeft="8dp"
                 android:layout_gravity="center">
 
-
-                <!--<TableRow
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="20dp">
-
-                    <TextView
-                        android:text="Prénom :         "
-                        android:layout_width="20dp"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/textView3"
-                        android:textSize="18sp"
-                        android:textStyle="normal|bold"
-                        android:layout_weight="1" />
-
-                    <TextView
-                        android:text="TextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/nickname"
-                        android:layout_weight="1"
-                        android:gravity="left"
-                        android:textSize="18sp" />
-                </TableRow>
--->
                 <TableRow
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
