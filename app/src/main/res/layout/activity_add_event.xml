@@ -99,23 +99,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:clickable="true"
-            app:srcCompat="@android:drawable/ic_delete"
-            android:id="@+id/floatingActionButton_Cancel"
-            app:backgroundTint="@color/wallet_bright_foreground_holo_dark"
-            app:rippleColor="?android:attr/textColorSecondary"
-            app:elevation="5dp"
-            app:fabSize="normal"
-            android:layout_marginLeft="27dp"
-            android:layout_marginStart="27dp"
-            android:layout_weight="1"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentBottom="true" />
-
-        <android.support.design.widget.FloatingActionButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:clickable="true"
             app:srcCompat="@android:drawable/ic_input_add"
             android:id="@+id/floatingActionButton"
             app:backgroundTint="@color/wallet_bright_foreground_holo_dark"
@@ -125,11 +108,28 @@
             android:layout_marginRight="40dp"
             android:layout_marginEnd="40dp"
             android:layout_weight="1"
-            android:layout_gravity="right"
-            android:layout_alignParentBottom="true"
+            android:layout_gravity="right|bottom"
+            android:layout_alignBottom="@+id/floatingActionButton_Cancel"
             android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignBottom="@+id/floatingActionButton_Cancel" />
+            android:layout_alignParentBottom="true" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            app:srcCompat="@android:drawable/ic_delete"
+            android:id="@+id/floatingActionButton_Cancel"
+            app:backgroundTint="@color/wallet_bright_foreground_holo_dark"
+            app:rippleColor="?android:attr/textColorSecondary"
+            app:elevation="5dp"
+            app:fabSize="normal"
+            android:layout_marginLeft="44dp"
+            android:layout_marginStart="44dp"
+            android:layout_weight="1"
+            android:layout_gravity="left|bottom"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
     </RelativeLayout>
 </ScrollView>
 

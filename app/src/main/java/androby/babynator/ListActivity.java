@@ -625,12 +625,13 @@ public class ListActivity extends AppCompatActivity implements LoaderManager.Loa
                     //  mConnection = true;
                     try {
                         Date d = new Date();
+                        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE);
+
+                        Log.d("DATE", sdf.format(d).toString());
                         dataToAdd.put("length", Integer.parseInt(length));
                         dataToAdd.put("weight", Integer.parseInt(weight));
                         dataToAdd.put("id_baby", id_baby);
-                        dataToAdd.put("current_date", d.toString());
-
-
+                        dataToAdd.put("current_date", sdf.format(d).toString());
                     } catch (Exception e){
                         return false;
                     }
@@ -649,8 +650,13 @@ public class ListActivity extends AppCompatActivity implements LoaderManager.Loa
                         response.append('\r');
                     }
                     rd.close();
+                    try {
+                        Log.d("RESPONSE", response.toString());
+                    }
+                    catch(Exception e){
+                        return false;
+                    }
                     responseCode = connection.getResponseCode();
-
                 }
                 catch (MalformedURLException ex) {
                     Log.e("httptest",Log.getStackTraceString(ex));
