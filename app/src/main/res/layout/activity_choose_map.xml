@@ -12,115 +12,120 @@
     tools:context="androby.babynator.ChooseMapActivity">
 
 
-    <LinearLayout
-        android:orientation="vertical"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
-
-        <ImageView
-            android:layout_width="match_parent"
-            app:srcCompat="@mipmap/ic_marker"
-            android:id="@+id/imageView2"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="10dp"
-            android:layout_above="@+id/choice"
-            android:layout_height="150dp" />
+        android:layout_height="match_parent">
 
         <LinearLayout
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginLeft="15dp">
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
 
-            <TextView
-                android:text="Type de lieux : "
+            <ImageView
+                android:layout_width="match_parent"
+                app:srcCompat="@mipmap/ic_marker"
+                android:id="@+id/imageView2"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="10dp"
+                android:layout_above="@+id/choice"
+                android:layout_height="150dp" />
+
+            <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/textView9"
-                android:layout_weight="1"
-                android:textSize="18sp" />
+                android:layout_gravity="center"
+                android:layout_marginLeft="15dp">
 
-            <Spinner
-                android:layout_height="wrap_content"
-                android:id="@+id/choice"
-                android:hint="Type de lieu"
-                android:layout_marginBottom="15dp"
-                android:gravity="center_vertical|start"
-                android:layout_above="@+id/radius"
-                android:layout_alignLeft="@+id/radius"
-                android:layout_alignStart="@+id/radius"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="20dp"
-                android:layout_width="153dp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_alignParentLeft="false"
-            android:layout_alignParentStart="false"
-            android:layout_gravity="center"
-            android:layout_marginBottom="15dp"
-            android:layout_marginLeft="10dp">
-
-            <TextView
-                    android:layout_width="wrap_content"
+                <TextView
+                    android:text="Type de lieux : "
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Périmètre (mètres) :"
-                android:layout_alignBaseline="@+id/radius"
-                android:layout_alignBottom="@+id/radius"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:textAllCaps="false"
-                android:layout_marginLeft="10dp"
-                android:textSize="18sp" />
+                    android:id="@+id/textView9"
+                    android:layout_weight="1"
+                    android:textSize="18sp" />
 
-            <EditText
-                android:layout_width="118dp"
+                <Spinner
+                    android:layout_height="wrap_content"
+                    android:id="@+id/choice"
+                    android:hint="Type de lieu"
+                    android:layout_marginBottom="15dp"
+                    android:gravity="center_vertical|start"
+                    android:layout_above="@+id/radius"
+                    android:layout_alignLeft="@+id/radius"
+                    android:layout_alignStart="@+id/radius"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="20dp"
+                    android:layout_width="153dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="numberDecimal"
-                android:ems="10"
-                android:id="@+id/radius"
-                android:minEms="50"
-                android:maxEms="50000"
-                android:layout_above="@+id/open"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="false"
+                android:layout_alignParentStart="false"
+                android:layout_gravity="center"
+                android:layout_marginBottom="15dp"
+                android:layout_marginLeft="10dp">
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Périmètre (mètres) :"
+                    android:layout_alignBaseline="@+id/radius"
+                    android:layout_alignBottom="@+id/radius"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:textAllCaps="false"
+                    android:layout_marginLeft="10dp"
+                    android:textSize="18sp" />
+
+                <EditText
+                    android:layout_width="118dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal"
+                    android:ems="10"
+                    android:id="@+id/radius"
+                    android:minEms="50"
+                    android:maxEms="50000"
+                    android:layout_above="@+id/open"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignRight="@+id/open"
+                    android:layout_alignEnd="@+id/open"
+                    android:layout_marginLeft="15dp" />
+
+            </LinearLayout>
+
+            <CheckBox
+                android:text="Lieux ouverts uniquement"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/open"
+                android:layout_weight="0.01"
+                android:layout_marginBottom="30dp"
+                android:layout_above="@+id/btn_valid"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal" />
+
+            <Button
+                android:text="trouver autour de moi"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/btn_valid"
+                android:layout_weight="0.03"
+                android:layout_marginBottom="70dp"
+                android:layout_alignParentBottom="true"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:layout_alignRight="@+id/open"
-                android:layout_alignEnd="@+id/open"
-                android:layout_marginLeft="15dp" />
+                android:background="@android:color/holo_green_light" />
 
         </LinearLayout>
-
-        <CheckBox
-            android:text="Lieux ouverts uniquement"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/open"
-            android:layout_weight="0.01"
-            android:layout_marginBottom="30dp"
-            android:layout_above="@+id/btn_valid"
-            android:layout_centerHorizontal="true"
-            android:layout_gravity="center_horizontal" />
-
-        <Button
-            android:text="trouver autour de moi"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/btn_valid"
-            android:layout_weight="0.03"
-            android:layout_marginBottom="70dp"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:background="@android:color/holo_green_light" />
-
-    </LinearLayout>
+    </ScrollView>
 
 </RelativeLayout>
