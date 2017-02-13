@@ -87,35 +87,29 @@
         <activity
             android:name=".ListActivity"
             android:label="Mes bébés"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:parentActivityName=".ListActivity"/>
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".RegisterActivity"
             android:label="@string/title_activity_register" />
         <activity
             android:name=".ChooseMapActivity"
-            android:label="Une urgence ?"
-            android:parentActivityName=".ListActivity"/>
+            android:label="Une urgence ?"/>
         <activity
             android:name=".CalendarActivity"
             android:label="Agenda" />
         <activity
             android:name=".AddEventActivity"
-            android:label="Ajouter un rendez-vous"
-            android:parentActivityName=".CalendarActivity"/>
+            android:label="Ajouter un rendez-vous"/>
         <activity
             android:name=".VideoActivity"
-            android:label="BabyPhone"
-            android:parentActivityName=".ListActivity"/>
+            android:label="BabyPhone"/>
         <activity
             android:name=".AddBabyActivity"
-            android:label="@string/title_activity_add_baby"
-            android:parentActivityName=".ListActivity"/>
+            android:label="@string/title_activity_add_baby"/>
         <activity
             android:name=".GraphActivity"
             android:label="Historique de croissance"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:parentActivityName=".ListActivity"></activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
