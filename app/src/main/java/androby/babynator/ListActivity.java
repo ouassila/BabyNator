@@ -27,6 +27,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -824,5 +825,16 @@ public class ListActivity extends AppCompatActivity implements LoaderManager.Loa
         protected void onCancelled() {
 
         }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)  {
+        if (keyCode == KeyEvent.KEYCODE_BACK ) {
+            // do something on back.
+            Log.e("test", "retouyr");
+            return false;
+        }
+
+        return super.onKeyDown(keyCode, event);
     }
 }
