@@ -34,8 +34,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import static androby.babynator.R.id.date;
-
 public class CalendarActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
     private int id_user;
@@ -143,7 +141,7 @@ public class CalendarActivity extends AppCompatActivity implements AdapterView.O
                     cal.setTime(sdf.parse(dateStr));
 
                     if((cal.get(Calendar.MONTH)+1) == month && cal.get(Calendar.YEAR) == year) {
-                        events.add(new Event(Integer.parseInt(row.getString("id")), btn_delete, sdf_output.format(date), row.getString("title")));
+                        events.add(new Event(Integer.parseInt(row.getString("id")), btn_delete, sdf_output.format(cal.getTime()), row.getString("title")));
                         list_id_events.add(Integer.parseInt(row.getString("id")));
                     }
                 }
@@ -167,8 +165,6 @@ public class CalendarActivity extends AppCompatActivity implements AdapterView.O
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-        Log.d("TEST", "ICI3");
 
         Intent myIntent = new Intent(CalendarActivity.this, AddEventActivity.class);
         myIntent.putExtra("ID_EVENT", list_id_events.get(position));
@@ -259,6 +255,7 @@ public class CalendarActivity extends AppCompatActivity implements AdapterView.O
                         JSONObject row = listEvents.getJSONObject(i);
                         String dateStr = row.getString("current_date");
                         Date date = sdf.parse(dateStr);
+
                         ColorDrawable green = new ColorDrawable(Color.GREEN);
                         caldroidFragment.setBackgroundDrawableForDate(green, date);
 
