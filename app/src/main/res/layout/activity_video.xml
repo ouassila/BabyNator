@@ -28,20 +28,40 @@
                 android:id="@+id/imageView5"
                 android:minHeight="200dp" />
 
-            <EditText
-                android:id="@+id/textUrl"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="IP de la caméra"
-                android:imeActionId="@+id/login"
-                android:imeActionLabel="@string/action_ip_camera"
-                android:imeOptions="actionUnspecified"
-                android:inputType="text"
-                android:maxLines="1"
-                android:singleLine="true"
-                android:layout_marginTop="50dp"
-                android:layout_below="@+id/video_view"
-                android:layout_centerHorizontal="true" />
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="287dp"
+                android:layout_height="39dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp">
+
+                <EditText
+                    android:id="@+id/textUrl"
+                    android:layout_width="237dp"
+                    android:layout_height="wrap_content"
+                    android:hint="Adresse IP de la caméra"
+                    android:imeActionId="@+id/login"
+                    android:imeActionLabel="@string/action_ip_camera"
+                    android:imeOptions="actionUnspecified"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:layout_below="@+id/video_view"
+                    android:layout_centerHorizontal="true" />
+
+                <android.support.design.widget.FloatingActionButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    app:srcCompat="@android:drawable/ic_dialog_info"
+                    android:id="@+id/floatingActionButton2"
+                    android:layout_weight="1"
+                    app:elevation="0dp"
+                    app:fabSize="mini"
+                    android:layout_marginLeft="10dp" />
+
+            </LinearLayout>
 
             <ProgressBar
                 android:id="@+id/list_babies_progress"
