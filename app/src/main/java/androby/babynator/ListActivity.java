@@ -498,12 +498,14 @@ public class ListActivity extends AppCompatActivity implements LoaderManager.Loa
             protected void onPostExecute(final Boolean success) {
                 if (success) {
                     if (success) {
+                        getActivity().finish();
+
                         Intent myIntent = new Intent(getActivity(), ListActivity.class);
+                        myIntent.putExtra("ID_USER", ID_USER);
                         startActivity(myIntent);
                     } else {
                         Toast.makeText(getActivity().getApplicationContext(), "Un problème a été rencontré lors de la suppression de votre bébé", Toast.LENGTH_LONG).show();
                     }
-
                 }
             }
         }
