@@ -3,8 +3,12 @@ package androby.babynator;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,10 +19,11 @@ import java.io.IOException;
 public class VideoActivity extends AppCompatActivity {
 
     private EditText textUrl;
-
+    private int id_user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        id_user = getIntent().getIntExtra("ID_USER", 0);
         setContentView(R.layout.activity_video);
         textUrl =
                 (EditText) findViewById(R.id.textUrl);
@@ -67,5 +72,42 @@ public class VideoActivity extends AppCompatActivity {
             System.out.println(" Exception:"+e);
         }
         return false;
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        //On regarde quel item a été cliqué grâce à son id et on déclenche une action
+        Intent myIntent;
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+            case R.id.action_settings:
+                myIntent = new Intent(VideoActivity.this, ChooseMapActivity.class);
+                myIntent.putExtra("ID_USER", this.id_user);
+                startActivity(myIntent);
+                return true;
+            case R.id.action_calendar:
+                myIntent = new Intent(VideoActivity.this, CalendarActivity.class);
+                myIntent.putExtra("ID_USER", this.id_user);
+                startActivity(myIntent);
+                return true;
+            case R.id.action_add_baby:
+                myIntent = new Intent(VideoActivity.this, AddBabyActivity.class);
+                myIntent.putExtra("ID_USER", this.id_user);
+                startActivity(myIntent);
+                return true;
+        }
+        return false;
+    }
+
+    //Méthode qui se déclenchera lorsque vous appuierez sur le bouton menu du téléphone
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        //Création d'un MenuInflater qui va permettre d'instancier un Menu XML en un objet Menu
+        MenuInflater inflater = getMenuInflater();
+        //Instanciation du menu XML spécifier en un objet Menu
+        inflater.inflate(R.menu.menu_main, menu);
+
+        return true;
     }
 }
