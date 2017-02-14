@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -26,9 +27,6 @@ public class ChooseMapActivity extends AppCompatActivity/*, OnItemSelectedListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_map);
-
-        //bouton retour arriere
-       // getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         ArrayList<String> choices = new ArrayList<String>();
         choices.add("Hôpital");
@@ -55,25 +53,25 @@ public class ChooseMapActivity extends AppCompatActivity/*, OnItemSelectedListen
                     myIntent.putExtra("OPEN", mOpen.isChecked());
                     startActivity(myIntent);
                 }
+                else{
+                    Toast.makeText(getApplicationContext(), "Erreur : le périmètre doit être compris entre 10 et 50 000 mètres", Toast.LENGTH_LONG).show();
+                }
             }
         });
     }
-/*
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View v, int position,
-                               long id) {
 
-    }
-    */
     private boolean attemptChoice() {
 
         // Store values at the time of the login attempt.
-        Double radius = Double.parseDouble(mRadius.getText().toString());
-
-        // Check for a valid password, if the user entered one.
-        if (radius > 50000 && radius < 10) {
+        Double radius = 0.0;
+        if(mRadius.getText() == null || mRadius.getText().toString() == ""){
+            return false;
+        }
+        radius = Double.parseDouble(mRadius.getText().toString());
+        if (radius > 50000.0 || radius < 10.0) {
             return false;
         } else {
+            radius = Double.parseDouble(mRadius.getText().toString());
             return true;
         }
     }
