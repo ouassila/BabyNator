@@ -85,13 +85,15 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private final String DefaultPasswordValue = "";
     private String PasswordValue;
 
-    public static String IP_SERVER = "172.16.14.125:8080";
+    private boolean deconnect;
+
+    public static String IP_SERVER = "192.168.43.55:8080";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+        deconnect = getIntent().getBooleanExtra("deconnect", false);
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         mEmailView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -169,7 +171,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     public void onResume() {
         super.onResume();
         loadPreferences();
-        if(mEmailView.getText().toString() != null && !mEmailView.getText().toString().isEmpty()&& mPasswordView.getText().toString()!= null){
+        if(mEmailView.getText().toString() != null && !mEmailView.getText().toString().isEmpty()&& mPasswordView.getText().toString()!= null && !deconnect){
             attemptLogin();
         }
     }
@@ -190,7 +192,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
 
     private void loadPreferences() {
-
         SharedPreferences settings = getSharedPreferences(PREFS_NAME,
                 Context.MODE_PRIVATE);
 
@@ -516,6 +517,16 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         }
         return super.dispatchTouchEvent(ev);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)  {
+        if (keyCode == KeyEvent.KEYCODE_BACK ) {
+            // do something on back.
+            return false;
+        }
+
+        return super.onKeyDown(keyCode, event);
     }
 }
 

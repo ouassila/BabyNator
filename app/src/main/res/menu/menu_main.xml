@@ -21,4 +21,9 @@
         android:orderInCategory="100"
         android:title="Agrandir la famille"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/action_deconnect"
+        android:orderInCategory="100"
+        android:title="Se déconnecter"
+        app:showAsAction="never" />
 </menu>

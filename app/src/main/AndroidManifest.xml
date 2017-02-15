@@ -77,7 +77,7 @@
         </activity>
         <activity
             android:name=".LoginActivity"
-            android:label="S&apos;identifier"
+            android:label="BabyNator"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -134,6 +134,11 @@ public class ListActivity extends AppCompatActivity implements LoaderManager.Loa
                 myIntent.putExtra("ID_USER", this.id_user);
                 startActivity(myIntent);
                 return true;
+            case R.id.action_deconnect:
+                myIntent = new Intent(ListActivity.this, LoginActivity.class);
+                myIntent.putExtra("deconnect", true);
+                startActivity(myIntent);
+                return true;
         }
         return false;
     }
@@ -499,8 +504,6 @@ public class ListActivity extends AppCompatActivity implements LoaderManager.Loa
             protected void onPostExecute(final Boolean success) {
                 if (success) {
                     if (success) {
-                        getActivity().finish();
-
                         Intent myIntent = new Intent(getActivity(), ListActivity.class);
                         myIntent.putExtra("ID_USER", ID_USER);
                         startActivity(myIntent);
