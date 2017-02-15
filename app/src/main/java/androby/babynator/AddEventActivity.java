@@ -106,15 +106,6 @@ public class AddEventActivity extends AppCompatActivity {
                 }
             }
         });
-       FloatingActionButton myFab_Cancel = (FloatingActionButton) findViewById(R.id.floatingActionButton_Cancel);
-       myFab_Cancel.setOnClickListener(new OnClickListener() {
-           @Override
-           public void onClick(View view) {
-           Intent myIntent = new Intent(AddEventActivity.this, CalendarActivity.class);
-           myIntent.putExtra("ID_USER", id_user);
-           startActivity(myIntent);
-           }
-       });
     }
 
     private void getCurrentEventById(int id_event) {

@@ -7,8 +7,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -105,16 +103,5 @@ public class VideoActivity extends AppCompatActivity {
                 return true;
         }
         return false;
-    }
-
-    //Méthode qui se déclenchera lorsque vous appuierez sur le bouton menu du téléphone
-    public boolean onCreateOptionsMenu(Menu menu) {
-
-        //Création d'un MenuInflater qui va permettre d'instancier un Menu XML en un objet Menu
-        MenuInflater inflater = getMenuInflater();
-        //Instanciation du menu XML spécifier en un objet Menu
-        inflater.inflate(R.menu.menu_main, menu);
-
-        return true;
     }
 }

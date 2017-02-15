@@ -320,8 +320,8 @@ public class ListActivity extends AppCompatActivity implements LoaderManager.Loa
                 length.setText(getArguments().getString(ARG_SECTION_LENGTH));
                 weight.setText(getArguments().getString(ARG_SECTION_WEIGHT));
 
-                dateFormatter = new SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE);
-                dateFormatter_out = new SimpleDateFormat("dd MMMM yyyy", Locale.FRANCE);
+                dateFormatter = new SimpleDateFormat("MM/dd/yyyy", Locale.FRANCE);
+                dateFormatter_out = new SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE);
                 String birth = getArguments().getString(ARG_SECTION_BIRTHDAY);
                 try {
                     Date date = dateFormatter.parse(birth);
@@ -335,8 +335,8 @@ public class ListActivity extends AppCompatActivity implements LoaderManager.Loa
                 if(!picture.equals("vide") && bm != null) {
                     imageSexe.setImageBitmap(bm);
                 }
-                else if ((bm == null) || (picture.equals("vide") &&
-                        getArguments().getString(ARG_SECTION_SEXE).equals("Garçon"))){
+                else if ((bm == null) &&
+                        (picture.equals("vide") && getArguments().getString(ARG_SECTION_SEXE).equals("Garçon"))){
                     imageSexe.setImageResource(R.mipmap.ic_garcon);
                 }
 
@@ -631,9 +631,9 @@ public class ListActivity extends AppCompatActivity implements LoaderManager.Loa
                         Date d = new Date();
                         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE);
 
-                        Log.d("DATE", sdf.format(d).toString());
-                        dataToAdd.put("length", Integer.parseInt(length));
-                        dataToAdd.put("weight", Integer.parseInt(weight));
+                        Log.d("taille-poids", Double.parseDouble(length)+"-"+Double.parseDouble(weight));
+                        dataToAdd.put("length", Double.parseDouble(length));
+                        dataToAdd.put("weight", Double.parseDouble(weight));
                         dataToAdd.put("id_baby", id_baby);
                         dataToAdd.put("current_date", sdf.format(d).toString());
                     } catch (Exception e){
@@ -839,11 +839,8 @@ public class ListActivity extends AppCompatActivity implements LoaderManager.Loa
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event)  {
         if (keyCode == KeyEvent.KEYCODE_BACK ) {
-            // do something on back.
-            Log.e("test", "retouyr");
             return false;
         }
-
         return super.onKeyDown(keyCode, event);
     }
 }

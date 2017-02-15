@@ -133,16 +133,6 @@ public class AddBabyActivity extends AppCompatActivity implements OnClickListene
             }
         });
 
-        FloatingActionButton myFab_Cancel = (FloatingActionButton) findViewById(R.id.floatingActionButton_Cancel);
-        myFab_Cancel.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent myIntent = new Intent(AddBabyActivity.this, ListActivity.class);
-                myIntent.putExtra("ID_USER", id_user);
-                startActivity(myIntent);
-            }
-        });
-
         preview = (ImageView) findViewById(R.id.lbl_img);
         path_preview = (TextView)findViewById(R.id.path_preview);
 
@@ -405,8 +395,6 @@ public class AddBabyActivity extends AppCompatActivity implements OnClickListene
                 Log.e("httptest2",Log.getStackTraceString(ex));
                 return false;
             }
-
-            Log.e("Baby added",sexe+" " +birthday+" " + nickname + " " + length + " " + weight+ " "+ picture);
             return true;
         }
 
@@ -432,12 +420,11 @@ public class AddBabyActivity extends AppCompatActivity implements OnClickListene
                 JSONObject dataToAdd = new JSONObject();
                 //  mConnection = true;
                 try {
-                    dataToAdd.put("length", Integer.parseInt(length));
-                    dataToAdd.put("weight", Integer.parseInt(weight));
+                    dataToAdd.put("length", length);
+                    dataToAdd.put("weight", weight );
                     dataToAdd.put("id_baby", id_baby);
                     dataToAdd.put("current_date", birthday.toString());
-
-
+                    Log.d("DATAS", dataToAdd.toString());
                 } catch (Exception e){
                     return false;
                 }
