@@ -10,10 +10,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.jjoe64.graphview.GraphView;
@@ -60,30 +59,6 @@ public class GraphActivity extends AppCompatActivity {
         GetGraphTask graphTask = new GetGraphTask(getIntent().getIntExtra("baby", 0));
         graphTask.execute((Void) null);
         super.onCreate(savedInstanceState);
-
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_graph, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     /**
@@ -95,6 +70,8 @@ public class GraphActivity extends AppCompatActivity {
          * fragment.
          */
         private static final String ARG_SECTION_NUMBER = "section_number";
+        private LinearLayout arrow_taille;
+        private LinearLayout arrow_poids;
 
         public PlaceholderFragment() {
         }
@@ -117,12 +94,20 @@ public class GraphActivity extends AppCompatActivity {
             View rootView = inflater.inflate(R.layout.fragment_graph, container, false);
             String option = "weight";
             String option_graph = "Poids (Kg)";
+
+            arrow_taille = (LinearLayout)rootView.findViewById(R.id.arrow_taille);
+            arrow_poids = (LinearLayout)rootView.findViewById(R.id.arrow_poids);
+            arrow_taille.setVisibility(View.VISIBLE);
+            arrow_poids.setVisibility(View.INVISIBLE);
+
             if (getArguments().getInt(ARG_SECTION_NUMBER)==1){
                 option="length";
                 option_graph= "Taille (cm)";
+                arrow_poids.setVisibility(View.VISIBLE);
+                arrow_taille.setVisibility(View.INVISIBLE);
             }
             try {
-                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM");
+                SimpleDateFormat formatter = new SimpleDateFormat("MM/yyyy");
                 LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[] {
                 });
                 DataPoint[] ds = new DataPoint[listDatas.length()];
@@ -135,25 +120,25 @@ public class GraphActivity extends AppCompatActivity {
                 }
                 GraphView graph = (GraphView) rootView.findViewById(R.id.graph);
                 graph.addSeries(series);
-                DateFormat dateFormat = new SimpleDateFormat("dd/MM");
+                DateFormat dateFormat = new SimpleDateFormat("MM/yy");
 
-// set date label formatter
-           graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(getActivity(),dateFormat));
-                graph.getViewport().setMinY(0);
-                graph.getViewport().setMaxY(listDatas.getJSONObject(listDatas.length()-1).getInt(option));
-                graph.getViewport().setYAxisBoundsManual(true);
-          graph.getViewport().setMinX(formatter.parse((listDatas.getJSONObject(0)).getString("current_date")).getTime());
-          graph.getViewport().setMaxX(formatter.parse(listDatas.getJSONObject(listDatas.length()-1).getString("current_date")).getTime());
+            // set date label formatter
+            graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(getActivity(),dateFormat));
+            graph.getViewport().setMinY(0);
+            graph.getViewport().setMaxY(listDatas.getJSONObject(listDatas.length()-1).getInt(option));
+            graph.getViewport().setYAxisBoundsManual(true);
+            graph.getViewport().setMinX(formatter.parse((listDatas.getJSONObject(0)).getString("current_date")).getTime());
+            graph.getViewport().setMaxX(formatter.parse(listDatas.getJSONObject(listDatas.length()-1).getString("current_date")).getTime());
             graph.getViewport().setXAxisBoundsManual(true);
 
-// as we use dates as labels, the human rounding to nice readable numbers
-// is not necessary
+            // as we use dates as labels, the human rounding to nice readable numbers
+            // is not necessary
             graph.getGridLabelRenderer().setHumanRounding(false);
                 TextView textView = (TextView) rootView.findViewById(R.id.option);
                 textView.setText(option_graph);
             }
             catch(Exception e){
-                Log.e("eroor",e.getMessage());
+                Log.e("Erreur",e.getMessage());
             }
             return rootView;
         }
