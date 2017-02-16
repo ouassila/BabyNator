@@ -62,24 +62,20 @@ public class ChooseMapActivity extends AppCompatActivity/*, OnItemSelectedListen
 
     private boolean attemptChoice() {
 
-        // Store values at the time of the login attempt.
-        Double radius = 0.0;
+
         if(mRadius.getText() == null || mRadius.getText().toString() == ""){
             return false;
         }
-        radius = Double.parseDouble(mRadius.getText().toString());
+        Double radius = Double.parseDouble(mRadius.getText().toString());
         if (radius > 50000.0 || radius < 10.0) {
             return false;
-        } else {
-            radius = Double.parseDouble(mRadius.getText().toString());
-            return true;
         }
+        return true;
     }
 
     //Méthode qui se déclenchera au clic sur un item
     public boolean onOptionsItemSelected(MenuItem item) {
         //On regarde quel item a été cliqué grâce à son id et on déclenche une action
-        Intent myIntent;
         switch (item.getItemId()) {
             case android.R.id.home:
                 NavUtils.navigateUpFromSameTask(this);

@@ -155,10 +155,6 @@ public class ListActivity extends AppCompatActivity implements LoaderManager.Loa
     }
 
     private void showProgress(final boolean show) {
-        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
-        // for very easy animations. If available, use these APIs to fade-in
-        // the progress spinner.
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
             int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
             mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
@@ -211,7 +207,6 @@ public class ListActivity extends AppCompatActivity implements LoaderManager.Loa
 
     @Override
     public void onLoaderReset(Loader<Cursor> cursorLoader) {
-
     }
 
     /**
@@ -253,10 +248,6 @@ public class ListActivity extends AppCompatActivity implements LoaderManager.Loa
         public PlaceholderFragment() {
         }
 
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
         public static PlaceholderFragment newInstance(int sectionNumber, JSONObject baby, int id) {
 
             PlaceholderFragment fragment = new PlaceholderFragment();
@@ -272,7 +263,6 @@ public class ListActivity extends AppCompatActivity implements LoaderManager.Loa
 
             if(baby != null){
                 try {
-                    Log.e("baby class", baby.toString());
                     name = baby.getString("name");
                     sexe = baby.getString("gender");
                     birthday = baby.getString("birthday");
@@ -478,12 +468,6 @@ public class ListActivity extends AppCompatActivity implements LoaderManager.Loa
                         response.append('\r');
                     }
                     rd.close();
-                    try {
-                        Log.d("RESPONSE", response.toString());
-                    }
-                    catch(Exception e){
-                        return false;
-                    }
                 }
                 catch (MalformedURLException ex) {
                     Log.e("httptest",Log.getStackTraceString(ex));
@@ -555,12 +539,6 @@ public class ListActivity extends AppCompatActivity implements LoaderManager.Loa
                         response.append('\r');
                     }
                     rd.close();
-                    try {
-                        Log.d("RESPONSE", response.toString());
-                    }
-                    catch(Exception e){
-                        return false;
-                    }
                 }
                 catch (MalformedURLException ex) {
                     Log.e("httptest",Log.getStackTraceString(ex));
@@ -626,12 +604,10 @@ public class ListActivity extends AppCompatActivity implements LoaderManager.Loa
                     BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(wr, "UTF-8"));
                     JSONObject babyToAdd = new JSONObject();
                     JSONObject dataToAdd = new JSONObject();
-                    //  mConnection = true;
                     try {
                         Date d = new Date();
                         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE);
 
-                        Log.d("taille-poids", Double.parseDouble(length)+"-"+Double.parseDouble(weight));
                         dataToAdd.put("length", Double.parseDouble(length));
                         dataToAdd.put("weight", Double.parseDouble(weight));
                         dataToAdd.put("id_baby", id_baby);
@@ -640,7 +616,6 @@ public class ListActivity extends AppCompatActivity implements LoaderManager.Loa
                         return false;
                     }
                     writer.write(dataToAdd.toString());
-                    //   wr.writeBytes (dataToAdd.toString());
                     writer.flush ();
                     writer.close ();
 
@@ -654,12 +629,6 @@ public class ListActivity extends AppCompatActivity implements LoaderManager.Loa
                         response.append('\r');
                     }
                     rd.close();
-                    try {
-                        Log.d("RESPONSE", response.toString());
-                    }
-                    catch(Exception e){
-                        return false;
-                    }
                     responseCode = connection.getResponseCode();
                 }
                 catch (MalformedURLException ex) {
@@ -749,19 +718,10 @@ public class ListActivity extends AppCompatActivity implements LoaderManager.Loa
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
-
-            try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                return false;
-            }
-            // connexion au serveur pour test le user
             getBabies();
-
             return true;
         }
+
         private boolean getBabies(){
             try {
                 URL url = new URL("http://"+ IP_SERVER+"/RestServer/babyNator/babies/list");
@@ -778,7 +738,6 @@ public class ListActivity extends AppCompatActivity implements LoaderManager.Loa
                 //Send request
                 DataOutputStream wr = new DataOutputStream (
                         connection.getOutputStream ());
-                //mConnection = true;
 
                 wr.writeBytes (this.id_user+"");
                 wr.flush ();
@@ -796,7 +755,6 @@ public class ListActivity extends AppCompatActivity implements LoaderManager.Loa
                 rd.close();
                 try {
                     listBabies = new JSONArray(response.toString());
-                    Log.e("List baby",listBabies.toString());
                 }
                 catch(Exception e){
                     Log.e("baby list error",Log.getStackTraceString(e));
@@ -832,7 +790,6 @@ public class ListActivity extends AppCompatActivity implements LoaderManager.Loa
 
         @Override
         protected void onCancelled() {
-
         }
     }
 

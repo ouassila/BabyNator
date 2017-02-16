@@ -66,12 +66,7 @@ import static android.Manifest.permission.READ_CONTACTS;
  */
 public class AddBabyActivity extends AppCompatActivity implements OnClickListener {
 
-    /**
-     * Id to identity READ_CONTACTS permission request.
-     */
     private static final int REQUEST_READ_CONTACTS = 0;
-
-
     private AddBabyTask mAddBabyTask = null;
 
     // UI references.
@@ -193,9 +188,6 @@ public class AddBabyActivity extends AppCompatActivity implements OnClickListene
     public void onClick(View view) {
         if(view == birthday) {
             datePickerDialog.show();
-        }
-        else {
-            Log.e("**donnéed add baby ***","ko");
         }
     }
     private void populateAutoComplete() {
@@ -340,14 +332,13 @@ public class AddBabyActivity extends AppCompatActivity implements OnClickListene
                 connection.setDoInput(true);
                 connection.setDoOutput(true);
 
-
                 //Send request
                 DataOutputStream wr = new DataOutputStream (
                         connection.getOutputStream ());
                 BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(wr, "UTF-8"));
                 JSONObject babyToAdd = new JSONObject();
                 JSONObject dataToAdd = new JSONObject();
-                //  mConnection = true;
+
                 try {
                     babyToAdd.put("id", 0);
                     babyToAdd.put("birthday", birthday.toString());
@@ -359,7 +350,6 @@ public class AddBabyActivity extends AppCompatActivity implements OnClickListene
                     return false;
                 }
                 writer.write(babyToAdd.toString());
-                //   wr.writeBytes (dataToAdd.toString());
                 writer.flush ();
                 writer.close ();
 
@@ -375,7 +365,6 @@ public class AddBabyActivity extends AppCompatActivity implements OnClickListene
                 rd.close();
                 try {
                     JSONObject babyCreated = new JSONObject(response.toString());
-                    Log.e("babyCreated",babyCreated.toString());
                     id_baby = babyCreated.getInt("id");
                 }
                 catch(Exception e){
@@ -411,12 +400,10 @@ public class AddBabyActivity extends AppCompatActivity implements OnClickListene
                 connection.setDoInput(true);
                 connection.setDoOutput(true);
 
-
                 //Send request
                 DataOutputStream wr = new DataOutputStream (
                         connection.getOutputStream ());
                 BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(wr, "UTF-8"));
-                JSONObject babyToAdd = new JSONObject();
                 JSONObject dataToAdd = new JSONObject();
                 //  mConnection = true;
                 try {
@@ -424,12 +411,10 @@ public class AddBabyActivity extends AppCompatActivity implements OnClickListene
                     dataToAdd.put("weight", weight );
                     dataToAdd.put("id_baby", id_baby);
                     dataToAdd.put("current_date", birthday.toString());
-                    Log.d("DATAS", dataToAdd.toString());
                 } catch (Exception e){
                     return false;
                 }
                 writer.write(dataToAdd.toString());
-                //   wr.writeBytes (dataToAdd.toString());
                 writer.flush ();
                 writer.close ();
 
@@ -484,9 +469,6 @@ public class AddBabyActivity extends AppCompatActivity implements OnClickListene
     }
 
     private void showProgress(final boolean show) {
-        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
-        // for very easy animations. If available, use these APIs to fade-in
-        // the progress spinner.
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
             int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);

@@ -108,8 +108,7 @@ public class GraphActivity extends AppCompatActivity {
             }
             try {
                 SimpleDateFormat formatter = new SimpleDateFormat("MM/yyyy");
-                LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[] {
-                });
+                LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[] {});
                 DataPoint[] ds = new DataPoint[listDatas.length()];
                 Log.e("test datas ",listDatas.toString());
                 for (int i = 0; i < listDatas.length(); i++) {
@@ -208,13 +207,9 @@ public class GraphActivity extends AppCompatActivity {
                 //Send request
                 DataOutputStream wr = new DataOutputStream (
                         connection.getOutputStream ());
-
-
                 wr.writeBytes (this.id_baby+"");
                 wr.flush ();
                 wr.close ();
-
-
                 //Get Response
                 InputStream is = connection.getInputStream();
                 BufferedReader rd = new BufferedReader(new InputStreamReader(is));
@@ -227,7 +222,6 @@ public class GraphActivity extends AppCompatActivity {
                 rd.close();
                 try {
                     listDatas = new JSONArray(response.toString());
-                    Log.e("List baby ****",listDatas.toString());
                 }
                 catch(Exception e){
                     Log.e("data list error",Log.getStackTraceString(e));
@@ -266,8 +260,6 @@ public class GraphActivity extends AppCompatActivity {
 
         @Override
         protected void onCancelled() {
-            //    mAddBabyTask = null;
-            // showProgress(false);
         }
     }
 

@@ -87,7 +87,6 @@ public class CalendarActivity extends AppCompatActivity implements AdapterView.O
         @Override
         public void onSelectDate(Date date, View view) {
             attemptCalendar(id_user);
-            //List<String> titles = new ArrayList<String>();
             List<Event> events = new ArrayList<Event>();
             list_id_events = new ArrayList<Integer>();
             Calendar cal = Calendar.getInstance();
@@ -102,7 +101,6 @@ public class CalendarActivity extends AppCompatActivity implements AdapterView.O
                     cal2.setTime(date);
 
                     if(cal.get(Calendar.DAY_OF_MONTH) == cal2.get(Calendar.DAY_OF_MONTH) && cal.get(Calendar.MONTH) == cal2.get(Calendar.MONTH) && cal.get(Calendar.YEAR) == cal2.get(Calendar.YEAR)) {
-                        //titles.add(sdf_output.format(cal.getTime()) + " : "+row.getString("title"));
                         events.add(new Event(Integer.parseInt(row.getString("id")), btn_delete, sdf_output.format(date), row.getString("title")));
                         list_id_events.add(Integer.parseInt(row.getString("id")));
                     }
@@ -127,7 +125,6 @@ public class CalendarActivity extends AppCompatActivity implements AdapterView.O
         @Override
         public void onChangeMonth(int month, int year) {
             attemptCalendar(id_user);
-            List<String> titles = new ArrayList<String>();
             List<Event> events = new ArrayList<Event>();
             list_id_events = new ArrayList<Integer>();
             Calendar cal = Calendar.getInstance();
@@ -244,8 +241,6 @@ public class CalendarActivity extends AppCompatActivity implements AdapterView.O
             SimpleDateFormat sdf_output = new SimpleDateFormat("dd MMMM à HH'h'mm");
 
             list_id_events = new ArrayList<Integer>();
-            //List<String> titles = new ArrayList<String>();
-            Calendar cal = Calendar.getInstance();
             List<Event> events = new ArrayList<Event>();
 
             if (success) {
@@ -264,10 +259,8 @@ public class CalendarActivity extends AppCompatActivity implements AdapterView.O
                         list_id_events.add(Integer.parseInt(row.getString("id")));
                     }
                     caldroidFragment.refreshView();
-
                     EventAdapter adapter = new EventAdapter(CalendarActivity.this, events, CalendarActivity.this, id_user);
                     scroller.setAdapter(adapter);
-
                 }
                 catch(Exception e){
                     Log.e("Error", e.toString());

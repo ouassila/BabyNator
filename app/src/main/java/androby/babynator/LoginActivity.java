@@ -87,7 +87,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     private boolean deconnect;
 
-    public static String IP_SERVER = "192.168.43.55:8080";
+    public static String IP_SERVER = "192.168.43.10:8080";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -366,8 +366,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         mEmailView.setAdapter(adapter);
     }
-
-
     private interface ProfileQuery {
         String[] PROJECTION = {
                 ContactsContract.CommonDataKinds.Email.ADDRESS,
@@ -398,14 +396,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
 
-            try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                return false;
-            }
             // connexion au serveur pour test le user
             try {
                 URL url = new URL("http://"+IP_SERVER+"/RestServer/babyNator/users/connect");
@@ -522,10 +513,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event)  {
         if (keyCode == KeyEvent.KEYCODE_BACK ) {
-            // do something on back.
             return false;
         }
-
         return super.onKeyDown(keyCode, event);
     }
 }

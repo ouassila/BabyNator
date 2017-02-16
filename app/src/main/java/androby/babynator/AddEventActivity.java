@@ -22,10 +22,12 @@ import android.widget.TimePicker;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.ConnectException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -53,7 +55,6 @@ public class AddEventActivity extends AppCompatActivity {
 
         id_user = getIntent().getIntExtra("ID_USER", 0);
         id_event = getIntent().getIntExtra("ID_EVENT", 0);
-        Log.d("TMP", id_event+"");
 
         scroller = (ScrollView) findViewById(R.id.scroller);
         scroller.setScrollbarFadingEnabled(false);
@@ -348,7 +349,6 @@ public class AddEventActivity extends AppCompatActivity {
                 rd.close();
                 try {
                     JSONObject eventAdded = new JSONObject(response.toString());
-                    Log.e("event_set", eventAdded.toString());
                 } catch (Exception e) {
                     return false;
                 }
@@ -403,6 +403,7 @@ public class AddEventActivity extends AppCompatActivity {
                 //Send request
                 DataOutputStream wr = new DataOutputStream (
                         connection.getOutputStream ());
+                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(wr, "UTF-8"));
                 JSONObject eventToAdd = new JSONObject();
                 mConnection = true;
                 try {
@@ -414,9 +415,9 @@ public class AddEventActivity extends AppCompatActivity {
                 } catch (Exception e){
                     return false;
                 }
-                wr.writeBytes (eventToAdd.toString());
-                wr.flush ();
-                wr.close ();
+                writer.write(eventToAdd.toString());
+                writer.flush ();
+                writer.close ();
 
                 //Get Response
                 InputStream is = connection.getInputStream();
@@ -430,7 +431,6 @@ public class AddEventActivity extends AppCompatActivity {
                 rd.close();
                 try {
                     JSONObject eventAdded = new JSONObject(response.toString());
-                    Log.e("event_added",eventAdded.toString());
                 }
                 catch(Exception e){
                     return false;

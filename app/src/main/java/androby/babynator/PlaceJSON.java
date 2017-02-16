@@ -28,9 +28,6 @@ public class PlaceJSON {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        /** Invoking getPlaces with the array of json object
-         * where each json object represent a place
-         */
         return getPlaces(jPlaces);
     }
 
@@ -52,9 +49,6 @@ public class PlaceJSON {
         return placesList;
     }
 
-    /**
-     * Parsing the Place JSON object
-     */
     private HashMap<String, String> getPlace(JSONObject jPlace) {
 
         HashMap<String, String> place = new HashMap<String, String>();

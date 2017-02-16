@@ -24,8 +24,7 @@ public class VideoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         id_user = getIntent().getIntExtra("ID_USER", 0);
         setContentView(R.layout.activity_video);
-        textUrl =
-                (EditText) findViewById(R.id.textUrl);
+        textUrl = (EditText) findViewById(R.id.textUrl);
 
         Button mCameraButtonIp = (Button) findViewById(R.id.ip_camera_button);
         mCameraButtonIp.setOnClickListener(new View.OnClickListener() {
@@ -56,7 +55,6 @@ public class VideoActivity extends AppCompatActivity {
     }
 
     private boolean executeCommand(String url){
-        System.out.println("executeCommand");
         Runtime runtime = Runtime.getRuntime();
         try
         {
@@ -72,12 +70,12 @@ public class VideoActivity extends AppCompatActivity {
         catch (InterruptedException ignore)
         {
             ignore.printStackTrace();
-            System.out.println(" Exception:"+ignore);
+            Log.e(" Exception", ignore.toString());
         }
         catch (IOException e)
         {
             e.printStackTrace();
-            System.out.println(" Exception:"+e);
+            Log.e(" Exception", e.toString());
         }
         return false;
     }

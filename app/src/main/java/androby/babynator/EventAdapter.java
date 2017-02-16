@@ -57,16 +57,13 @@ public class EventAdapter extends ArrayAdapter<Event> {
             viewHolder = new EventViewHolder();
             viewHolder.date = (TextView) convertView.findViewById(R.id.date);
             viewHolder.text = (TextView) convertView.findViewById(R.id.text);
-            //viewHolder.id_event = (TextView) convertView.findViewById(R.id.id_event);
             viewHolder.btn_delete = (ImageButton) convertView.findViewById(R.id.btn_delete);
             convertView.setTag(viewHolder);
         }
 
-        //getItem(position) va récupérer l'item [position] de la List<Tweet> tweets
         event = getItem(position);
         viewHolder.date.setText(event.getDate());
         viewHolder.text.setText(event.getText());
-       // viewHolder.id_event.setText(event.getId());
         viewHolder.btn_delete.setTag(position);
         viewHolder.btn_delete.setOnClickListener(new View.OnClickListener() {
 
@@ -77,7 +74,6 @@ public class EventAdapter extends ArrayAdapter<Event> {
                 AlertDialog.Builder alert = new AlertDialog.Builder(activity);
                 alert.setTitle("Demande de suppression");
                 alert.setMessage("Voulez-vous supprimer cet évènement ?");
-
                 alert.setPositiveButton("Valider", new DialogInterface.OnClickListener() {
 
                     @Override
@@ -110,8 +106,6 @@ public class EventAdapter extends ArrayAdapter<Event> {
         public TextView date;
         public TextView text;
         public ImageButton btn_delete;
-       // public TextView id_event;
-
     }
 
     public class RemoveCalendarTask extends AsyncTask<Void, Void, Boolean> {
@@ -158,12 +152,6 @@ public class EventAdapter extends ArrayAdapter<Event> {
                     response.append('\r');
                 }
                 rd.close();
-                try {
-                    Log.d("RESPONSE", response.toString());
-                }
-                catch(Exception e){
-                    return false;
-                }
             }
             catch (MalformedURLException ex) {
                 Log.e("httptest",Log.getStackTraceString(ex));

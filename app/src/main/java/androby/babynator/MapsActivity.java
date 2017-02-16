@@ -1,7 +1,6 @@
 package androby.babynator;
 
 import android.Manifest;
-import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -14,7 +13,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -71,9 +69,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         radius = Double.parseDouble(getIntent().getStringExtra("RADIUS"));
         choice = getIntent().getStringExtra("CHOICE");
         open = getIntent().getBooleanExtra("OPEN", false);
-
-        //bouton retour arriere
-      //  getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     public boolean getOpenChoice(){
@@ -91,10 +86,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             return name_french;
     }
 
-    //Méthode qui se déclenchera au clic sur un item
     public boolean onOptionsItemSelected(MenuItem item) {
-        //On regarde quel item a été cliqué grâce à son id et on déclenche une action
-        Intent myIntent;
         switch (item.getItemId()) {
             case android.R.id.home:
                 NavUtils.navigateUpFromSameTask(this);
@@ -117,15 +109,11 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         mMap.getUiSettings().setZoomControlsEnabled(true);
 
-        //à remplacer par ca
-        //StringBuilder sbValue = new StringBuilder(sbMethod(location));
         GPSTracker gps = new GPSTracker(this);
-        Toast.makeText(this, gps.getLocation()+""+"", Toast.LENGTH_LONG).show();
         CameraPosition cameraPosition = new CameraPosition.Builder().target(
                 new LatLng(gps.getLatitude(), gps.getLongitude())).zoom(12).build();
 
         mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-        // Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         StringBuilder sbValue = new StringBuilder(creatUrlSearch(getChoiceEnglish(choice), gps.getLocation()));
         PlacesTask placesTask = new PlacesTask();
         placesTask.execute(sbValue.toString());
@@ -140,10 +128,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             mLongitude = location.getLongitude();
             mLatitude = location.getLatitude();
             String locLat = String.valueOf(mLatitude)+","+String.valueOf(mLongitude);
-            Toast.makeText(this, locLat, Toast.LENGTH_LONG).show();
-        }
-        else {
-            Toast.makeText(this, "is null", Toast.LENGTH_LONG).show();
         }
         //add marker current location
         LatLng latLng = new LatLng(mLatitude, mLongitude);
@@ -165,8 +149,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             sb.append("&opennow="+open);
 
         sb.append("&key=AIzaSyAJMQnUVO7WPqS96NqQUObz4RtxuQzADTY");
-
-        Log.d("URL", sb.toString());
         return sb;
     }
 
@@ -194,17 +176,14 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public void onLocationChanged(Location location) {
-        Toast.makeText(this, location.toString(), Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void onProviderDisabled(String provider) {
-        Toast.makeText(this, provider, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onProviderEnabled(String provider) {
-        Toast.makeText(this, provider, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -221,7 +200,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 newStatus = "AVAILABLE";
                 break;
         }
-        Toast.makeText(this, provider, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -253,7 +231,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private class ParserTask extends AsyncTask<String, Integer, List<HashMap<String, String>>> {
 
         JSONObject jObject;
-        // Invoked by execute() method of this object
         @Override
         protected List<HashMap<String, String>> doInBackground(String... jsonData) {
 
@@ -262,9 +239,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
             try {
                 jObject = new JSONObject(jsonData[0]);
-
                 places = placeJson.parse(jObject);
-
             } catch (Exception e) {
                 Log.d("Exception", e.toString());
             }
@@ -274,10 +249,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         // Executed after the complete execution of doInBackground() method
         @Override
         protected void onPostExecute(List<HashMap<String, String>> list) {
-
-            Log.d("Map", "list size: " + list.size());
-            // Clears all the existing markers;
-            //mMap.clear();
 
             for (int i = 0; i < list.size(); i++) {
                 // Creating a marker
@@ -330,9 +301,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         @Override
         protected void onPostExecute(String result) {
             ParserTask parserTask = new ParserTask();
-
-            // Start parsing the Google places in JSON format
-            // Invokes the "doInBackground()" method of the class ParserTask
             parserTask.execute(result);
         }
         private String downloadUrl(String strUrl) throws IOException {
@@ -359,9 +327,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 while ((line = br.readLine()) != null) {
                     sb.append(line);
                 }
-
                 data = sb.toString();
-
                 br.close();
 
             } catch (Exception e) {
@@ -373,7 +339,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             return data;
         }
     }
-
 }
 
 
