@@ -48,7 +48,7 @@ public class VideoActivity extends AppCompatActivity {
             public void onClick(View view) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(VideoActivity.this);
                 builder
-                        .setMessage("Voici l'aide pour récup l'IP de la caméra ...")
+                        .setMessage("Pour activer le module caméra sur le raspberry, veuillez exécuter le script camera.sh, et ouvrir le fichier ip.txt pour récupérer l'adresse ip.")
                         .show();
             }
         });
